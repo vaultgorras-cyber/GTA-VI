@@ -1,0 +1,65 @@
+
+name: GTA VI Shorts Automation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gta-vi
+  cancel-in-progress: false
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run radar
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          NEWS_RSS_URLS: ${{ vars.NEWS_RSS_URLS }}
+        run: python scripts/radar_gta6.py
+
+      - name: Generate preview
+        run: python scripts/make_short.py
+
+      - name: Upload privately for review
+        if: ${{ vars.ENABLE_PRIVATE_UPLOAD == 'true' }}
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python scripts/upload_youtube.py
+
+      - name: Commit state and previews
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data output
+          git diff --cached --quiet || (git commit -m "Update GTA VI radar" && git push)
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gta-vi-preview
+          path: output/
+          if-no-files-found: ignore
+          retention-days: 7
