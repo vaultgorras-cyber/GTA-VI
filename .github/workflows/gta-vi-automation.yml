@@ -17,6 +17,7 @@ jobs:
   create:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,8 +28,12 @@ jobs:
           python-version: "3.11"
           cache: pip
 
-      - name: Install FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install FFmpeg and voice fallback
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg espeak-ng
+          which ffmpeg
+          which espeak-ng
 
       - name: Install requirements
         run: pip install -r requirements.txt
