@@ -1,173 +1,214 @@
-
 import os
 import re
 import json
+import html
+import time
+import math
 import asyncio
 import subprocess
-import shutil
 import urllib.request
+import urllib.parse
 import urllib.error
-import time
-
-from datetime import datetime, timezone
 from pathlib import Path
+from datetime import datetime, timezone
+from html.parser import HTMLParser
 
 from PIL import Image, ImageDraw, ImageFont
 import edge_tts
 
 from config import DATA, OUTPUT
 
-
-# ==========================================
-# CONFIGURATION
-# ==========================================
+# ==================================================
+# GTA VI AUTOMATIC VIDEO GENERATOR
+# ==================================================
 
 WIDTH = 1920
 HEIGHT = 1080
 
-MIN_AUDIO_SECONDS = 240
-MAX_AUDIO_SECONDS = 420
+MIN_AUDIO = 240
+MAX_AUDIO = 420
+MIN_WORDS = 600
+MAX_WORDS = 850
 
-SCENE_SECONDS = 20
-
-API_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
+SCENE_SECONDS = 12
+MAX_ATTEMPTS = 3
 
 MODEL = os.getenv(
     "OPENROUTER_MODEL",
     "nvidia/nemotron-3-ultra-550b-a55b:free"
 )
 
-MIN_WORDS = 600
-MAX_SCRIPT_ATTEMPTS = 3
+API_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
+
+HEADERS = {
+    "User-Agent": "GTA-VI-Automation/1.0"
+}
+
+FONT_PATHS = [
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    "/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf"
+]
 
 
-# ==========================================
-# LOAD NEWS
-# ==========================================
+def log(message):
+    print("[GTA VI]", message, flush=True)
+
+
+def get_json(url, headers=None):
+    h = dict(HEADERS)
+    if headers:
+        h.update(headers)
+
+    req = urllib.request.Request(url, headers=h)
+
+    with urllib.request.urlopen(req, timeout=40) as response:
+        return json.loads(response.read().decode("utf-8"))
+
 
 def load_news():
+    path = DATA / "candidates.json"
+
+    if not path.exists():
+        return []
+
     try:
-        data = json.loads(
-            (DATA / "candidates.json").read_text(
-                encoding="utf-8"
-            )
-        )
-
-        items = data.get("items", [])
-        return items if isinstance(items, list) else []
-
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data.get("items", [])
     except Exception as error:
-        print("News loading error:", error)
+        log(error)
         return []
 
 
-# ==========================================
-# OPENROUTER RESPONSE
-# ==========================================
+def choose_topic(items):
+    if not items:
+        return None
 
-def extract_script(result):
-    if not isinstance(result, dict):
-        return ""
-
-    choices = result.get("choices", [])
-
-    if not choices:
-        return ""
-
-    choice = choices[0]
-
-    if not isinstance(choice, dict):
-        return ""
-
-    message = choice.get("message", {})
-
-    if not isinstance(message, dict):
-        return ""
-
-    content = message.get("content")
-
-    if isinstance(content, str):
-        return content.strip()
-
-    if isinstance(content, list):
-        parts = []
-
-        for part in content:
-            if isinstance(part, dict):
-                text = part.get("text", "")
-
-                if text:
-                    parts.append(str(text))
-
-        return "\n".join(parts).strip()
-
-    return ""
-
-
-# ==========================================
-# GENERATE SCRIPT WITH OPENROUTER
-# ==========================================
-
-def request_script(item):
-
-    if not API_KEY:
-        raise RuntimeError(
-            "OPENROUTER_API_KEY is missing in GitHub Secrets."
+    def ranking(item):
+        trending = (
+            item.get("is_trending")
+            or item.get("priority") == "trend"
         )
 
-    title = item.get("title", "GTA VI Update")
+        score = int(
+            item.get("trend_score", item.get("score", 0)) or 0
+        )
+
+        date = str(
+            item.get("published", item.get("published_at", ""))
+        )
+
+        return (int(bool(trending)), score, date)
+
+    return sorted(items, key=ranking, reverse=True)[0]
+
+
+# ==================================================
+# READ SOURCE ARTICLE
+# ==================================================
+
+class ArticleParser(HTMLParser):
+
+    def __init__(self):
+        super().__init__()
+        self.parts = []
+        self.skip = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("script", "style", "noscript"):
+            self.skip += 1
+
+    def handle_endtag(self, tag):
+        if tag in ("script", "style", "noscript") and self.skip:
+            self.skip -= 1
+
+    def handle_data(self, data):
+        if not self.skip:
+            text = " ".join(data.split())
+            if text:
+                self.parts.append(text)
+
+
+def read_article(url):
+    if not url.startswith(("http://", "https://")):
+        return ""
+
+    try:
+        req = urllib.request.Request(
+            url,
+            headers=HEADERS
+        )
+
+        with urllib.request.urlopen(req, timeout=25) as response:
+            raw = response.read(1000000).decode(
+                "utf-8",
+                errors="replace"
+            )
+
+        parser = ArticleParser()
+        parser.feed(raw)
+
+        return " ".join(parser.parts)[:8000]
+
+    except Exception as error:
+        log("Article unavailable:", error)
+        return ""
+
+
+# ==================================================
+# AUTOMATIC SCRIPT GENERATION
+# ==================================================
+
+def generate_script(item, article):
+
+    if not API_KEY:
+        raise RuntimeError("OPENROUTER_API_KEY missing.")
+
+    title = item.get("title", "GTA News")
     summary = item.get("summary", "")
     url = item.get("url", "")
 
     prompt = f"""
-You are a professional American English gaming journalist.
-
-Write a complete, factual YouTube news and analysis narration
-about this GTA VI topic.
+Create a professional YouTube GTA news narration.
 
 TOPIC:
 {title}
 
-SOURCE SUMMARY:
+SUMMARY:
 {summary}
 
-SOURCE URL:
+SOURCE:
 {url}
 
-REQUIREMENTS:
-- Write approximately 600 to 680 spoken words.
-- Use natural American English.
-- Aim for approximately five minutes of narration.
-- Open with a strong but accurate hook.
-- Explain the available information and its context.
-- Clearly distinguish confirmed facts from speculation.
-- Never invent quotes, announcements, dates, sources, or facts.
-- Explain what remains unknown.
-- End with a concise conclusion.
-- Return only the narration, with no headings, bullets, markdown,
-  stage directions, or notes.
-- Do not pad the script with repetition.
-- If the source contains limited information, say so honestly.
+ARTICLE:
+{article}
 
-Return a complete narration, not a short summary.
+REQUIREMENTS:
+
+- Write 650 to 800 spoken words.
+- Natural American English.
+- Approximately five minutes.
+- Strong opening hook.
+- Explain the story clearly.
+- Include relevant GTA history and comparisons.
+- GTA V, GTA VI, GTA IV and other GTA games may be mentioned.
+- Separate confirmed facts from rumours.
+- Never invent information.
+- Explain why the news matters to players.
+- End with a strong conclusion.
+- No headings, markdown or bullet points.
+- Return narration only.
 """
 
-    for attempt in range(1, MAX_SCRIPT_ATTEMPTS + 1):
-
-        print(
-            f"OpenRouter attempt {attempt}/{MAX_SCRIPT_ATTEMPTS}"
-        )
+    for attempt in range(MAX_ATTEMPTS):
 
         payload = {
             "model": MODEL,
-
             "messages": [
                 {
                     "role": "system",
                     "content": (
-                        "You are an accurate professional American "
-                        "gaming journalist. Return the narration itself. "
-                        "Do not reveal analysis or reasoning. Never invent facts."
+                        "You are a professional American gaming journalist. "
+                        "Write accurate, engaging YouTube narrations."
                     )
                 },
                 {
@@ -175,338 +216,242 @@ Return a complete narration, not a short summary.
                     "content": prompt
                 }
             ],
-
             "temperature": 0.4,
-            "max_tokens": 6000,
-
-            "reasoning": {
-                "effort": "low",
-                "exclude": True
-            }
+            "max_tokens": 6000
         }
 
         request = urllib.request.Request(
             "https://openrouter.ai/api/v1/chat/completions",
-
             data=json.dumps(payload).encode("utf-8"),
-
             headers={
                 "Authorization": f"Bearer {API_KEY}",
                 "Content-Type": "application/json",
                 "HTTP-Referer": "https://github.com/",
-                "X-Title": "GTA VI News Automation"
-            },
-
-            method="POST"
+                "X-Title": "GTA VI Automation"
+            }
         )
 
         try:
-
             with urllib.request.urlopen(
                 request,
                 timeout=180
             ) as response:
-
                 result = json.loads(
                     response.read().decode("utf-8")
                 )
 
-            choices = result.get("choices", [])
+            choice = result["choices"][0]
+            script = choice["message"]["content"].strip()
 
-            choice = (
-                choices[0]
-                if choices and isinstance(choices[0], dict)
-                else {}
-            )
-
-            finish_reason = choice.get(
-                "finish_reason",
-                "unknown"
-            )
-
-            script = extract_script(result)
             words = len(script.split())
 
-            print("OpenRouter finish reason:", finish_reason)
-            print("Generated script words:", words)
-            print("OpenRouter response preview:", script[:250])
+            log("Generated words:", words)
 
-            if words >= MIN_WORDS and finish_reason != "length":
-
-                print("Complete script accepted.")
+            if (
+                MIN_WORDS <= words <= MAX_WORDS
+                and choice.get("finish_reason") != "length"
+            ):
                 return script
 
-            if finish_reason == "length":
-
-                print(
-                    "The model hit its output limit. "
-                    "The response will not be used."
-                )
-
-            else:
-
-                print("Response too short. Trying again...")
-
-        except urllib.error.HTTPError as error:
-
-            details = error.read().decode(
-                "utf-8",
-                errors="replace"
-            )
-
-            print(
-                "OpenRouter HTTP error:",
-                error.code,
-                details[:1500]
-            )
-
         except Exception as error:
+            log("OpenRouter error:", error)
 
-            print("OpenRouter error:", str(error))
+        time.sleep(5)
 
-        if attempt < MAX_SCRIPT_ATTEMPTS:
-            time.sleep(5)
+    raise RuntimeError("Could not generate a complete script.")
 
-    raise RuntimeError(
-        "OpenRouter did not return a complete narration after "
-        f"{MAX_SCRIPT_ATTEMPTS} attempts. No video was created. "
-        "Check the OpenRouter model and Actions log."
+
+# ==================================================
+# VISUAL SEARCH - WIKIMEDIA COMMONS
+# ==================================================
+
+def acceptable_license(value):
+
+    text = html.unescape(str(value)).lower()
+
+    if "noncommercial" in text or "no derivatives" in text:
+        return False
+
+    if re.search(r"\b(nc|nd)\b", text):
+        return False
+
+    return any(x in text for x in (
+        "public domain",
+        "cc0",
+        "cc by",
+        "cc-by",
+        "creative commons attribution"
+    ))
+
+
+def search_images(query):
+
+    params = {
+        "action": "query",
+        "format": "json",
+        "generator": "search",
+        "gsrsearch": f"filetype:bitmap {query}",
+        "gsrnamespace": 6,
+        "gsrlimit": 20,
+        "prop": "imageinfo",
+        "iiprop": "url|extmetadata",
+        "iiurlwidth": 1920
+    }
+
+    url = (
+        "https://commons.wikimedia.org/w/api.php?"
+        + urllib.parse.urlencode(params)
     )
 
+    data = get_json(url)
 
-# ==========================================
-# FONT
-# ==========================================
+    assets = []
 
-def get_font(size):
+    pages = data.get("query", {}).get("pages", {})
 
-    paths = [
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-        "/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf"
+    for page in pages.values():
+
+        info = (page.get("imageinfo") or [{}])[0]
+        meta = info.get("extmetadata", {})
+
+        license_name = meta.get(
+            "LicenseShortName", {}
+        ).get("value", "")
+
+        if not acceptable_license(license_name):
+            continue
+
+        image_url = info.get("thumburl") or info.get("url")
+
+        if not image_url:
+            continue
+
+        assets.append({
+            "url": image_url,
+            "title": page.get("title", ""),
+            "source": info.get("descriptionurl", ""),
+            "license": license_name,
+            "author": meta.get("Artist", {}).get(
+                "value", "Unknown"
+            )
+        })
+
+    return assets
+
+
+def download_visuals(title, folder):
+
+    folder.mkdir(parents=True, exist_ok=True)
+
+    queries = [
+        title,
+        "Grand Theft Auto VI",
+        "Grand Theft Auto V",
+        "Vice City Miami",
+        "Miami city skyline",
+        "Florida sports cars"
     ]
 
-    for path in paths:
+    assets = []
+    seen = set()
 
-        if Path(path).exists():
+    for query in queries:
 
-            return ImageFont.truetype(
-                path,
-                size
+        try:
+            results = search_images(query)
+
+            for asset in results:
+
+                if asset["url"] in seen:
+                    continue
+
+                seen.add(asset["url"])
+                assets.append(asset)
+
+        except Exception as error:
+            log("Image search error:", error)
+
+        if len(assets) >= 20:
+            break
+
+    downloaded = []
+
+    for index, asset in enumerate(assets[:20]):
+
+        try:
+            req = urllib.request.Request(
+                asset["url"],
+                headers=HEADERS
             )
 
-    return ImageFont.load_default()
+            with urllib.request.urlopen(req, timeout=40) as response:
+                content = response.read()
+
+            path = folder / f"image_{index:02d}.jpg"
+            path.write_bytes(content)
+
+            with Image.open(path) as image:
+                image.verify()
+
+            asset["path"] = str(path)
+            downloaded.append(asset)
+
+        except Exception as error:
+            log("Image download error:", error)
+
+    log("Usable images:", len(downloaded))
+
+    return downloaded
 
 
-# ==========================================
-# TEXT WRAPPING
-# ==========================================
+# ==================================================
+# NATURAL ENGLISH VOICE
+# ==================================================
 
-def wrap_text(draw, text, selected_font, max_width):
-
-    lines = []
-    current = ""
-
-    for word in text.split():
-
-        test = (current + " " + word).strip()
-
-        width = draw.textbbox(
-            (0, 0),
-            test,
-            font=selected_font
-        )[2]
-
-        if width <= max_width:
-
-            current = test
-
-        else:
-
-            if current:
-                lines.append(current)
-
-            current = word
-
-    if current:
-        lines.append(current)
-
-    return lines
-
-
-# ==========================================
-# ORIGINAL GRAPHICS
-# ==========================================
-
-def make_scene(title, number, path):
-
-    image = Image.new(
-        "RGB",
-        (WIDTH, HEIGHT),
-        (10, 18, 45)
-    )
-
-    draw = ImageDraw.Draw(image)
-
-    draw.ellipse(
-        (1050, -200, 2150, 900),
-        outline=(238, 70, 160),
-        width=18
-    )
-
-    draw.ellipse(
-        (-400, 450, 700, 1500),
-        outline=(20, 220, 220),
-        width=16
-    )
-
-    draw.rectangle(
-        (75, 70, 1845, 1010),
-        outline=(255, 210, 80),
-        width=5
-    )
-
-    draw.text(
-        (125, 125),
-        "GTA VI NEWS & ANALYSIS",
-        font=get_font(45),
-        fill=(255, 210, 80)
-    )
-
-    selected_font = get_font(78)
-    y = 340
-
-    for line in wrap_text(
-        draw,
-        title.upper(),
-        selected_font,
-        1650
-    )[:4]:
-
-        draw.text(
-            (125, y),
-            line,
-            font=selected_font,
-            fill="white",
-            stroke_width=3,
-            stroke_fill="black"
-        )
-
-        y += 105
-
-    draw.text(
-        (125, 850),
-        "LATEST NEWS AND ANALYSIS",
-        font=get_font(35),
-        fill=(180, 230, 255)
-    )
-
-    draw.text(
-        (1550, 950),
-        f"SCENE {number:02d}",
-        font=get_font(28),
-        fill=(255, 210, 80)
-    )
-
-    image.save(path, quality=92)
-
-
-# ==========================================
-# VOICE GENERATION
-# ==========================================
-
-async def generate_voice(script, output_path):
+async def generate_voice(script, output):
 
     voices = [
-        "en-US-GuyNeural",
         "en-US-ChristopherNeural",
+        "en-US-GuyNeural",
         "en-US-AriaNeural"
     ]
 
     for voice in voices:
 
-        for attempt in range(2):
+        try:
+            if output.exists():
+                output.unlink()
 
-            try:
+            await edge_tts.Communicate(
+                script,
+                voice,
+                rate="-4%"
+            ).save(str(output))
 
-                if output_path.exists():
-                    output_path.unlink()
+            if output.exists() and output.stat().st_size > 5000:
+                log("Voice:", voice)
+                return output
 
-                await edge_tts.Communicate(
-                    script,
-                    voice,
-                    rate="-5%"
-                ).save(str(output_path))
+        except Exception as error:
+            log("Voice error:", error)
 
-                if (
-                    output_path.exists()
-                    and output_path.stat().st_size > 1000
-                ):
-
-                    print("Voice generated:", voice)
-                    return output_path
-
-            except Exception as error:
-
-                print(
-                    "Edge TTS error:",
-                    voice,
-                    str(error)
-                )
-
-            await asyncio.sleep(3)
-
-    # Backup voice if Edge TTS is unavailable.
-
-    espeak = (
-        shutil.which("espeak-ng")
-        or shutil.which("espeak")
-    )
-
-    if espeak:
-
-        wav_path = output_path.with_suffix(".wav")
-
-        subprocess.run(
-            [
-                espeak,
-                "-v", "en-us",
-                "-s", "145",
-                "-w", str(wav_path),
-                script
-            ],
-            check=True
-        )
-
-        if (
-            wav_path.exists()
-            and wav_path.stat().st_size > 1000
-        ):
-
-            print("Backup voice generated using eSpeak.")
-            return wav_path
+            await asyncio.sleep(2)
 
     raise RuntimeError(
-        "Could not generate narration with any voice provider."
+        "Natural voice generation failed. Video cancelled."
     )
 
 
-# ==========================================
-# AUDIO DURATION
-# ==========================================
-
-def get_audio_duration(path):
+def audio_duration(path):
 
     result = subprocess.run(
         [
             "ffprobe",
             "-v", "error",
-            "-show_entries",
-            "format=duration",
-            "-of",
-            "default=noprint_wrappers=1:nokey=1",
+            "-show_entries", "format=duration",
+            "-of", "default=noprint_wrappers=1:nokey=1",
             str(path)
         ],
-
         capture_output=True,
         text=True,
         check=True
@@ -515,139 +460,188 @@ def get_audio_duration(path):
     return float(result.stdout.strip())
 
 
-# ==========================================
-# SUBTITLE TIMESTAMPS
-# ==========================================
+# ==================================================
+# VIDEO GRAPHICS
+# ==================================================
+
+def get_font(size):
+
+    for path in FONT_PATHS:
+
+        if Path(path).exists():
+            return ImageFont.truetype(path, size)
+
+    return ImageFont.load_default()
+
+
+def make_scene(image_path, title, number, output):
+
+    with Image.open(image_path) as original:
+        image = original.convert("RGB")
+
+    scale = max(
+        WIDTH / image.width,
+        HEIGHT / image.height
+    )
+
+    image = image.resize((
+        int(image.width * scale),
+        int(image.height * scale)
+    ))
+
+    x = (image.width - WIDTH) // 2
+    y = (image.height - HEIGHT) // 2
+
+    image = image.crop((
+        x, y, x + WIDTH, y + HEIGHT
+    ))
+
+    overlay = Image.new(
+        "RGBA",
+        (WIDTH, HEIGHT),
+        (0, 0, 0, 100)
+    )
+
+    image = Image.alpha_composite(
+        image.convert("RGBA"),
+        overlay
+    )
+
+    draw = ImageDraw.Draw(image)
+
+    draw.text(
+        (90, 80),
+        "GTA NEWS & ANALYSIS",
+        font=get_font(38),
+        fill="white"
+    )
+
+    title_font = get_font(48)
+
+    words = title.upper().split()
+    lines = []
+    current = ""
+
+    for word in words:
+
+        test = (current + " " + word).strip()
+
+        if draw.textbbox(
+            (0, 0),
+            test,
+            font=title_font
+        )[2] < 1500:
+            current = test
+        else:
+            lines.append(current)
+            current = word
+
+    if current:
+        lines.append(current)
+
+    y = 820
+
+    for line in lines[:2]:
+
+        draw.text(
+            (90, y),
+            line,
+            font=title_font,
+            fill="white",
+            stroke_width=3,
+            stroke_fill="black"
+        )
+
+        y += 65
+
+    draw.text(
+        (1780, 980),
+        str(number),
+        font=get_font(30),
+        fill="white"
+    )
+
+    image.convert("RGB").save(output, quality=92)
+
+
+# ==================================================
+# SUBTITLES
+# ==================================================
 
 def srt_time(seconds):
 
     milliseconds = int(seconds * 1000)
 
-    hours = milliseconds // 3600000
-    milliseconds %= 3600000
-
-    minutes = milliseconds // 60000
-    milliseconds %= 60000
-
-    secs = milliseconds // 1000
-    milliseconds %= 1000
+    hours, milliseconds = divmod(milliseconds, 3600000)
+    minutes, milliseconds = divmod(milliseconds, 60000)
+    seconds, milliseconds = divmod(milliseconds, 1000)
 
     return (
         f"{hours:02}:"
         f"{minutes:02}:"
-        f"{secs:02},"
+        f"{seconds:02},"
         f"{milliseconds:03}"
     )
 
 
-# ==========================================
-# CREATE SUBTITLES
-# ==========================================
-
 def create_subtitles(script, duration, path):
 
-    sentences = re.split(
-        r'(?<=[.!?])\s+',
-        script.strip()
-    )
+    words = script.split()
 
-    sentences = [
-        sentence.strip()
-        for sentence in sentences
-        if sentence.strip()
+    chunks = [
+        words[i:i + 10]
+        for i in range(0, len(words), 10)
     ]
 
-    total_words = sum(
-        len(sentence.split())
-        for sentence in sentences
-    )
-
-    if total_words == 0:
-
-        raise RuntimeError(
-            "Cannot create subtitles: script is empty."
-        )
-
-    current_time = 0.0
+    total = len(words)
+    current = 0
     blocks = []
-    counter = 1
 
-    for sentence in sentences:
+    for number, chunk in enumerate(chunks, 1):
 
-        words = sentence.split()
+        span = duration * len(chunk) / total
+        end = current + span
 
-        sentence_duration = (
-            duration * len(words) / total_words
+        blocks.append(
+            f"{number}\n"
+            f"{srt_time(current)} --> {srt_time(end)}\n"
+            f"{' '.join(chunk)}\n"
         )
 
-        chunks = [
-            words[index:index + 12]
-            for index in range(0, len(words), 12)
-        ]
-
-        chunk_time = current_time
-
-        for chunk in chunks:
-
-            text = " ".join(chunk)
-
-            part_duration = (
-                sentence_duration
-                * len(chunk)
-                / len(words)
-            )
-
-            end_time = min(
-                duration,
-                chunk_time + part_duration
-            )
-
-            blocks.append(
-                f"{counter}\n"
-                f"{srt_time(chunk_time)} --> "
-                f"{srt_time(end_time)}\n"
-                f"{text}\n"
-            )
-
-            counter += 1
-            chunk_time = end_time
-
-        current_time += sentence_duration
+        current = end
 
     path.write_text(
         "\n".join(blocks),
         encoding="utf-8"
     )
 
-    print("Subtitles created:", path)
 
+# ==================================================
+# VIDEO EDITING
+# ==================================================
 
-# ==========================================
-# CREATE VIDEO
-# ==========================================
+def create_video(title, script, audio, duration, stamp, assets):
 
-def create_video(
-    title,
-    script,
-    audio,
-    duration,
-    stamp
-):
+    if not assets:
+        raise RuntimeError(
+            "No reusable licensed images found. Video cancelled."
+        )
+
+    work = OUTPUT / f"work_{stamp}"
+    work.mkdir(parents=True, exist_ok=True)
 
     scenes = []
 
-    total_scenes = int(
-        (duration + SCENE_SECONDS - 1)
-        // SCENE_SECONDS
-    )
+    count = math.ceil(duration / SCENE_SECONDS)
 
-    for index in range(total_scenes):
+    for index in range(count):
 
-        scene = OUTPUT / (
-            f"scene_{stamp}_{index:02d}.jpg"
-        )
+        asset = assets[index % len(assets)]
+
+        scene = work / f"scene_{index:03d}.jpg"
 
         make_scene(
+            asset["path"],
             title,
             index + 1,
             scene
@@ -655,58 +649,44 @@ def create_video(
 
         scenes.append(scene)
 
-    concat_file = OUTPUT / f"scenes_{stamp}.txt"
+    concat = work / "concat.txt"
 
-    with concat_file.open(
-        "w",
-        encoding="utf-8"
-    ) as file:
+    with concat.open("w", encoding="utf-8") as file:
 
         for index, scene in enumerate(scenes):
 
-            remaining = (
+            seconds = min(
+                SCENE_SECONDS,
                 duration - index * SCENE_SECONDS
             )
 
-            scene_duration = min(
-                SCENE_SECONDS,
-                remaining
-            )
+            file.write(f"file '{scene.resolve()}'\n")
+            file.write(f"duration {seconds:.3f}\n")
 
-            file.write(
-                f"file '{scene.resolve()}'\n"
-            )
+        file.write(f"file '{scenes[-1].resolve()}'\n")
 
-            file.write(
-                f"duration {scene_duration:.3f}\n"
-            )
-
-        file.write(
-            f"file '{scenes[-1].resolve()}'\n"
-        )
-
-    subtitle_path = OUTPUT / f"gta_vi_{stamp}.srt"
+    subtitles = OUTPUT / f"gta_vi_{stamp}.srt"
 
     create_subtitles(
         script,
         duration,
-        subtitle_path
+        subtitles
     )
 
-    video_path = OUTPUT / f"gta_vi_{stamp}.mp4"
+    video = OUTPUT / f"gta_vi_{stamp}.mp4"
 
-    subtitle_filter_path = (
-        str(subtitle_path.resolve())
+    subtitle_filter = (
+        str(subtitles.resolve())
         .replace("\\", "/")
         .replace(":", "\\:")
-        .replace("'", r"\'")
     )
 
-    video_filter = (
+    filters = (
         "fps=25,"
-        "scale=1920:1080,"
+        "scale=1920:1080:force_original_aspect_ratio=decrease,"
+        "pad=1920:1080:(ow-iw)/2:(oh-ih)/2,"
         "format=yuv420p,"
-        f"subtitles='{subtitle_filter_path}'"
+        f"subtitles='{subtitle_filter}'"
     )
 
     subprocess.run(
@@ -715,136 +695,133 @@ def create_video(
             "-y",
             "-f", "concat",
             "-safe", "0",
-            "-i", str(concat_file),
+            "-i", str(concat),
             "-i", str(audio),
-            "-vf", video_filter,
+            "-vf", filters,
             "-c:v", "libx264",
-            "-preset", "veryfast",
+            "-preset", "medium",
+            "-crf", "21",
             "-c:a", "aac",
             "-b:a", "192k",
-            "-t", f"{duration:.3f}",
+            "-t", str(duration),
             "-shortest",
             "-movflags", "+faststart",
-            str(video_path)
+            str(video)
         ],
         check=True
     )
 
-    return video_path
+    return video, subtitles
 
 
-# ==========================================
-# MAIN
-# ==========================================
+# ==================================================
+# MAIN AUTOMATION
+# ==================================================
 
 def main():
 
-    OUTPUT.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    OUTPUT.mkdir(parents=True, exist_ok=True)
 
     items = load_news()
+    item = choose_topic(items)
 
-    if not items:
-
-        print("No new GTA VI topics found.")
+    if not item:
+        log("No new topic found.")
         return
 
-    item = items[0]
+    title = item.get("title", "GTA News")
+    url = item.get("url", "")
 
-    title = item.get(
-        "title",
-        "GTA VI Update"
+    log("Selected topic:", title)
+    log("Model:", MODEL)
+
+    article = read_article(url)
+
+    script = generate_script(
+        item,
+        article
     )
 
-    print("================================")
-    print("GTA VI VIDEO GENERATOR")
-    print("================================")
-
-    print("Selected topic:", title)
-    print("Using model:", MODEL)
-
-    # Generate narration script.
-
-    script = request_script(item)
-
-    word_count = len(script.split())
-
-    print("Final script words:", word_count)
-
-    # Unique filenames.
+    words = len(script.split())
 
     stamp = datetime.now(
         timezone.utc
     ).strftime("%Y%m%d_%H%M%S")
 
-    audio_path = OUTPUT / f"voice_{stamp}.mp3"
+    assets = download_visuals(
+        title,
+        OUTPUT / f"assets_{stamp}"
+    )
 
-    # Generate voice.
+    audio = OUTPUT / f"voice_{stamp}.mp3"
 
     audio = asyncio.run(
-        generate_voice(
-            script,
-            audio_path
-        )
+        generate_voice(script, audio)
     )
 
-    # Verify actual audio duration.
+    duration = audio_duration(audio)
 
-    duration = get_audio_duration(audio)
+    log("Audio duration:", round(duration, 1))
+    log("Script words:", words)
 
-    print(
-        f"Actual narration duration: {duration:.1f} seconds"
-    )
-
-    if duration < MIN_AUDIO_SECONDS:
-
+    if not MIN_AUDIO <= duration <= MAX_AUDIO:
         raise RuntimeError(
-            f"Narration too short: {duration:.1f}s. "
-            f"Minimum required: {MIN_AUDIO_SECONDS}s. "
-            "Video cancelled."
+            "Video duration outside the required range."
         )
 
-    if duration > MAX_AUDIO_SECONDS:
-
-        raise RuntimeError(
-            f"Narration too long: {duration:.1f}s. "
-            f"Maximum allowed: {MAX_AUDIO_SECONDS}s. "
-            "Video cancelled."
-        )
-
-    # Create video.
-
-    video = create_video(
+    video, subtitles = create_video(
         title,
         script,
         audio,
         duration,
-        stamp
+        stamp,
+        assets
     )
 
-    # Save script and source.
+    report = {
+        "title": title,
+        "source": url,
+        "model": MODEL,
+        "words": words,
+        "duration": duration,
+        "video": str(video),
+        "visual_assets": [
+            {
+                "title": a["title"],
+                "source": a["source"],
+                "license": a["license"],
+                "author": a["author"]
+            }
+            for a in assets
+        ],
+        "script": script
+    }
 
-    script_path = OUTPUT / f"gta_vi_{stamp}.txt"
+    report_path = OUTPUT / f"gta_vi_{stamp}_report.json"
 
-    script_path.write_text(
-        f"TITLE: {title}\n"
-        f"SOURCE: {item.get('url', '')}\n"
-        f"MODEL: {MODEL}\n"
-        f"WORDS: {word_count}\n"
-        f"AUDIO DURATION: {duration:.1f} seconds\n\n"
-        f"SCRIPT:\n{script}",
+    report_path.write_text(
+        json.dumps(report, indent=2, ensure_ascii=False),
         encoding="utf-8"
     )
 
-    print("================================")
-    print("VIDEO SUCCESSFULLY GENERATED")
-    print("VIDEO:", video)
-    print("AUDIO:", audio)
-    print("DURATION:", round(duration, 1), "seconds")
-    print("SUBTITLES:", OUTPUT / f"gta_vi_{stamp}.srt")
-    print("================================")
+    credits = OUTPUT / f"gta_vi_{stamp}_credits.txt"
+
+    with credits.open("w", encoding="utf-8") as file:
+
+        for asset in assets:
+
+            file.write(
+                f"{asset['title']}\n"
+                f"Author: {asset['author']}\n"
+                f"License: {asset['license']}\n"
+                f"Source: {asset['source']}\n\n"
+            )
+
+    log("VIDEO SUCCESSFULLY GENERATED")
+    log("VIDEO:", video)
+    log("SUBTITLES:", subtitles)
+    log("CREDITS:", credits)
+    log("REPORT:", report_path)
 
 
 if __name__ == "__main__":
