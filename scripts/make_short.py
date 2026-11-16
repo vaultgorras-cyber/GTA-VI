@@ -34,7 +34,7 @@ API_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
 
 MODEL = os.getenv(
     "OPENROUTER_MODEL",
-    "openrouter/free"
+    "nvidia/nemotron-3-ultra-550b-a55b:free"
 )
 
 MIN_WORDS = 600
@@ -46,7 +46,6 @@ MAX_SCRIPT_ATTEMPTS = 3
 # ==========================================
 
 def load_news():
-
     try:
         data = json.loads(
             (DATA / "candidates.json").read_text(
@@ -55,11 +54,9 @@ def load_news():
         )
 
         items = data.get("items", [])
-
         return items if isinstance(items, list) else []
 
     except Exception as error:
-
         print("News loading error:", error)
         return []
 
@@ -69,7 +66,6 @@ def load_news():
 # ==========================================
 
 def extract_script(result):
-
     if not isinstance(result, dict):
         return ""
 
@@ -94,13 +90,10 @@ def extract_script(result):
         return content.strip()
 
     if isinstance(content, list):
-
         parts = []
 
         for part in content:
-
             if isinstance(part, dict):
-
                 text = part.get("text", "")
 
                 if text:
@@ -118,25 +111,19 @@ def extract_script(result):
 def request_script(item):
 
     if not API_KEY:
-
         raise RuntimeError(
             "OPENROUTER_API_KEY is missing in GitHub Secrets."
         )
 
-    title = item.get(
-        "title",
-        "GTA VI Update"
-    )
-
+    title = item.get("title", "GTA VI Update")
     summary = item.get("summary", "")
-
     url = item.get("url", "")
 
     prompt = f"""
 You are a professional American English gaming journalist.
 
-Write a complete YouTube news and analysis narration
-about the following GTA VI topic.
+Write a complete, factual YouTube news and analysis narration
+about this GTA VI topic.
 
 TOPIC:
 {title}
@@ -148,28 +135,21 @@ SOURCE URL:
 {url}
 
 REQUIREMENTS:
-
-- Write between 650 and 750 spoken words.
+- Write approximately 600 to 680 spoken words.
 - Use natural American English.
 - Aim for approximately five minutes of narration.
-- Begin with an engaging introduction.
-- Explain the available information clearly.
-- Provide useful context and analysis.
-- Separate confirmed facts from speculation.
-- Never invent quotes, announcements, dates or facts.
-- Do not repeat information just to increase length.
+- Open with a strong but accurate hook.
+- Explain the available information and its context.
+- Clearly distinguish confirmed facts from speculation.
+- Never invent quotes, announcements, dates, sources, or facts.
 - Explain what remains unknown.
 - End with a concise conclusion.
-- Return only the narration.
-- Do not include headings.
-- Do not include bullet points.
-- Do not include markdown.
-- Do not include stage directions.
+- Return only the narration, with no headings, bullets, markdown,
+  stage directions, or notes.
+- Do not pad the script with repetition.
+- If the source contains limited information, say so honestly.
 
-If the source contains limited information,
-be honest about it. Never invent facts.
-
-The output must be a complete narration, not a summary.
+Return a complete narration, not a short summary.
 """
 
     for attempt in range(1, MAX_SCRIPT_ATTEMPTS + 1):
@@ -185,9 +165,9 @@ The output must be a complete narration, not a summary.
                 {
                     "role": "system",
                     "content": (
-                        "You are an accurate professional gaming "
-                        "journalist. Always return complete narration. "
-                        "Never fabricate information."
+                        "You are an accurate professional American "
+                        "gaming journalist. Return the narration itself. "
+                        "Do not reveal analysis or reasoning. Never invent facts."
                     )
                 },
                 {
@@ -196,8 +176,13 @@ The output must be a complete narration, not a summary.
                 }
             ],
 
-            "temperature": 0.5,
-            "max_tokens": 2200
+            "temperature": 0.4,
+            "max_tokens": 6000,
+
+            "reasoning": {
+                "effort": "low",
+                "exclude": True
+            }
         }
 
         request = urllib.request.Request(
@@ -219,47 +204,48 @@ The output must be a complete narration, not a summary.
 
             with urllib.request.urlopen(
                 request,
-                timeout=150
+                timeout=180
             ) as response:
 
                 result = json.loads(
                     response.read().decode("utf-8")
                 )
 
-            script = extract_script(result)
-
-            words = len(script.split())
+            choices = result.get("choices", [])
 
             choice = (
-                result.get("choices", [{}])[0]
-                if result.get("choices")
+                choices[0]
+                if choices and isinstance(choices[0], dict)
                 else {}
             )
 
-            print(
-                "OpenRouter finish reason:",
-                choice.get("finish_reason", "unknown")
+            finish_reason = choice.get(
+                "finish_reason",
+                "unknown"
             )
 
-            print(
-                "Generated script words:",
-                words
-            )
+            script = extract_script(result)
+            words = len(script.split())
 
-            print(
-                "OpenRouter response preview:",
-                script[:250]
-            )
+            print("OpenRouter finish reason:", finish_reason)
+            print("Generated script words:", words)
+            print("OpenRouter response preview:", script[:250])
 
-            if words >= MIN_WORDS:
+            if words >= MIN_WORDS and finish_reason != "length":
 
                 print("Complete script accepted.")
-
                 return script
 
-            print(
-                "Response too short. Trying again..."
-            )
+            if finish_reason == "length":
+
+                print(
+                    "The model hit its output limit. "
+                    "The response will not be used."
+                )
+
+            else:
+
+                print("Response too short. Trying again...")
 
         except urllib.error.HTTPError as error:
 
@@ -271,23 +257,20 @@ The output must be a complete narration, not a summary.
             print(
                 "OpenRouter HTTP error:",
                 error.code,
-                details[:1000]
+                details[:1500]
             )
 
         except Exception as error:
 
-            print(
-                "OpenRouter error:",
-                str(error)
-            )
+            print("OpenRouter error:", str(error))
 
         if attempt < MAX_SCRIPT_ATTEMPTS:
-
-            time.sleep(4)
+            time.sleep(5)
 
     raise RuntimeError(
-        "OpenRouter failed to generate a complete script "
-        "after three attempts. No video was created."
+        "OpenRouter did not return a complete narration after "
+        f"{MAX_SCRIPT_ATTEMPTS} attempts. No video was created. "
+        "Check the OpenRouter model and Actions log."
     )
 
 
@@ -321,7 +304,6 @@ def get_font(size):
 def wrap_text(draw, text, selected_font, max_width):
 
     lines = []
-
     current = ""
 
     for word in text.split():
@@ -391,7 +373,6 @@ def make_scene(title, number, path):
     )
 
     selected_font = get_font(78)
-
     y = 340
 
     for line in wrap_text(
@@ -461,11 +442,7 @@ async def generate_voice(script, output_path):
                     and output_path.stat().st_size > 1000
                 ):
 
-                    print(
-                        "Voice generated:",
-                        voice
-                    )
-
+                    print("Voice generated:", voice)
                     return output_path
 
             except Exception as error:
@@ -506,7 +483,6 @@ async def generate_voice(script, output_path):
         ):
 
             print("Backup voice generated using eSpeak.")
-
             return wav_path
 
     raise RuntimeError(
@@ -593,9 +569,7 @@ def create_subtitles(script, duration, path):
         )
 
     current_time = 0.0
-
     blocks = []
-
     counter = 1
 
     for sentence in sentences:
@@ -636,7 +610,6 @@ def create_subtitles(script, duration, path):
             )
 
             counter += 1
-
             chunk_time = end_time
 
         current_time += sentence_duration
@@ -776,7 +749,6 @@ def main():
     if not items:
 
         print("No new GTA VI topics found.")
-
         return
 
     item = items[0]
@@ -791,7 +763,6 @@ def main():
     print("================================")
 
     print("Selected topic:", title)
-
     print("Using model:", MODEL)
 
     # Generate narration script.
