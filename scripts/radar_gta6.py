@@ -2,8 +2,8 @@
 import json
 import re
 import hashlib
+import unicodedata
 from datetime import datetime, timezone, timedelta
-from email.utils import parsedate_to_datetime
 
 import feedparser
 import requests
@@ -18,15 +18,33 @@ LAST_YOUTUBE_CHECK = DATA / "last_youtube_check.json"
 YOUTUBE_INTERVAL_MINUTES = 15
 MAX_CANDIDATES = 100
 
-TERMS = [
-    "GTA 6",
-    "GTA VI",
-    "Grand Theft Auto VI",
-    "Vice City",
-    "Lucia",
-    "Jason",
-    "Rockstar Games",
+GTA_PATTERN = re.compile(
+    r"\b(?:GTA\s*(?:VI|6)|Grand Theft Auto\s*(?:VI|6))\b",
+    re.IGNORECASE,
+)
+
+ROCKSTAR_PATTERN = re.compile(
+    r"\bRockstar Games\b",
+    re.IGNORECASE,
+)
+
+SPAM_PATTERNS = [
+    r"\bfree giveaway\b",
+    r"\bfree money\b",
+    r"\bsubscribe to win\b",
+    r"\bget rich quick\b",
+    r"\bdownload now\b",
+    r"\bcheat download\b",
+    r"\bmod menu download\b",
 ]
+
+BLOCKED_TERMS = [
+    "gta 5",
+    "gta v",
+    "grand theft auto v",
+    "gta online",
+]
+
 
 
 def now():
@@ -44,30 +62,78 @@ def clean(text):
     return re.sub(r"\s+", " ", text or "").strip()
 
 
+def is_mostly_latin(text):
+    letters = [
+        char for char in text
+        if unicodedata.category(char).startswith("L")
+    ]
+
+    if not letters:
+        return False
+
+    latin = sum(
+        1 for char in letters
+        if "LATIN" in unicodedata.name(char, "")
+    )
+
+    return latin / len(letters) >= 0.85
+
+
+def is_spam(title, summary):
+    text = (title + " " + summary).lower()
+
+    return any(
+        re.search(pattern, text, re.IGNORECASE)
+        for pattern in SPAM_PATTERNS
+    )
+
+
+def is_relevant(title, summary):
+    title = clean(title)
+    summary = clean(summary)
+
+    if not title:
+        return False
+
+    # Reject titles written mainly in non-Latin scripts.
+    if not is_mostly_latin(title):
+        print("Rejected non-Latin title:", title[:120])
+        return False
+
+    # Reject obvious GTA V / GTA Online content.
+    title_lower = title.lower()
+
+    if any(term in title_lower for term in BLOCKED_TERMS):
+        return False
+
+    # GTA VI must be explicitly present in the title.
+    # Rockstar alone is not enough.
+    if not GTA_PATTERN.search(title):
+        return False
+
+    if is_spam(title, summary):
+        print("Rejected spam-like topic:", title[:120])
+        return False
+
+    return True
+
+
 def parse_date(value):
     if not value:
         return None
 
     try:
-        result = datetime.fromisoformat(value.replace("Z", "+00:00"))
-        if result.tzinfo is None:
-            result = result.replace(tzinfo=timezone.utc)
-        return result.astimezone(timezone.utc)
-    except Exception:
-        pass
+        result = datetime.fromisoformat(
+            value.replace("Z", "+00:00")
+        )
 
-    try:
-        result = parsedate_to_datetime(value)
         if result.tzinfo is None:
             result = result.replace(tzinfo=timezone.utc)
+
         return result.astimezone(timezone.utc)
+
     except Exception:
         return None
-
-
-def is_relevant(title, summary):
-    text = (title + " " + summary).lower()
-    return any(term.lower() in text for term in TERMS)
 
 
 def should_check_youtube():
@@ -98,7 +164,10 @@ def check_rss(items):
                 summary = clean(entry.get("summary", ""))
                 link = entry.get("link", "")
 
-                if not link or not is_relevant(title, summary):
+                if not link:
+                    continue
+
+                if not is_relevant(title, summary):
                     continue
 
                 items.append({
@@ -112,9 +181,10 @@ def check_rss(items):
                     "source": url,
                     "source_type": "rss",
                 })
+
                 count += 1
 
-            print("RSS articles found:", url, count)
+            print("RSS articles accepted:", url, count)
 
         except Exception as exc:
             print("RSS error:", url, str(exc))
@@ -132,23 +202,22 @@ def check_youtube(items):
     print("Checking YouTube...")
 
     try:
-        params = {
-            "part": "snippet",
-            "q": "GTA VI OR GTA 6",
-            "type": "video",
-            "order": "date",
-            "publishedAfter": (
-                now() - timedelta(days=7)
-            ).isoformat(),
-            "maxResults": 25,
-            "key": YOUTUBE_API_KEY,
-        }
-
         response = requests.get(
             "https://www.googleapis.com/youtube/v3/search",
-            params=params,
+            params={
+                "part": "snippet",
+                "q": "GTA VI OR GTA 6",
+                "type": "video",
+                "order": "date",
+                "publishedAfter": (
+                    now() - timedelta(days=7)
+                ).isoformat(),
+                "maxResults": 25,
+                "key": YOUTUBE_API_KEY,
+            },
             timeout=30,
         )
+
         response.raise_for_status()
         results = response.json()
 
@@ -189,6 +258,7 @@ def check_youtube(items):
                 },
                 timeout=30,
             )
+
             stats_response.raise_for_status()
 
             stats = {
@@ -198,6 +268,7 @@ def check_youtube(items):
 
             for item in items:
                 video_id = item.get("youtube_video_id")
+
                 if video_id in stats:
                     item["views"] = int(
                         stats[video_id].get("viewCount", 0)
@@ -211,7 +282,7 @@ def check_youtube(items):
             encoding="utf-8",
         )
 
-        print("YouTube videos found:", len(video_ids))
+        print("YouTube videos accepted:", len(video_ids))
 
     except Exception as exc:
         print("YouTube API error:", str(exc))
@@ -222,8 +293,9 @@ def topic_key(item):
     title = re.sub(r"[^a-z0-9 ]", " ", title)
     title = re.sub(r"\s+", " ", title).strip()
 
-    # Stable identifier based on the normalized title.
-    return hashlib.sha1(title.encode("utf-8")).hexdigest()
+    return hashlib.sha1(
+        title.encode("utf-8")
+    ).hexdigest()
 
 
 def score_item(item, all_items):
@@ -247,8 +319,8 @@ def score_item(item, all_items):
     else:
         recency_score = 0
 
-    # Count distinct sources reporting the same normalized title.
     key = topic_key(item)
+
     matching = [
         other for other in all_items
         if topic_key(other) == key
@@ -260,38 +332,43 @@ def score_item(item, all_items):
         if other.get("source")
     }
 
-    source_score = min(30, len(distinct_sources) * 10)
-
-    youtube_views = max(
-        [int(other.get("views", 0)) for other in matching] or [0]
+    source_score = min(
+        30,
+        len(distinct_sources) * 10
     )
 
-    if youtube_views >= 1_000_000:
+    views = max(
+        [int(other.get("views", 0)) for other in matching]
+        or [0]
+    )
+
+    if views >= 1_000_000:
         views_score = 20
-    elif youtube_views >= 100_000:
+    elif views >= 100_000:
         views_score = 15
-    elif youtube_views >= 10_000:
+    elif views >= 10_000:
         views_score = 10
-    elif youtube_views >= 1_000:
+    elif views >= 1_000:
         views_score = 5
     else:
         views_score = 0
 
     score = recency_score + source_score + views_score
 
-    # A provisional signal, not a claim of measured search trends.
-    is_trending = (
+    trending = (
         score >= 60
         and age_hours <= 48
         and (
             len(distinct_sources) >= 2
-            or youtube_views >= 100_000
+            or views >= 100_000
         )
     )
 
     item["trend_score"] = score
-    item["is_trending"] = is_trending
-    item["priority"] = "trend" if is_trending else "regular"
+    item["is_trending"] = trending
+    item["priority"] = (
+        "trend" if trending else "regular"
+    )
     item["topic_id"] = key
 
     return item
@@ -301,6 +378,7 @@ def main():
     DATA.mkdir(parents=True, exist_ok=True)
 
     seen = read(SEEN, {})
+
     if not isinstance(seen, dict):
         seen = {}
 
@@ -309,23 +387,30 @@ def main():
 
     found = []
 
-    # Keep pending items that have not been completed.
+    # Keep only valid pending topics.
     for item in pending:
-        if item.get("url") and item["url"] not in seen:
+        title = clean(item.get("title", ""))
+        summary = clean(item.get("summary", ""))
+        url = item.get("url", "")
+
+        if not url or url in seen:
+            continue
+
+        if is_relevant(title, summary):
             found.append(item)
 
     print("================================")
-    print("GTA VI RADAR")
+    print("GTA VI QUALITY RADAR")
     print("================================")
 
     check_rss(found)
     check_youtube(found)
 
-    # Remove duplicate URLs without losing pending topics.
     unique = {}
 
     for item in found:
         url = item.get("url", "")
+
         if not url or url in seen:
             continue
 
@@ -367,13 +452,22 @@ def main():
         if item.get("is_trending")
     )
 
-    print("Pending topics:", len(selected))
-    print("Potential trend topics:", trends)
+    print("Pending valid topics:", len(selected))
+    print("Potential trends:", trends)
+    print("Rejected or removed old invalid topics:",
+          len(pending) - sum(
+              1 for item in pending
+              if item.get("url") not in seen
+              and is_relevant(
+                  clean(item.get("title", "")),
+                  clean(item.get("summary", ""))
+              )
+          ))
 
     if selected:
-        print("Next priority:", selected[0].get("priority"))
-        print("Next score:", selected[0].get("trend_score"))
-        print("Next topic:", selected[0].get("title", ""))
+        print("Next priority:", selected[0]["priority"])
+        print("Next score:", selected[0]["trend_score"])
+        print("Next topic:", selected[0]["title"])
 
     print("Radar check completed.")
 
