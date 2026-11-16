@@ -19,35 +19,50 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
+      # 1. Descargar el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           ref: main
 
-      - uses: actions/setup-python@v5
+      # 2. Preparar Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
 
+      # 3. Instalar FFmpeg y voz de respaldo
       - name: Install FFmpeg and voice fallback
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg espeak-ng
           which ffmpeg
+          which ffprobe
           which espeak-ng
 
+      # 4. Instalar dependencias
       - name: Install requirements
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run radar
+      # 5. Buscar noticias y temas GTA VI
+      - name: Run GTA VI radar
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           NEWS_RSS_URLS: ${{ vars.NEWS_RSS_URLS }}
         run: python scripts/radar_gta6.py
 
+      # 6. Generar guion, voz, subtítulos y vídeo
       - name: Generate video preview
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
         run: python scripts/make_short.py
 
-      # La subida permanece desactivada hasta validar los vídeos.
+      # 7. Subida privada opcional
+      # Desactivada hasta validar los vídeos.
       - name: Upload privately for review
         if: ${{ vars.ENABLE_PRIVATE_UPLOAD == 'true' }}
         env:
@@ -56,17 +71,19 @@ jobs:
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: python scripts/upload_youtube.py
 
+      # 8. Guardar datos y resultados en GitHub
       - name: Commit state and previews
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data output
-          git diff --cached --quiet || (git commit -m "Update GTA VI radar" && git push)
+          git diff --cached --quiet || (git commit -m "Update GTA VI automation" && git push)
 
-      - name: Save preview artifact
+      # 9. Guardar vídeo como artefacto descargable
+      - name: Save video preview
         uses: actions/upload-artifact@v4
         with:
-          name: gta-vi-preview
+          name: gta-vi-video-preview
           path: output/
           if-no-files-found: ignore
           retention-days: 7
