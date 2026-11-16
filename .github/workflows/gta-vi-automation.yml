@@ -1,5 +1,5 @@
 
-name: GTA VI Shorts Automation
+name: GTA VI Video Automation
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ concurrency:
 jobs:
   create:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v4
@@ -44,9 +44,10 @@ jobs:
           NEWS_RSS_URLS: ${{ vars.NEWS_RSS_URLS }}
         run: python scripts/radar_gta6.py
 
-      - name: Generate preview
+      - name: Generate video preview
         run: python scripts/make_short.py
 
+      # La subida permanece desactivada hasta validar los vídeos.
       - name: Upload privately for review
         if: ${{ vars.ENABLE_PRIVATE_UPLOAD == 'true' }}
         env:
@@ -62,7 +63,8 @@ jobs:
           git add data output
           git diff --cached --quiet || (git commit -m "Update GTA VI radar" && git push)
 
-      - uses: actions/upload-artifact@v4
+      - name: Save preview artifact
+        uses: actions/upload-artifact@v4
         with:
           name: gta-vi-preview
           path: output/
