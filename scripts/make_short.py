@@ -8,6 +8,9 @@ import asyncio
 import subprocess
 import urllib.request
 import urllib.parse
+import urllib.error
+import email.utils
+
 from pathlib import Path
 from datetime import datetime, timezone
 from html.parser import HTMLParser
@@ -19,8 +22,14 @@ from config import DATA, OUTPUT
 
 
 # ============================================================
-# CONFIGURACIÓN
+# CONFIGURATION - FREE MODEL ONLY
 # ============================================================
+
+MODEL = "openrouter/free"
+
+OPENROUTER_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
+
+VOICE = "en-US-ChristopherNeural"
 
 WIDTH = 1920
 HEIGHT = 1080
@@ -32,43 +41,28 @@ MAX_AUDIO = 420
 MIN_WORDS = 600
 MAX_WORDS = 850
 
-MODEL = os.getenv(
-    "OPENROUTER_MODEL",
-    "nvidia/nemotron-3-ultra-550b-a55b:free"
-).strip()
+USER_AGENT = "GTAVI-404-Automation/4.0"
 
-OPENROUTER_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
+ROOT = Path(__file__).resolve().parent.parent
 
-VOICE = os.getenv(
-    "VIDEO_VOICE",
-    "en-US-ChristopherNeural"
-).strip()
-
-USER_AGENT = "GTAVI-404-Automation/3.0"
-
-ASSETS = Path(__file__).resolve().parent.parent / "assets"
+ASSETS = ROOT / "assets"
 GAMEPLAY_DIR = ASSETS / "gameplay"
 MUSIC_DIR = ASSETS / "music"
-IMAGE_DIR = ASSETS / "images"
 
 CANDIDATES_FILE = DATA / "candidates.json"
 PUBLISHED_FILE = DATA / "published.json"
 SEEN_FILE = DATA / "seen.json"
 
-for folder in (OUTPUT, GAMEPLAY_DIR, MUSIC_DIR, IMAGE_DIR):
+for folder in (DATA, OUTPUT, GAMEPLAY_DIR, MUSIC_DIR):
     folder.mkdir(parents=True, exist_ok=True)
 
 
 # ============================================================
-# UTILIDADES
+# GENERAL UTILITIES
 # ============================================================
 
 def log(*args):
     print("[GTA VI]", *args, flush=True)
-
-
-def run_command(command):
-    subprocess.run(command, check=True)
 
 
 def read_json(path, default):
@@ -80,12 +74,13 @@ def read_json(path, default):
 
 def write_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
-
     temporary = path.with_suffix(".tmp")
+
     temporary.write_text(
         json.dumps(data, ensure_ascii=False, indent=2),
         encoding="utf-8"
     )
+
     temporary.replace(path)
 
 
@@ -94,12 +89,12 @@ def clean_text(value):
     return re.sub(r"\s+", " ", value).strip()
 
 
-def safe_filename(value):
-    return re.sub(r"[^a-zA-Z0-9_-]", "_", str(value))
+def run_command(command):
+    subprocess.run(command, check=True)
 
 
 # ============================================================
-# HISTORIAL Y PREVENCIÓN DE REPETICIONES
+# HISTORY AND DUPLICATE PROTECTION
 # ============================================================
 
 def load_history():
@@ -109,8 +104,7 @@ def load_history():
         return data
 
     if isinstance(data, dict):
-        items = data.get("items", [])
-        return items if isinstance(items, list) else []
+        return data.get("items", [])
 
     return []
 
@@ -128,25 +122,16 @@ def similar_title(first, second):
     if not first or not second:
         return False
 
-    if first == second:
-        return True
-
-    similarity = SequenceMatcher(
-        None, first, second
-    ).ratio()
-
-    return similarity >= 0.88
+    return SequenceMatcher(None, first, second).ratio() >= 0.88
 
 
 def already_used(item, history):
     url = clean_text(item.get("url", "")).lower()
-    title = clean_text(
-        item.get("_clean_title", item.get("title", ""))
-    )
+    title = item.get("_clean_title", item.get("title", ""))
 
     for old in history:
         old_url = clean_text(old.get("url", "")).lower()
-        old_title = clean_text(old.get("title", ""))
+        old_title = old.get("title", "")
 
         if url and old_url and url == old_url:
             return True
@@ -158,11 +143,6 @@ def already_used(item, history):
 
 
 def mark_seen(item):
-    """
-    El radar utiliza seen.json como diccionario de URLs.
-    Marcamos la noticia después de generar el vídeo correctamente.
-    """
-
     seen = read_json(SEEN_FILE, {})
 
     if not isinstance(seen, dict):
@@ -185,7 +165,6 @@ def save_history(item, report_path):
             item.get("title", "")
         ),
         "url": item.get("url", ""),
-        "topic_id": item.get("topic_id", ""),
         "created_at": datetime.now(timezone.utc).isoformat(),
         "video": str(report_path),
         "status": "generated_for_review"
@@ -200,7 +179,7 @@ def save_history(item, report_path):
 
 
 # ============================================================
-# CANDIDATOS
+# NEWS CANDIDATES
 # ============================================================
 
 def load_news():
@@ -210,8 +189,7 @@ def load_news():
         return data
 
     if isinstance(data, dict):
-        items = data.get("items", [])
-        return items if isinstance(items, list) else []
+        return data.get("items", [])
 
     return []
 
@@ -225,88 +203,72 @@ def choose_topic(items):
         re.IGNORECASE
     )
 
-    blocked = (
-        "gta v",
-        "gta 5",
-        "grand theft auto v",
-        "gta online"
-    )
-
     for item in items:
         title = clean_text(item.get("title", ""))
-        summary = clean_text(item.get("summary", ""))
 
-        if not title or not gta_pattern.search(title):
-            continue
-
-        if any(term in title.lower() for term in blocked):
+        if not gta_pattern.search(title):
             continue
 
         if len(title.split()) < 4:
             continue
 
-        if already_used(item, history):
-            log("Previously used topic:", title[:100])
+        if any(x in title.lower() for x in (
+            "gta v", "gta 5", "gta online"
+        )):
             continue
 
         item["_clean_title"] = title
-        item["_clean_summary"] = summary
+        item["_clean_summary"] = clean_text(
+            item.get("summary", "")
+        )
+
+        if already_used(item, history):
+            log("Skipping previously used topic:", title)
+            continue
 
         valid.append(item)
 
     if not valid:
         return None
 
-    def ranking(item):
-        trending = bool(
-            item.get("is_trending")
-            or item.get("priority") == "trend"
-        )
-
-        score = int(
-            item.get("trend_score", item.get("score", 0)) or 0
-        )
-
-        published = str(
-            item.get("published", item.get("published_at", ""))
-        )
-
-        return int(trending), score, published
-
-    valid.sort(key=ranking, reverse=True)
+    valid.sort(
+        key=lambda x: (
+            bool(x.get("is_trending")),
+            int(x.get("trend_score", x.get("score", 0)) or 0),
+            str(x.get("published", x.get("published_at", "")))
+        ),
+        reverse=True
+    )
 
     return valid[0]
 
 
 # ============================================================
-# LECTURA DEL ARTÍCULO
+# ARTICLE READER
 # ============================================================
 
 class ArticleParser(HTMLParser):
 
-    SKIP_TAGS = {
-        "script", "style", "noscript",
-        "svg", "nav", "footer"
-    }
+    SKIP = {"script", "style", "noscript", "svg", "nav", "footer"}
 
     def __init__(self):
         super().__init__()
         self.parts = []
-        self.skip = 0
+        self.skip_count = 0
 
     def handle_starttag(self, tag, attrs):
-        if tag.lower() in self.SKIP_TAGS:
-            self.skip += 1
+        if tag.lower() in self.SKIP:
+            self.skip_count += 1
 
     def handle_endtag(self, tag):
-        if tag.lower() in self.SKIP_TAGS and self.skip:
-            self.skip -= 1
+        if tag.lower() in self.SKIP and self.skip_count:
+            self.skip_count -= 1
 
     def handle_data(self, data):
-        if not self.skip:
-            text = clean_text(data)
-            if text:
-                self.parts.append(text)
+        if not self.skip_count:
+            value = clean_text(data)
+            if value:
+                self.parts.append(value)
 
 
 def read_article(url):
@@ -336,15 +298,16 @@ def read_article(url):
 
 
 # ============================================================
-# GENERACIÓN DEL GUION
+# FREE OPENROUTER SCRIPT GENERATION
 # ============================================================
 
 def generate_script(item, article):
+
     if not OPENROUTER_KEY:
         raise RuntimeError("OPENROUTER_API_KEY is missing.")
 
     title = item.get("_clean_title", item.get("title", "GTA VI News"))
-    summary = item.get("_clean_summary", item.get("summary", ""))
+    summary = item.get("_clean_summary", "")
     source = item.get("url", "")
 
     prompt = f"""
@@ -363,21 +326,23 @@ ARTICLE:
 {article[:7000]}
 
 REQUIREMENTS:
-- Write between 650 and 800 spoken words.
-- Aim for approximately five minutes of narration.
-- Start with an engaging but accurate hook.
-- Explain the story and why it matters to GTA players.
-- Separate confirmed facts from rumours and speculation.
+- Write 650 to 800 spoken words.
+- Aim for approximately five minutes.
+- Start with an engaging factual hook.
+- Explain why the story matters to GTA players.
+- Separate confirmed facts from rumours.
 - Never invent facts, dates, quotes or announcements.
 - Explain what remains unknown.
-- Use natural, engaging American English.
-- No headings, bullets, markdown or production notes.
-- Do not repeat the same point.
-- Do not present speculation as official Rockstar information.
-- Return only the spoken narration.
+- Use natural American English.
+- No headings, markdown or bullet points.
+- Avoid repetition.
+- Return only the narration.
 """
 
-    for attempt in range(1, 5):
+    last_error = None
+
+    for attempt in range(1, 4):
+
         payload = {
             "model": MODEL,
             "messages": [
@@ -385,8 +350,7 @@ REQUIREMENTS:
                     "role": "system",
                     "content": (
                         "You are a professional American gaming journalist. "
-                        "Be accurate, engaging and concise. "
-                        "Never invent facts."
+                        "Be accurate, engaging and never invent facts."
                     )
                 },
                 {
@@ -394,8 +358,8 @@ REQUIREMENTS:
                     "content": prompt
                 }
             ],
-            "temperature": 0.25,
-            "max_tokens": 2200
+            "temperature": 0.3,
+            "max_tokens": 2400
         }
 
         request = urllib.request.Request(
@@ -426,7 +390,10 @@ REQUIREMENTS:
 
             words = len(script.split())
 
-            log(f"Script attempt {attempt}: {words} words")
+            log(
+                f"Attempt {attempt}: {words} words. "
+                f"Model: {result.get('model', MODEL)}"
+            )
 
             if (
                 MIN_WORDS <= words <= MAX_WORDS
@@ -434,35 +401,82 @@ REQUIREMENTS:
             ):
                 return script
 
-            if words > MAX_WORDS:
-                instruction = (
-                    "Shorten this narration to 650-800 words. "
-                    "Preserve supported facts and remove repetition. "
-                    "Do not add facts. Return only the narration:\n\n"
+            if words < MIN_WORDS:
+                prompt = (
+                    "Expand this narration to 650-800 words. "
+                    "Use only supported facts. Never invent information.\n\n"
+                    + script
                 )
             else:
-                instruction = (
-                    "Expand this narration to 650-800 words using "
-                    "only supported context. Do not invent facts. "
-                    "Return only the narration:\n\n"
+                prompt = (
+                    "Shorten this narration to 650-800 words. "
+                    "Remove repetition and preserve facts.\n\n"
+                    + script
                 )
 
-            prompt = instruction + script
+        except urllib.error.HTTPError as error:
+
+            last_error = error
+
+            if error.code == 429:
+
+                retry_after = error.headers.get("Retry-After")
+                wait_seconds = 30 * attempt
+
+                if retry_after:
+                    try:
+                        wait_seconds = int(retry_after)
+                    except ValueError:
+                        try:
+                            retry_date = email.utils.parsedate_to_datetime(
+                                retry_after
+                            )
+                            wait_seconds = max(
+                                1,
+                                int((
+                                    retry_date
+                                    - datetime.now(timezone.utc)
+                                ).total_seconds())
+                            )
+                        except Exception:
+                            pass
+
+                log(
+                    f"Free model rate limit. "
+                    f"Waiting {wait_seconds} seconds."
+                )
+
+                if attempt < 3:
+                    time.sleep(min(wait_seconds, 120))
+                    continue
+
+            body = error.read().decode(
+                "utf-8",
+                errors="replace"
+            )
+
+            raise RuntimeError(
+                f"OpenRouter HTTP {error.code}: {body[:1000]}"
+            ) from error
 
         except Exception as error:
+            last_error = error
             log("OpenRouter error:", error)
-            time.sleep(3)
+
+            if attempt < 3:
+                time.sleep(15 * attempt)
 
     raise RuntimeError(
-        "Could not generate a narration within the required word limit."
+        f"Could not generate a valid script. Last error: {last_error}"
     )
 
 
 # ============================================================
-# VOZ Y SUBTÍTULOS PALABRA POR PALABRA
+# VOICE GENERATION
 # ============================================================
 
 async def generate_voice(script, audio_path):
+
     communicate = edge_tts.Communicate(
         script,
         VOICE,
@@ -473,6 +487,7 @@ async def generate_voice(script, audio_path):
     word_events = []
 
     async for chunk in communicate.stream():
+
         if chunk["type"] == "audio":
             audio_data.append(chunk["data"])
 
@@ -488,13 +503,11 @@ async def generate_voice(script, audio_path):
 
     audio_path.write_bytes(b"".join(audio_data))
 
-    if audio_path.stat().st_size < 5000:
-        raise RuntimeError("Generated audio is too small.")
-
     return audio_path, word_events
 
 
 def get_audio_duration(path):
+
     result = subprocess.run(
         [
             "ffprobe",
@@ -511,7 +524,12 @@ def get_audio_duration(path):
     return float(result.stdout.strip())
 
 
+# ============================================================
+# WORD-BY-WORD SUBTITLES
+# ============================================================
+
 def srt_stamp(seconds):
+
     milliseconds = max(0, int(seconds * 1000))
 
     hours, milliseconds = divmod(milliseconds, 3600000)
@@ -525,10 +543,13 @@ def srt_stamp(seconds):
 
 
 def make_word_subtitles(script, duration, events, path):
+
     blocks = []
 
     if events:
+
         for event in events:
+
             start = event["offset"] / 10_000_000
             span = event["duration"] / 10_000_000
             end = min(duration, start + max(span, 0.12))
@@ -547,12 +568,13 @@ def make_word_subtitles(script, duration, events, path):
                 f"{word}\n"
             )
 
-    # Fallback when word timing is unavailable.
     if not blocks:
+
         words = script.split()
         interval = duration / max(len(words), 1)
 
         for index, word in enumerate(words):
+
             start = index * interval
             end = min(duration, (index + 1) * interval)
 
@@ -567,14 +589,13 @@ def make_word_subtitles(script, duration, events, path):
         encoding="utf-8"
     )
 
-    log("Word subtitles saved:", path)
-
 
 # ============================================================
-# IMÁGENES DE APOYO CON LICENCIAS COMPATIBLES
+# LICENSED SUPPORT IMAGES
 # ============================================================
 
 def allowed_license(value):
+
     text = html.unescape(str(value or "")).lower()
 
     if "noncommercial" in text or "no derivatives" in text:
@@ -593,13 +614,14 @@ def allowed_license(value):
 
 
 def search_images(query):
+
     params = {
         "action": "query",
         "format": "json",
         "generator": "search",
         "gsrsearch": f"filetype:bitmap {query}",
         "gsrnamespace": 6,
-        "gsrlimit": 15,
+        "gsrlimit": 12,
         "prop": "imageinfo",
         "iiprop": "url|extmetadata",
         "iiurlwidth": 1920
@@ -623,6 +645,7 @@ def search_images(query):
     pages = data.get("query", {}).get("pages", {})
 
     for page in pages.values():
+
         info = (page.get("imageinfo") or [{}])[0]
         metadata = info.get("extmetadata", {})
 
@@ -659,20 +682,21 @@ def search_images(query):
 
 
 def download_news_images(title, folder):
+
     folder.mkdir(parents=True, exist_ok=True)
 
     downloaded = []
-    seen_urls = set()
 
-    # Search only for the actual topic. Do not insert unrelated
-    # generic city images just to fill the video.
     try:
         found = search_images(title)
     except Exception as error:
         log("Image search error:", error)
         return downloaded
 
+    seen_urls = set()
+
     for index, asset in enumerate(found):
+
         if len(downloaded) >= 5:
             break
 
@@ -682,6 +706,7 @@ def download_news_images(title, folder):
         seen_urls.add(asset["url"])
 
         try:
+
             request = urllib.request.Request(
                 asset["url"],
                 headers={"User-Agent": USER_AGENT}
@@ -708,13 +733,15 @@ def download_news_images(title, folder):
 
 
 # ============================================================
-# GAMEPLAY LOCAL O FONDO PROVISIONAL
+# LOCAL GAMEPLAY OR TEMPORARY BACKGROUND
 # ============================================================
 
 def find_local_gameplay():
+
     extensions = (".mp4", ".mkv", ".mov", ".webm")
 
     for path in sorted(GAMEPLAY_DIR.iterdir()):
+
         if (
             path.is_file()
             and path.suffix.lower() in extensions
@@ -727,28 +754,24 @@ def find_local_gameplay():
 
 
 def create_background(duration, output):
+
     gameplay = find_local_gameplay()
 
     if gameplay:
         return gameplay, True
 
-    log("No local gameplay found. Creating temporary background.")
+    log("No local gameplay. Creating temporary background.")
 
     run_command([
         "ffmpeg",
         "-y",
         "-f", "lavfi",
         "-i",
-        (
-            f"color=c=#101522:"
-            f"s={WIDTH}x{HEIGHT}:r={FPS}:d={duration}"
-        ),
+        f"color=c=#101522:s={WIDTH}x{HEIGHT}:r={FPS}:d={duration}",
         "-vf",
         (
             "drawbox=x=0:y=0:w=iw:h=ih:"
             "color=#17243a@0.35:t=fill,"
-            "drawbox=x=0:y=ih*0.72:w=iw:h=ih*0.28:"
-            "color=#080d18@0.30:t=fill,"
             "format=yuv420p"
         ),
         "-c:v", "libx264",
@@ -761,13 +784,15 @@ def create_background(duration, output):
 
 
 # ============================================================
-# MÚSICA LOCAL OPCIONAL
+# BACKGROUND MUSIC
 # ============================================================
 
 def find_music():
+
     extensions = (".mp3", ".wav", ".m4a", ".aac", ".ogg")
 
     for path in sorted(MUSIC_DIR.iterdir()):
+
         if path.is_file() and path.suffix.lower() in extensions:
             return path
 
@@ -775,7 +800,7 @@ def find_music():
 
 
 # ============================================================
-# MONTAJE FINAL
+# VIDEO EDITING
 # ============================================================
 
 def create_video(
@@ -786,30 +811,25 @@ def create_video(
     images,
     stamp
 ):
+
     video = OUTPUT / f"gta_vi_{stamp}.mp4"
     music = find_music()
 
     command = ["ffmpeg", "-y"]
 
-    # Input 0: gameplay/background
     command.extend([
         "-stream_loop", "-1",
         "-i", str(gameplay)
     ])
 
-    # Input 1: narration
-    command.extend([
-        "-i", str(audio)
-    ])
+    command.extend(["-i", str(audio)])
 
-    # Optional music input
     if music:
         command.extend([
             "-stream_loop", "-1",
             "-i", str(music)
         ])
 
-    # Image inputs
     for image in images:
         command.extend([
             "-loop", "1",
@@ -835,44 +855,41 @@ def create_video(
 
     previous = "base"
 
-    image_count = len(images)
+    interval = duration / (len(images) + 1) if images else duration
 
-    if image_count:
-        interval = duration / (image_count + 1)
+    for index, image in enumerate(images):
 
-        for index, image in enumerate(images):
-            input_index = 3 + index if music else 2 + index
+        input_index = 3 + index if music else 2 + index
 
-            start = max(5, interval * (index + 1) - 3)
-            end = min(duration - 5, start + 6)
+        start = max(5, interval * (index + 1) - 3)
+        end = min(duration - 5, start + 6)
 
-            if end <= start:
-                continue
+        if end <= start:
+            continue
 
-            filters.append(
-                f"[{input_index}:v]"
-                f"scale={WIDTH}:{HEIGHT}:"
-                "force_original_aspect_ratio=increase,"
-                f"crop={WIDTH}:{HEIGHT},setsar=1[img{index}]"
-            )
+        filters.append(
+            f"[{input_index}:v]"
+            f"scale={WIDTH}:{HEIGHT}:"
+            "force_original_aspect_ratio=increase,"
+            f"crop={WIDTH}:{HEIGHT},setsar=1[img{index}]"
+        )
 
-            filters.append(
-                f"[{previous}][img{index}]"
-                f"overlay=0:0:"
-                f"enable='between(t,{start:.2f},{end:.2f})'"
-                f"[scene{index}]"
-            )
+        filters.append(
+            f"[{previous}][img{index}]"
+            f"overlay=0:0:"
+            f"enable='between(t,{start:.2f},{end:.2f})'"
+            f"[scene{index}]"
+        )
 
-            previous = f"scene{index}"
+        previous = f"scene{index}"
 
     filters.append(
-        f"[{previous}]"
-        f"subtitles='{subtitle_filter}',"
+        f"[{previous}]subtitles='{subtitle_filter}',"
         "format=yuv420p[outv]"
     )
 
-    # Correct audio mixing: narration remains clear and music is quiet.
     if music:
+
         filters.append(
             "[1:a]aresample=44100,volume=1.0[voice];"
             "[2:a]aresample=44100,volume=0.10[music];"
@@ -882,8 +899,7 @@ def create_video(
         )
 
     command.extend([
-        "-filter_complex",
-        ";".join(filters),
+        "-filter_complex", ";".join(filters),
         "-map", "[outv]"
     ])
 
@@ -908,17 +924,26 @@ def create_video(
     run_command(command)
 
     if not video.exists() or video.stat().st_size < 100000:
-        raise RuntimeError("The final video is missing or too small.")
+        raise RuntimeError("Final video is missing or too small.")
 
     return video
 
 
 # ============================================================
-# INFORME
+# VIDEO REPORT
 # ============================================================
 
-def save_report(item, video, subtitles, script, duration,
-                word_count, real_gameplay, images, stamp):
+def save_report(
+    item,
+    video,
+    subtitles,
+    script,
+    duration,
+    word_count,
+    real_gameplay,
+    images,
+    stamp
+):
 
     report = {
         "title": item.get(
@@ -926,7 +951,6 @@ def save_report(item, video, subtitles, script, duration,
             item.get("title", "GTA VI News")
         ),
         "source": item.get("url", ""),
-        "topic_id": item.get("topic_id", ""),
         "model": MODEL,
         "voice": VOICE,
         "word_count": word_count,
@@ -960,20 +984,19 @@ def save_report(item, video, subtitles, script, duration,
 
 
 # ============================================================
-# PROCESO PRINCIPAL
+# MAIN
 # ============================================================
 
 def main():
-    OUTPUT.mkdir(parents=True, exist_ok=True)
-    DATA.mkdir(parents=True, exist_ok=True)
 
     items = load_news()
+
     log("Candidates loaded:", len(items))
 
     item = choose_topic(items)
 
     if not item:
-        log("No new suitable topic available.")
+        log("No new suitable GTA VI topic.")
         return
 
     title = item.get(
@@ -981,7 +1004,7 @@ def main():
         item.get("title", "GTA VI News")
     )
 
-    source = str(item.get("url", ""))
+    source = item.get("url", "")
 
     stamp = datetime.now(
         timezone.utc
@@ -993,14 +1016,15 @@ def main():
 
     if not article and not item.get("_clean_summary"):
         raise RuntimeError(
-            "No article text or summary is available. "
-            "Skipping this topic to avoid inventing information."
+            "No article text or summary available. "
+            "Skipping topic to avoid inventing information."
         )
 
     script = generate_script(item, article)
 
     word_count = len(script.split())
-    log("Narration words:", word_count)
+
+    log("Script words:", word_count)
 
     work = OUTPUT / f"work_{stamp}"
     work.mkdir(parents=True, exist_ok=True)
@@ -1013,12 +1037,11 @@ def main():
 
     duration = get_audio_duration(audio)
 
-    log("Narration duration:", round(duration, 1), "seconds")
+    log("Voice duration:", round(duration, 1), "seconds")
 
     if not MIN_AUDIO <= duration <= MAX_AUDIO:
         raise RuntimeError(
-            "Narration duration is outside the configured range. "
-            "No final video was created."
+            "Voice duration outside configured range."
         )
 
     subtitles = OUTPUT / f"gta_vi_{stamp}.srt"
@@ -1042,7 +1065,7 @@ def main():
         work / "images"
     )
 
-    log("Support images found:", len(images))
+    log("Support images:", len(images))
 
     video = create_video(
         gameplay,
@@ -1065,7 +1088,6 @@ def main():
         stamp
     )
 
-    # Mark the topic as used only after the video and report succeed.
     save_history(item, report_path)
 
     log("VIDEO GENERATED:", video)
@@ -1074,7 +1096,7 @@ def main():
 
     if not real_gameplay:
         log(
-            "WARNING: This video uses a temporary background. "
+            "WARNING: Temporary background used. "
             "Add authorized gameplay to assets/gameplay."
         )
 
