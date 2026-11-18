@@ -1,9 +1,9 @@
+
 import os
 import re
 import json
-import time
-import math
 import html
+import time
 import asyncio
 import subprocess
 import urllib.request
@@ -13,18 +13,18 @@ from pathlib import Path
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 
-from PIL import Image, ImageDraw, ImageFont
 import edge_tts
 
 from config import DATA, OUTPUT
 
 
 # ============================================================
-# CONFIGURATION
+# CONFIGURACIÓN
 # ============================================================
 
 WIDTH = 1920
 HEIGHT = 1080
+FPS = 30
 
 MIN_AUDIO = 240
 MAX_AUDIO = 420
@@ -35,58 +35,117 @@ MAX_WORDS = 850
 MODEL = os.getenv(
     "OPENROUTER_MODEL",
     "nvidia/nemotron-3-ultra-550b-a55b:free"
-)
+).strip()
 
 OPENROUTER_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
-YOUTUBE_KEY = os.getenv("YOUTUBE_API_KEY", "").strip()
 
-USER_AGENT = "GTA-VI-404-Automation/1.0"
+VOICE = os.getenv(
+    "VIDEO_VOICE",
+    "en-US-ChristopherNeural"
+).strip()
 
-FONT_PATH = (
-    "/usr/share/fonts/truetype/dejavu/"
-    "DejaVuSans-Bold.ttf"
-)
+USER_AGENT = "GTAVI-404-Automation/2.0"
 
-# YouTube gameplay search phrases.
-GAMEPLAY_SEARCHES = [
-    "GTA 5 racing gameplay Creative Commons",
-    "GTA 5 driving gameplay Creative Commons",
-    "GTA 5 police chase gameplay Creative Commons",
-    "GTA 6 gameplay Creative Commons",
-    "Grand Theft Auto gameplay Creative Commons"
-]
+ASSETS = Path(__file__).resolve().parent.parent / "assets"
+GAMEPLAY_DIR = ASSETS / "gameplay"
+MUSIC_DIR = ASSETS / "music"
+IMAGE_DIR = ASSETS / "images"
+
+CANDIDATES_FILE = DATA / "candidates.json"
+PUBLISHED_FILE = DATA / "published.json"
+
+for folder in (OUTPUT, GAMEPLAY_DIR, MUSIC_DIR, IMAGE_DIR):
+    folder.mkdir(parents=True, exist_ok=True)
 
 
 def log(*args):
     print("[GTA VI]", *args, flush=True)
 
 
-def get_json(url, headers=None):
-
-    h = {"User-Agent": USER_AGENT}
-
-    if headers:
-        h.update(headers)
-
-    request = urllib.request.Request(url, headers=h)
-
-    with urllib.request.urlopen(request, timeout=40) as response:
-        return json.loads(response.read().decode("utf-8"))
+def run_command(command):
+    subprocess.run(command, check=True)
 
 
 # ============================================================
-# NEWS SELECTION
+# HISTORIAL PARA EVITAR TEMAS REPETIDOS
 # ============================================================
 
-def load_news():
-
-    path = DATA / "candidates.json"
-
-    if not path.exists():
+def load_history():
+    if not PUBLISHED_FILE.exists():
         return []
 
     try:
-        data = json.loads(path.read_text(encoding="utf-8"))
+        data = json.loads(
+            PUBLISHED_FILE.read_text(encoding="utf-8")
+        )
+
+        if isinstance(data, list):
+            return data
+
+        return data.get("items", [])
+
+    except Exception as error:
+        log("History loading error:", error)
+        return []
+
+
+def save_history(item, report):
+    history = load_history()
+
+    history.append({
+        "title": item.get("_clean_title", item.get("title", "")),
+        "url": item.get("url", ""),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "video": str(report),
+        "status": "generated_for_review"
+    })
+
+    PUBLISHED_FILE.write_text(
+        json.dumps(
+            {"items": history[-500:]},
+            ensure_ascii=False,
+            indent=2
+        ),
+        encoding="utf-8"
+    )
+
+
+def already_used(item, history):
+    url = str(item.get("url", "")).strip().lower()
+    title = str(
+        item.get("_clean_title", item.get("title", ""))
+    ).strip().lower()
+
+    for old in history:
+        old_url = str(old.get("url", "")).strip().lower()
+        old_title = str(old.get("title", "")).strip().lower()
+
+        if url and old_url and url == old_url:
+            return True
+
+        if title and old_title and title == old_title:
+            return True
+
+    return False
+
+
+# ============================================================
+# NOTICIAS
+# ============================================================
+
+def load_news():
+    if not CANDIDATES_FILE.exists():
+        log("Candidates file not found.")
+        return []
+
+    try:
+        data = json.loads(
+            CANDIDATES_FILE.read_text(encoding="utf-8")
+        )
+
+        if isinstance(data, list):
+            return data
+
         return data.get("items", [])
 
     except Exception as error:
@@ -95,70 +154,69 @@ def load_news():
 
 
 def choose_topic(items):
-
     if not items:
         return None
 
-    # Only accept clear GTA VI / GTA 6 topics with an English-language title.
+    history = load_history()
+
     gta_pattern = re.compile(
         r"\b(?:GTA\s*(?:VI|6)|Grand Theft Auto\s*(?:VI|6))\b",
-        re.IGNORECASE
-    )
-
-    non_english_markers = re.compile(
-        r"\b(primeiro|primeira|contas|banindo|cancelado|nova zel[aâ]ndia|"
-        r"not[ií]cias|jogos|lan[cç]amento|vazamento|vazou|"
-        r"últimas|último|última|espa[nñ]ol|fran[cç]ais|"
-        r"portugu[eê]s|alem[aã]o)\b",
         re.IGNORECASE
     )
 
     valid = []
 
     for item in items:
-        title = html.unescape(str(item.get("title", ""))).strip()
-        summary = html.unescape(str(item.get("summary", ""))).strip()
+        title = html.unescape(
+            str(item.get("title", ""))
+        ).strip()
 
-        if not gta_pattern.search(title):
-            log("Rejected topic without clear GTA VI title:", title[:140])
+        summary = html.unescape(
+            str(item.get("summary", ""))
+        ).strip()
+
+        if not title or not gta_pattern.search(title):
             continue
 
-        # Reject mixed-topic headlines and obvious non-English headlines.
-        if title.count("|") >= 1 or non_english_markers.search(title):
-            log("Rejected mixed or non-English topic:", title[:140])
-            continue
-
-        # Avoid empty or extremely short headlines.
         if len(title.split()) < 4:
-            log("Rejected short topic title:", title)
+            continue
+
+        if already_used(item, history):
+            log("Already used:", title[:100])
             continue
 
         item["_clean_title"] = title
         item["_clean_summary"] = summary
+
         valid.append(item)
 
     if not valid:
-        log("No suitable English GTA VI topic. No video will be generated.")
+        log("No new suitable GTA VI topics.")
         return None
 
     def ranking(item):
-        trend = (
+        trending = bool(
             item.get("is_trending")
             or item.get("priority") == "trend"
         )
+
         score = int(
             item.get("trend_score", item.get("score", 0)) or 0
         )
-        date = str(
+
+        published = str(
             item.get("published", item.get("published_at", ""))
         )
-        return int(bool(trend)), score, date
 
-    return sorted(valid, key=ranking, reverse=True)[0]
+        return int(trending), score, published
+
+    valid.sort(key=ranking, reverse=True)
+
+    return valid[0]
 
 
 # ============================================================
-# ARTICLE READING
+# LECTURA DEL ARTÍCULO
 # ============================================================
 
 class ArticleParser(HTMLParser):
@@ -173,8 +231,9 @@ class ArticleParser(HTMLParser):
             self.skip += 1
 
     def handle_endtag(self, tag):
-        if tag.lower() in ("script", "style", "noscript") and self.skip:
-            self.skip -= 1
+        if tag.lower() in ("script", "style", "noscript"):
+            if self.skip:
+                self.skip -= 1
 
     def handle_data(self, data):
         if not self.skip:
@@ -184,7 +243,6 @@ class ArticleParser(HTMLParser):
 
 
 def read_article(url):
-
     if not url.startswith(("http://", "https://")):
         return ""
 
@@ -194,9 +252,10 @@ def read_article(url):
             headers={"User-Agent": USER_AGENT}
         )
 
-        with urllib.request.urlopen(request, timeout=25) as response:
+        with urllib.request.urlopen(request, timeout=30) as response:
             raw = response.read(1000000).decode(
-                "utf-8", errors="replace"
+                "utf-8",
+                errors="replace"
             )
 
         parser = ArticleParser()
@@ -210,23 +269,18 @@ def read_article(url):
 
 
 # ============================================================
-# AUTOMATIC SCRIPT
+# GENERACIÓN DEL GUION
 # ============================================================
 
 def generate_script(item, article):
-
     if not OPENROUTER_KEY:
         raise RuntimeError("OPENROUTER_API_KEY is missing.")
 
-    title = item.get("_clean_title") or html.unescape(
-        str(item.get("title", "GTA VI News"))
-    )
-    summary = item.get("_clean_summary") or html.unescape(
-        str(item.get("summary", ""))
-    )
+    title = item.get("_clean_title", item.get("title", "GTA VI News"))
+    summary = item.get("_clean_summary", item.get("summary", ""))
     source = item.get("url", "")
 
-    base_prompt = f"""
+    prompt = f"""
 Write a professional YouTube narration in natural American English.
 
 TOPIC:
@@ -242,19 +296,18 @@ ARTICLE:
 {article[:7000]}
 
 REQUIREMENTS:
-- Write 650 to 800 spoken words. This limit is mandatory.
+- Write between 650 and 800 spoken words.
 - Aim for approximately five minutes of narration.
-- Strong but accurate opening.
-- Explain the news and why it matters to GTA players.
-- Clearly distinguish confirmed information from rumours.
+- Start with a strong but accurate hook.
+- Explain the story and why it matters to GTA players.
+- Distinguish confirmed facts from rumours and speculation.
 - Never invent facts, dates, quotes or announcements.
-- Explain what is still unknown.
-- Natural, engaging American English.
-- No headings, bullets, markdown, word count or notes.
+- Explain what remains unknown.
+- Use natural, engaging American English.
+- No headings, bullets, markdown or production notes.
+- Do not repeat the same point.
 - Return only the spoken narration.
 """
-
-    prompt = base_prompt
 
     for attempt in range(1, 5):
         payload = {
@@ -263,12 +316,14 @@ REQUIREMENTS:
                 {
                     "role": "system",
                     "content": (
-                        "You are a concise professional American gaming journalist. "
-                        "Follow the requested word limit exactly. Never add filler "
-                        "or invent facts."
+                        "You are a professional American gaming journalist. "
+                        "Be accurate, engaging and concise. Never invent facts."
                     )
                 },
-                {"role": "user", "content": prompt}
+                {
+                    "role": "user",
+                    "content": prompt
+                }
             ],
             "temperature": 0.25,
             "max_tokens": 2200
@@ -287,217 +342,183 @@ REQUIREMENTS:
 
         try:
             with urllib.request.urlopen(request, timeout=180) as response:
-                result = json.loads(response.read().decode("utf-8"))
+                result = json.loads(
+                    response.read().decode("utf-8")
+                )
 
             choice = result["choices"][0]
             script = choice["message"]["content"].strip()
-            script = re.sub(r"^```(?:text)?\s*|\s*```$", "", script).strip()
+
+            script = re.sub(
+                r"^```(?:text)?\s*|\s*```$",
+                "",
+                script
+            ).strip()
+
             words = len(script.split())
 
             log(f"Script attempt {attempt}: {words} words")
 
-            if MIN_WORDS <= words <= MAX_WORDS and choice.get("finish_reason") != "length":
+            if (
+                MIN_WORDS <= words <= MAX_WORDS
+                and choice.get("finish_reason") != "length"
+            ):
                 return script
 
             if words > MAX_WORDS:
-                prompt = f"""
-Rewrite the narration below into 700 to 780 words. This is a strict maximum-length
-task. Keep the key confirmed facts, explain why they matter to GTA players, and
-separate rumours from confirmed information. Remove repetition, filler and
-unrelated details. Do not add facts. Return only the narration, with no headings.
-
-NARRATION TO SHORTEN:
-{script}
-"""
+                instruction = (
+                    "Shorten this narration to 650-780 words. "
+                    "Preserve confirmed facts and remove repetition. "
+                    "Do not add facts. Return only the narration:\n\n"
+                )
             else:
-                prompt = f"""
-Expand the narration below to 650 to 750 words without adding unsupported facts.
-Add useful explanation and context only when supported by the source material.
-Keep natural American English. Return only the narration, with no headings.
+                instruction = (
+                    "Expand this narration to 650-780 words using "
+                    "only supported context. Do not invent facts. "
+                    "Return only the narration:\n\n"
+                )
 
-NARRATION TO EXPAND:
-{script}
-"""
+            prompt = instruction + script
 
         except Exception as error:
             log("OpenRouter error:", error)
-            prompt = base_prompt
-
-        time.sleep(3)
+            time.sleep(3)
 
     raise RuntimeError(
-        "The AI did not produce a narration between 600 and 850 words after "
-        "four attempts. No video was created."
+        "Could not generate a narration within the required word limit."
     )
 
 
 # ============================================================
-# YOUTUBE GAMEPLAY SEARCH
-# Only search videos declared Creative Commons by YouTube.
+# VOZ Y SINCRONIZACIÓN PALABRA POR PALABRA
 # ============================================================
 
-def search_youtube_gameplay():
-
-    if not YOUTUBE_KEY:
-        raise RuntimeError("YOUTUBE_API_KEY is missing.")
-
-    results = []
-    seen = set()
-
-    for phrase in GAMEPLAY_SEARCHES:
-
-        params = {
-            "part": "snippet",
-            "type": "video",
-            "q": phrase,
-            "videoLicense": "creativeCommon",
-            "maxResults": 10,
-            "order": "relevance",
-            "key": YOUTUBE_KEY
-        }
-
-        url = (
-            "https://www.googleapis.com/youtube/v3/search?"
-            + urllib.parse.urlencode(params)
-        )
-
-        try:
-            data = get_json(url)
-
-            for item in data.get("items", []):
-
-                video_id = item.get(
-                    "id", {}
-                ).get("videoId")
-
-                if not video_id or video_id in seen:
-                    continue
-
-                seen.add(video_id)
-
-                snippet = item.get("snippet", {})
-
-                results.append({
-                    "id": video_id,
-                    "title": snippet.get("title", ""),
-                    "channel": snippet.get("channelTitle", ""),
-                    "published": snippet.get("publishedAt", ""),
-                    "url": f"https://www.youtube.com/watch?v={video_id}",
-                    "license": "Creative Commons Attribution (YouTube API)"
-                })
-
-        except Exception as error:
-            log("YouTube search error:", error)
-
-    return results
-
-
-def verify_youtube_license(video_id):
-
-    params = {
-        "part": "status,snippet",
-        "id": video_id,
-        "key": YOUTUBE_KEY
-    }
-
-    url = (
-        "https://www.googleapis.com/youtube/v3/videos?"
-        + urllib.parse.urlencode(params)
+async def generate_voice(script, audio_path):
+    communicate = edge_tts.Communicate(
+        script,
+        VOICE,
+        rate="-4%"
     )
 
-    data = get_json(url)
+    audio_data = []
+    word_events = []
 
-    items = data.get("items", [])
+    async for chunk in communicate.stream():
+        if chunk["type"] == "audio":
+            audio_data.append(chunk["data"])
 
-    if not items:
-        return False
+        elif chunk["type"] == "WordBoundary":
+            word_events.append({
+                "offset": chunk["offset"],
+                "duration": chunk["duration"],
+                "text": chunk["text"]
+            })
 
-    item = items[0]
+    if not audio_data:
+        raise RuntimeError("Voice generation returned no audio.")
+
+    audio_path.write_bytes(b"".join(audio_data))
+
+    if audio_path.stat().st_size < 5000:
+        raise RuntimeError("Generated audio is too small.")
+
+    log("Voice generated:", VOICE)
+    log("Word timing events:", len(word_events))
+
+    return audio_path, word_events
+
+
+def get_audio_duration(path):
+    result = subprocess.run(
+        [
+            "ffprobe",
+            "-v", "error",
+            "-show_entries", "format=duration",
+            "-of", "default=noprint_wrappers=1:nokey=1",
+            str(path)
+        ],
+        capture_output=True,
+        text=True,
+        check=True
+    )
+
+    return float(result.stdout.strip())
+
+
+def srt_stamp(seconds):
+    milliseconds = max(0, int(seconds * 1000))
+
+    hours, milliseconds = divmod(milliseconds, 3600000)
+    minutes, milliseconds = divmod(milliseconds, 60000)
+    seconds, milliseconds = divmod(milliseconds, 1000)
 
     return (
-        item.get("status", {}).get("license")
-        == "creativeCommon"
+        f"{hours:02}:{minutes:02}:"
+        f"{seconds:02},{milliseconds:03}"
     )
 
 
-def download_gameplay(folder):
+def make_word_subtitles(script, duration, events, path):
+    blocks = []
 
-    folder.mkdir(parents=True, exist_ok=True)
+    # Edge TTS provides word boundary events with audio timing.
+    if events:
+        for index, event in enumerate(events, 1):
+            start = event["offset"] / 10_000_000
+            span = event["duration"] / 10_000_000
 
-    videos = search_youtube_gameplay()
+            end = start + max(span, 0.12)
 
-    if not videos:
-        raise RuntimeError(
-            "No Creative Commons gameplay videos were found."
-        )
-
-    for video in videos:
-
-        video_id = video["id"]
-
-        try:
-
-            if not verify_youtube_license(video_id):
+            if start >= duration:
                 continue
 
-            log("Checking gameplay:", video["title"])
+            end = min(end, duration)
 
-            output = folder / "gameplay.%(ext)s"
+            word = str(event["text"]).strip()
 
-            # yt-dlp is used only for videos returned as CC
-            # and verified through the YouTube Data API.
-            subprocess.run(
-                [
-                    "python",
-                    "-m",
-                    "yt_dlp",
-                    "--no-playlist",
-                    "--format",
-                    "best[height<=1080][ext=mp4]/best[height<=1080]",
-                    "--merge-output-format",
-                    "mp4",
-                    "--output",
-                    str(output),
-                    video["url"]
-                ],
-                check=True,
-                timeout=300
+            if not word:
+                continue
+
+            blocks.append(
+                f"{len(blocks) + 1}\n"
+                f"{srt_stamp(start)} --> {srt_stamp(end)}\n"
+                f"{word}\n"
             )
 
-            matches = list(folder.glob("gameplay.*"))
+    # Fallback if the voice service provides no word events.
+    if not blocks:
+        words = script.split()
+        interval = duration / max(len(words), 1)
 
-            for path in matches:
+        for index, word in enumerate(words):
+            start = index * interval
+            end = min(duration, (index + 1) * interval)
 
-                if path.suffix.lower() in (
-                    ".mp4", ".mkv", ".webm", ".mov"
-                ) and path.stat().st_size > 100000:
+            blocks.append(
+                f"{index + 1}\n"
+                f"{srt_stamp(start)} --> {srt_stamp(end)}\n"
+                f"{word}\n"
+            )
 
-                    video["downloaded_file"] = str(path)
-
-                    return path, video
-
-        except Exception as error:
-            log("Gameplay download failed:", error)
-
-    raise RuntimeError(
-        "No downloadable Creative Commons gameplay was available. "
-        "Video cancelled."
+    path.write_text(
+        "\n".join(blocks),
+        encoding="utf-8"
     )
+
+    log("Word-by-word subtitles saved:", path)
 
 
 # ============================================================
-# NEWS IMAGES
-# Wikimedia Commons CC0 / CC BY / Public Domain
+# IMÁGENES DE APOYO CON LICENCIAS COMPATIBLES
 # ============================================================
 
 def allowed_license(value):
-
     text = html.unescape(str(value or "")).lower()
 
-    if re.search(r"\b(nc|nd)\b", text):
+    if "noncommercial" in text or "no derivatives" in text:
         return False
 
-    if "noncommercial" in text or "no derivatives" in text:
+    if re.search(r"\b(nc|nd)\b", text):
         return False
 
     return any(term in text for term in (
@@ -510,14 +531,13 @@ def allowed_license(value):
 
 
 def search_images(query):
-
     params = {
         "action": "query",
         "format": "json",
         "generator": "search",
         "gsrsearch": f"filetype:bitmap {query}",
         "gsrnamespace": 6,
-        "gsrlimit": 20,
+        "gsrlimit": 15,
         "prop": "imageinfo",
         "iiprop": "url|extmetadata",
         "iiurlwidth": 1920
@@ -528,26 +548,27 @@ def search_images(query):
         + urllib.parse.urlencode(params)
     )
 
-    data = get_json(url)
+    request = urllib.request.Request(
+        url,
+        headers={"User-Agent": USER_AGENT}
+    )
+
+    with urllib.request.urlopen(request, timeout=30) as response:
+        data = json.loads(response.read().decode("utf-8"))
 
     assets = []
 
-    pages = data.get(
-        "query", {}
-    ).get(
-        "pages", {}
-    )
+    pages = data.get("query", {}).get("pages", {})
 
     for page in pages.values():
-
         info = (page.get("imageinfo") or [{}])[0]
-        meta = info.get("extmetadata", {})
+        metadata = info.get("extmetadata", {})
 
-        license_name = meta.get(
+        license_name = metadata.get(
             "LicenseShortName", {}
         ).get("value", "")
 
-        usage = meta.get(
+        usage = metadata.get(
             "UsageTerms", {}
         ).get("value", "")
 
@@ -567,34 +588,27 @@ def search_images(query):
             "title": page.get("title", ""),
             "source": info.get("descriptionurl", ""),
             "license": license_name or usage,
-            "author": meta.get("Artist", {}).get(
-                "value", "Unknown"
-            )
+            "author": metadata.get(
+                "Artist", {}
+            ).get("value", "Unknown")
         })
 
     return assets
 
 
 def download_news_images(title, folder):
-
     folder.mkdir(parents=True, exist_ok=True)
-
-    queries = [
-        title,
-        "Grand Theft Auto VI",
-        "Grand Theft Auto V",
-        "Vice City Miami",
-        "Miami skyline"
-    ]
 
     found = []
     seen = set()
 
-    for query in queries:
-
+    for query in (
+        title,
+        "Miami skyline public domain",
+        "Vice City Miami public domain"
+    ):
         try:
             for asset in search_images(query):
-
                 if asset["url"] in seen:
                     continue
 
@@ -606,19 +620,20 @@ def download_news_images(title, folder):
 
     downloaded = []
 
-    for index, asset in enumerate(found[:20]):
-
+    for index, asset in enumerate(found[:8]):
         try:
             request = urllib.request.Request(
                 asset["url"],
                 headers={"User-Agent": USER_AGENT}
             )
 
-            with urllib.request.urlopen(request, timeout=40) as response:
+            with urllib.request.urlopen(request, timeout=30) as response:
                 content = response.read()
 
-            path = folder / f"news_{index:02d}.jpg"
+            path = folder / f"support_{index:02d}.jpg"
             path.write_bytes(content)
+
+            from PIL import Image
 
             with Image.open(path) as image:
                 image.verify()
@@ -633,269 +648,206 @@ def download_news_images(title, folder):
 
 
 # ============================================================
-# NATURAL VOICE
+# GAMEPLAY LOCAL O FONDO PROVISIONAL
 # ============================================================
 
-async def generate_voice(script, output):
+def find_local_gameplay():
+    extensions = (".mp4", ".mkv", ".mov", ".webm")
 
-    voices = [
-        "en-US-ChristopherNeural",
-        "en-US-GuyNeural",
-        "en-US-AriaNeural"
-    ]
+    for path in GAMEPLAY_DIR.iterdir():
+        if path.is_file() and path.suffix.lower() in extensions:
+            if path.stat().st_size > 100000:
+                log("Using local gameplay:", path.name)
+                return path
 
-    for voice in voices:
-
-        try:
-
-            if output.exists():
-                output.unlink()
-
-            await edge_tts.Communicate(
-                script,
-                voice,
-                rate="-4%"
-            ).save(str(output))
-
-            if output.exists() and output.stat().st_size > 5000:
-                log("Voice generated:", voice)
-                return output
-
-        except Exception as error:
-            log("Voice failed:", voice, error)
-            await asyncio.sleep(2)
-
-    raise RuntimeError("Natural voice generation failed.")
+    return None
 
 
-def get_audio_duration(path):
+def create_background(duration, output):
+    gameplay = find_local_gameplay()
 
-    result = subprocess.run(
-        [
-            "ffprobe",
-            "-v", "error",
-            "-show_entries", "format=duration",
-            "-of", "default=noprint_wrappers=1:nokey=1",
-            str(path)
-        ],
-        capture_output=True,
-        text=True,
-        check=True
-    )
+    if gameplay:
+        return gameplay, True
 
-    return float(result.stdout.strip())
+    log("No local gameplay found. Creating temporary background.")
+
+    run_command([
+        "ffmpeg",
+        "-y",
+        "-f", "lavfi",
+        "-i",
+        f"color=c=#101522:s={WIDTH}x{HEIGHT}:r={FPS}:d={duration}",
+        "-vf",
+        (
+            "drawbox=x=0:y=0:w=iw:h=ih:color=#17243a@0.35:"
+            "t=fill,format=yuv420p"
+        ),
+        "-c:v", "libx264",
+        "-preset", "veryfast",
+        "-t", str(duration),
+        str(output)
+    ])
+
+    return output, False
 
 
 # ============================================================
-# NEWS IMAGE OVERLAYS
+# MÚSICA LOCAL OPCIONAL
 # ============================================================
 
-def make_news_card(image_path, output):
+def find_music():
+    extensions = (".mp3", ".wav", ".m4a", ".aac", ".ogg")
 
-    with Image.open(image_path) as source:
-        image = source.convert("RGB")
+    for path in MUSIC_DIR.iterdir():
+        if path.is_file() and path.suffix.lower() in extensions:
+            return path
 
-    image.thumbnail((760, 430), Image.Resampling.LANCZOS)
-
-    canvas = Image.new(
-        "RGB",
-        (800, 470),
-        (12, 12, 18)
-    )
-
-    x = (800 - image.width) // 2
-    y = (470 - image.height) // 2
-
-    canvas.paste(image, (x, y))
-
-    draw = ImageDraw.Draw(canvas)
-
-    draw.rectangle(
-        (0, 0, 799, 469),
-        outline=(255, 255, 255),
-        width=5
-    )
-
-    canvas.save(output, quality=92)
-
-
-def make_subtitle_file(script, duration, path):
-
-    words = script.split()
-
-    chunks = [
-        words[i:i + 10]
-        for i in range(0, len(words), 10)
-    ]
-
-    total = len(words)
-    current = 0.0
-    blocks = []
-
-    def stamp(seconds):
-
-        ms = int(seconds * 1000)
-
-        h, ms = divmod(ms, 3600000)
-        m, ms = divmod(ms, 60000)
-        s, ms = divmod(ms, 1000)
-
-        return f"{h:02}:{m:02}:{s:02},{ms:03}"
-
-    for index, chunk in enumerate(chunks, 1):
-
-        span = duration * len(chunk) / total
-        end = min(duration, current + span)
-
-        blocks.append(
-            f"{index}\n"
-            f"{stamp(current)} --> {stamp(end)}\n"
-            f"{' '.join(chunk)}\n"
-        )
-
-        current = end
-
-    path.write_text("\n".join(blocks), encoding="utf-8")
+    return None
 
 
 # ============================================================
-# FINAL VIDEO: GAMEPLAY BACKGROUND + NEWS IMAGE OVERLAYS
+# MONTAJE FINAL
 # ============================================================
 
 def create_video(
     title,
-    script,
     gameplay,
     audio,
     duration,
-    stamp,
-    news_images
+    subtitles,
+    images,
+    stamp
 ):
-
-    if not news_images:
-        raise RuntimeError(
-            "No news images found. Video cancelled."
-        )
-
-    work = OUTPUT / f"work_{stamp}"
-    work.mkdir(parents=True, exist_ok=True)
-
-    cards = []
-
-    for index, asset in enumerate(news_images):
-
-        card = work / f"card_{index:03d}.jpg"
-
-        make_news_card(
-            asset["path"],
-            card
-        )
-
-        cards.append(card)
-
-    # Create a timed slideshow of news photographs.
-    card_duration = max(8, duration / len(cards))
-
-    concat = work / "cards.txt"
-
-    with concat.open("w", encoding="utf-8") as file:
-
-        for card in cards:
-
-            file.write(f"file '{card.resolve()}'\n")
-            file.write(f"duration {card_duration:.3f}\n")
-
-        file.write(f"file '{cards[-1].resolve()}'\n")
-
-    slideshow = work / "news_slideshow.mp4"
-
-    subprocess.run(
-        [
-            "ffmpeg", "-y",
-            "-f", "concat",
-            "-safe", "0",
-            "-i", str(concat),
-            "-vf",
-            "fps=25,scale=800:470,format=yuv420p",
-            "-c:v", "libx264",
-            "-preset", "veryfast",
-            "-pix_fmt", "yuv420p",
-            "-t", str(duration),
-            str(slideshow)
-        ],
-        check=True
-    )
-
-    subtitles = OUTPUT / f"gta_vi_{stamp}.srt"
-
-    make_subtitle_file(
-        script,
-        duration,
-        subtitles
-    )
-
     video = OUTPUT / f"gta_vi_{stamp}.mp4"
+
+    music = find_music()
+
+    command = ["ffmpeg", "-y"]
+
+    command.extend([
+        "-stream_loop", "-1",
+        "-i", str(gameplay),
+        "-i", str(audio)
+    ])
+
+    if music:
+        command.extend([
+            "-stream_loop", "-1",
+            "-i", str(music)
+        ])
+
+    for image in images:
+        command.extend([
+            "-loop", "1",
+            "-framerate", str(FPS),
+            "-t", str(duration),
+            "-i", image["path"]
+        ])
 
     subtitle_filter = (
         str(subtitles.resolve())
         .replace("\\", "/")
         .replace(":", "\\:")
+        .replace("'", "\\'")
     )
 
-    # Gameplay fills the screen.
-    # News photographs appear as a large inset panel.
-    filter_complex = (
-        "[0:v]scale=1920:1080:force_original_aspect_ratio=increase,"
-        "crop=1920:1080[bg];"
-        "[1:v]scale=800:470[news];"
-        "[bg][news]overlay=1050:100:shortest=0,"
-        "format=yuv420p,"
-        f"subtitles='{subtitle_filter}'[outv]"
+    filters = [
+        (
+            f"[0:v]scale={WIDTH}:{HEIGHT}:"
+            "force_original_aspect_ratio=increase,"
+            f"crop={WIDTH}:{HEIGHT},setsar=1[base]"
+        )
+    ]
+
+    previous = "base"
+
+    # Brief full-screen image cutaways, returning to gameplay.
+    image_count = len(images)
+
+    if image_count:
+        interval = duration / (image_count + 1)
+
+        for index, image in enumerate(images):
+            input_index = 3 + index if music else 2 + index
+
+            start = interval * (index + 1) - 3
+            start = max(5, start)
+
+            end = min(duration - 5, start + 6)
+
+            output_label = f"scene{index}"
+
+            filters.append(
+                f"[{input_index}:v]"
+                f"scale={WIDTH}:{HEIGHT}:"
+                "force_original_aspect_ratio=increase,"
+                f"crop={WIDTH}:{HEIGHT},setsar=1[img{index}]"
+            )
+
+            filters.append(
+                f"[{previous}][img{index}]"
+                f"overlay=0:0:"
+                f"enable='between(t,{start:.2f},{end:.2f})'"
+                f"[{output_label}]"
+            )
+
+            previous = output_label
+
+    filters.append(
+        f"[{previous}]"
+        f"subtitles='{subtitle_filter}',"
+        "format=yuv420p[outv]"
     )
 
-    subprocess.run(
-        [
-            "ffmpeg", "-y",
-            "-stream_loop", "-1",
-            "-i", str(gameplay),
-            "-i", str(slideshow),
-            "-i", str(audio),
-            "-filter_complex", filter_complex,
-            "-map", "[outv]",
-            "-map", "2:a",
-            "-c:v", "libx264",
-            "-preset", "medium",
-            "-crf", "21",
-            "-c:a", "aac",
-            "-b:a", "192k",
-            "-t", str(duration),
-            "-shortest",
-            "-movflags", "+faststart",
-            str(video)
-        ],
-        check=True
-    )
+    command.extend([
+        "-filter_complex",
+        ";".join(filters),
+        "-map", "[outv]",
+        "-map", "1:a"
+    ])
 
-    return video, subtitles
+    if music:
+        music_index = 2
+        command.extend([
+            "-filter:a",
+            f"volume=0.10",
+            "-map", f"{music_index}:a"
+        ])
+
+    command.extend([
+        "-c:v", "libx264",
+        "-preset", "veryfast",
+        "-crf", "21",
+        "-c:a", "aac",
+        "-b:a", "192k",
+        "-t", str(duration),
+        "-shortest",
+        "-movflags", "+faststart",
+        str(video)
+    ])
+
+    run_command(command)
+
+    return video
 
 
 # ============================================================
-# MAIN
+# PROCESO PRINCIPAL
 # ============================================================
 
 def main():
-
     OUTPUT.mkdir(parents=True, exist_ok=True)
 
     items = load_news()
     item = choose_topic(items)
 
     if not item:
-        log("No pending GTA topic.")
+        log("No new topic available. Nothing generated.")
         return
 
-    title = item.get("_clean_title") or html.unescape(
-        str(item.get("title", "GTA VI News"))
+    title = item.get(
+        "_clean_title",
+        item.get("title", "GTA VI News")
     )
 
     source = str(item.get("url", ""))
@@ -908,71 +860,86 @@ def main():
 
     article = read_article(source)
 
-    script = generate_script(
-        item,
-        article
-    )
+    script = generate_script(item, article)
 
-    words = len(script.split())
+    word_count = len(script.split())
 
-    log("Narration generated:", words, "words")
+    log("Narration words:", word_count)
 
-    work = OUTPUT / f"assets_{stamp}"
+    work = OUTPUT / f"work_{stamp}"
     work.mkdir(parents=True, exist_ok=True)
-
-    # Search and download reusable gameplay.
-    gameplay, gameplay_info = download_gameplay(
-        work / "gameplay"
-    )
-
-    # Search and download images related to the news.
-    news_images = download_news_images(
-        title,
-        work / "news"
-    )
 
     audio = OUTPUT / f"voice_{stamp}.mp3"
 
-    audio = asyncio.run(
+    audio, word_events = asyncio.run(
         generate_voice(script, audio)
     )
 
     duration = get_audio_duration(audio)
 
-    log("Narration duration:", round(duration, 1))
+    log("Narration duration:", round(duration, 1), "seconds")
 
     if not MIN_AUDIO <= duration <= MAX_AUDIO:
         raise RuntimeError(
-            "Narration is outside the required duration."
+            "Narration duration is outside the configured range."
         )
 
-    video, subtitles = create_video(
-        title,
+    subtitles = OUTPUT / f"gta_vi_{stamp}.srt"
+
+    make_word_subtitles(
         script,
+        duration,
+        word_events,
+        subtitles
+    )
+
+    background_file = work / "temporary_background.mp4"
+
+    gameplay, real_gameplay = create_background(
+        duration,
+        background_file
+    )
+
+    images = download_news_images(
+        title,
+        work / "images"
+    )
+
+    log("Support images found:", len(images))
+
+    video = create_video(
+        title,
         gameplay,
         audio,
         duration,
-        stamp,
-        news_images
+        subtitles,
+        images,
+        stamp
     )
 
     report = {
         "title": title,
         "source": source,
         "model": MODEL,
-        "word_count": words,
-        "duration": duration,
+        "voice": VOICE,
+        "word_count": word_count,
+        "duration_seconds": duration,
+        "resolution": f"{WIDTH}x{HEIGHT}",
         "video": str(video),
         "subtitles": str(subtitles),
-        "gameplay": gameplay_info,
-        "news_images": [
+        "gameplay_type": (
+            "local_authorized_gameplay"
+            if real_gameplay
+            else "temporary_generated_background"
+        ),
+        "images": [
             {
-                "title": x.get("title"),
-                "source": x.get("source"),
-                "license": x.get("license"),
-                "author": x.get("author")
+                "title": image.get("title"),
+                "source": image.get("source"),
+                "license": image.get("license"),
+                "author": image.get("author")
             }
-            for x in news_images
+            for image in images
         ],
         "script": script
     }
@@ -988,7 +955,10 @@ def main():
         encoding="utf-8"
     )
 
-    log("VIDEO SUCCESSFULLY GENERATED:", video)
+    save_history(item, report_path)
+
+    log("VIDEO GENERATED:", video)
+    log("SUBTITLES:", subtitles)
     log("REPORT:", report_path)
 
 
