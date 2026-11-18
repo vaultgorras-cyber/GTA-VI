@@ -1,6 +1,7 @@
 
 import json
 import os
+import re
 from datetime import datetime, timezone
 
 from google.oauth2.credentials import Credentials
@@ -11,57 +12,194 @@ from googleapiclient.http import MediaFileUpload
 from config import OUTPUT, DATA
 
 
-def main():
-    cid = os.getenv("YT_CLIENT_ID", "")
-    secret = os.getenv("YT_CLIENT_SECRET", "")
-    refresh = os.getenv("YT_REFRESH_TOKEN", "")
+# ============================================================
+# CONFIGURACIÓN
+# ============================================================
 
-    if not all([cid, secret, refresh]):
-        raise RuntimeError("Faltan secretos OAuth de YouTube.")
+UPLOAD_LOG = DATA / "uploaded.json"
 
-    log = DATA / "uploaded.json"
+PRIVACY_STATUS = "private"
+
+YOUTUBE_SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload"
+]
+
+
+def log(*args):
+    print("[YOUTUBE UPLOAD]", *args, flush=True)
+
+
+# ============================================================
+# HISTORIAL DE SUBIDAS
+# ============================================================
+
+def load_upload_history():
+    if not UPLOAD_LOG.exists():
+        return []
 
     try:
-        entries = json.loads(log.read_text(encoding="utf-8"))
-    except Exception:
-        entries = []
+        data = json.loads(
+            UPLOAD_LOG.read_text(encoding="utf-8")
+        )
 
-    uploaded_files = {entry.get("file") for entry in entries}
+        if isinstance(data, list):
+            return data
+
+        return []
+
+    except Exception as error:
+        log("Could not read upload history:", error)
+        return []
+
+
+def save_upload_history(entries):
+    temporary = UPLOAD_LOG.with_suffix(".tmp")
+
+    temporary.write_text(
+        json.dumps(
+            entries[-500:],
+            ensure_ascii=False,
+            indent=2
+        ),
+        encoding="utf-8"
+    )
+
+    temporary.replace(UPLOAD_LOG)
+
+
+# ============================================================
+# METADATOS DEL VÍDEO
+# ============================================================
+
+def load_video_report(video):
+    stamp = video.stem.replace("gta_vi_", "")
+    report_path = OUTPUT / f"gta_vi_{stamp}_report.json"
+
+    if not report_path.exists():
+        return {}
+
+    try:
+        return json.loads(
+            report_path.read_text(encoding="utf-8")
+        )
+
+    except Exception as error:
+        log("Report could not be read:", error)
+        return {}
+
+
+def clean_title(value):
+    title = re.sub(r"\s+", " ", str(value)).strip()
+
+    if not title:
+        title = "GTA VI News and Community Update"
+
+    return title[:100]
+
+
+def make_description(report):
+    source = str(report.get("source", "")).strip()
+
+    description = (
+        "GTA VI news, discoveries and community analysis.\n\n"
+        "This video discusses information about Grand Theft Auto VI, "
+        "separating confirmed information from rumours and speculation.\n\n"
+        "Subscribe for more GTA VI updates.\n"
+    )
+
+    if source.startswith(("https://", "http://")):
+        description += f"\nSource:\n{source}\n"
+
+    image_sources = report.get("images", [])
+
+    if image_sources:
+        description += "\nImage credits and licenses:\n"
+
+        for image in image_sources:
+            image_source = image.get("source", "")
+            author = image.get("author", "Unknown")
+            license_name = image.get("license", "Unspecified")
+
+            if image_source:
+                description += (
+                    f"- {author} | {license_name} | "
+                    f"{image_source}\n"
+                )
+
+    description += "\n#GTA6 #GTAVI #RockstarGames"
+
+    return description[:5000]
+
+
+# ============================================================
+# CONEXIÓN SEGURA CON YOUTUBE
+# ============================================================
+
+def connect_youtube():
+    client_id = os.getenv("YT_CLIENT_ID", "").strip()
+    client_secret = os.getenv("YT_CLIENT_SECRET", "").strip()
+    refresh_token = os.getenv("YT_REFRESH_TOKEN", "").strip()
+
+    if not all((client_id, client_secret, refresh_token)):
+        raise RuntimeError(
+            "Faltan secretos OAuth de YouTube en GitHub."
+        )
+
+    credentials = Credentials(
+        None,
+        refresh_token=refresh_token,
+        token_uri="https://oauth2.googleapis.com/token",
+        client_id=client_id,
+        client_secret=client_secret,
+        scopes=YOUTUBE_SCOPES
+    )
+
+    credentials.refresh(Request())
+
+    return build(
+        "youtube",
+        "v3",
+        credentials=credentials
+    )
+
+
+# ============================================================
+# SELECCIÓN DEL VÍDEO
+# ============================================================
+
+def find_pending_video(entries):
+    uploaded_files = {
+        entry.get("file")
+        for entry in entries
+        if entry.get("id")
+    }
 
     videos = sorted(
-        OUTPUT.glob("*.mp4"),
-        key=lambda p: p.stat().st_mtime,
+        OUTPUT.glob("gta_vi_*.mp4"),
+        key=lambda path: path.stat().st_mtime,
         reverse=True
     )
 
-    pending = [p for p in videos if p.name not in uploaded_files]
+    for video in videos:
+        if video.name not in uploaded_files:
+            if video.stat().st_size > 100000:
+                return video
 
-    if not pending:
-        print("No hay vídeos nuevos para subir.")
-        return
+    return None
 
-    p = pending[0]
 
-    creds = Credentials(
-        None,
-        refresh_token=refresh,
-        token_uri="https://oauth2.googleapis.com/token",
-        client_id=cid,
-        client_secret=secret,
-        scopes=["https://www.googleapis.com/auth/youtube.upload"]
+# ============================================================
+# SUBIDA PRIVADA
+# ============================================================
+
+def upload_video(youtube, video):
+    report = load_video_report(video)
+
+    title = clean_title(
+        report.get("title", video.stem.replace("_", " "))
     )
 
-    creds.refresh(Request())
-    yt = build("youtube", "v3", credentials=creds)
-
-    title = "GTA VI Explained: Latest Community Update"
-
-    description = (
-        "An original GTA VI news and community analysis video. "
-        "We separate confirmed information from rumours and speculation. "
-        "\n\nSubscribe for more Grand Theft Auto VI updates."
-        "\n\n#GTA6 #GTAVI #RockstarGames"
-    )
+    description = make_description(report)
 
     body = {
         "snippet": {
@@ -72,24 +210,31 @@ def main():
                 "GTA VI",
                 "Grand Theft Auto VI",
                 "Rockstar Games",
-                "Vice City"
+                "Vice City",
+                "GTA VI News"
             ],
             "categoryId": "20"
         },
         "status": {
-            "privacyStatus": "private",
+            "privacyStatus": PRIVACY_STATUS,
             "selfDeclaredMadeForKids": False
         }
     }
 
+    # Protección adicional: nunca subir como público.
+    if body["status"]["privacyStatus"] != "private":
+        raise RuntimeError(
+            "Protección activada: se ha bloqueado una subida no privada."
+        )
+
     media = MediaFileUpload(
-        str(p),
+        str(video),
         mimetype="video/mp4",
         chunksize=8 * 1024 * 1024,
         resumable=True
     )
 
-    request = yt.videos().insert(
+    request = youtube.videos().insert(
         part="snippet,status",
         body=body,
         media_body=media
@@ -99,21 +244,65 @@ def main():
 
     while response is None:
         status, response = request.next_chunk()
+
         if status:
-            print(f"Subida: {int(status.progress() * 100)}%")
+            percentage = int(status.progress() * 100)
+            log(f"Upload progress: {percentage}%")
 
-    entries.append({
-        "id": response["id"],
-        "file": p.name,
+    return response
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+def main():
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    DATA.mkdir(parents=True, exist_ok=True)
+
+    entries = load_upload_history()
+
+    video = find_pending_video(entries)
+
+    if video is None:
+        log("No new final videos to upload.")
+        return
+
+    log("Selected video:", video.name)
+
+    youtube = connect_youtube()
+
+    response = upload_video(youtube, video)
+
+    video_id = response.get("id")
+
+    if not video_id:
+        raise RuntimeError(
+            "YouTube did not return a video ID."
+        )
+
+    entry = {
+        "id": video_id,
+        "file": video.name,
+        "title": load_video_report(video).get(
+            "title",
+            video.stem
+        ),
+        "privacy_status": "private",
         "at": datetime.now(timezone.utc).isoformat()
-    })
+    }
 
-    log.write_text(
-        json.dumps(entries[-500:], indent=2),
-        encoding="utf-8"
+    entries.append(entry)
+
+    save_upload_history(entries)
+
+    log("Upload successful.")
+    log("Video ID:", video_id)
+    log("Privacy: PRIVATE")
+    log(
+        "Review URL:",
+        f"https://www.youtube.com/watch?v={video_id}"
     )
-
-    print("Vídeo subido como PRIVADO:", response["id"])
 
 
 if __name__ == "__main__":
