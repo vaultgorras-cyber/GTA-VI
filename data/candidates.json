@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-19T21:54:13.634274+00:00",
+  "checked_at": "2026-11-19T22:35:59.095288+00:00",
   "items": [
     {
       "title": "Trucos para Jugar GTA 6🤣🔥#comedia",
@@ -9,7 +9,7 @@
       "source": "YERRIKILLERXD",
       "source_type": "youtube",
       "youtube_video_id": "ccN8ko4k6CA",
-      "views": 139571,
+      "views": 171500,
       "trend_score": 65,
       "is_trending": true,
       "priority": "trend",
@@ -86,18 +86,32 @@
       "topic_id": "39f9ff92389ef3ec5823ed68d354b6c87ab98185"
     },
     {
-      "title": "Playing GTA 6 for the First Time | GTA 6 Marathon Launch Stream",
-      "summary": "For Text To Speach Donations: https://dropflares.com/DuckyReloaded Discord: https://discord.com/invite/duckyreloaded.",
-      "url": "https://www.youtube.com/watch?v=XuYm5c0Xfs4",
-      "published": "2026-11-18T22:08:56Z",
-      "source": "Ducky Reloaded",
+      "title": "GTA 6 Oynuyoruz! DLSS 5 | 60 FPS | CANLI 🔴",
+      "summary": "Hazır mısınız? GTA 6 macerasına tam gaz devam ediyoruz! Bugün saat 22:30'da Techolay YouTube kanalında GTA 6'yı canlı ...",
+      "url": "https://www.youtube.com/watch?v=djoOTqakBTQ",
+      "published": "2026-11-19T19:21:23Z",
+      "source": "Techolay",
       "source_type": "youtube",
-      "youtube_video_id": "XuYm5c0Xfs4",
-      "views": 2604242,
+      "youtube_video_id": "djoOTqakBTQ",
+      "views": 35458,
       "trend_score": 60,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "7d9e09a34501ae7777e0f45e6b3330c67762118b"
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "d2289dc9583561bbf804ea60d294226eab57402d"
+    },
+    {
+      "title": "GTA 6 LIVE PS5 PRO (DIA 2)",
+      "summary": "Live ON.",
+      "url": "https://www.youtube.com/watch?v=CUPbTmDr8BU",
+      "published": "2026-11-19T19:10:00Z",
+      "source": "Lives do Olka",
+      "source_type": "youtube",
+      "youtube_video_id": "CUPbTmDr8BU",
+      "views": 43654,
+      "trend_score": 60,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "ff72c643d89a6a4372be43501f83fa3bc2a22b75"
     },
     {
       "title": "GTA 6 Is Already A Disaster",
@@ -135,25 +149,11 @@
       "source": "GOLDZOR",
       "source_type": "youtube",
       "youtube_video_id": "vYi2mWz2gH8",
-      "views": 72235,
+      "views": 73936,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "ff18cdcc8f3a3e393b7eb391182a6d10d43cb50c"
-    },
-    {
-      "title": "GTA 6 jest PRZEPIĘKNE... i niektórym to WYSTARCZY | Pierwsze wrażenia",
-      "summary": "Pierwsze wrażenia z GTA 6 spisane na gorąco po kilku godzinach grania na bazowym PS5, czyli na takim sprzęcie, jaki ma ...",
-      "url": "https://www.youtube.com/watch?v=L-KpZw7MkUc",
-      "published": "2026-11-19T16:17:13Z",
-      "source": "Arkadikuss",
-      "source_type": "youtube",
-      "youtube_video_id": "L-KpZw7MkUc",
-      "views": 73163,
-      "trend_score": 60,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "eed338867a9c7e17bea34cedfe9cb36892bc2358"
     },
     {
       "title": "ESTO PASA SI VAMOS A LA N EN GTA 6",
@@ -168,6 +168,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "338a2415dd4bb23811bd96e5cc59015ec8137ea5"
+    },
+    {
+      "title": "You Can Buy Groceries In GTA 6 #GTA6 #GTA",
+      "summary": "Official GTA 6 news, GTA 6 updates, GTA 6 gameplay, GTA 6 trailers, Grand Theft Auto VI details covered here! ▷ Watch the GTA ...",
+      "url": "https://www.youtube.com/watch?v=z7Q7UH9aVdU",
+      "published": "2026-11-19T20:30:24Z",
+      "source": "JoblessGarrett",
+      "source_type": "youtube",
+      "youtube_video_id": "z7Q7UH9aVdU",
+      "views": 1884,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "5d2fd88af5fb3ab88fd8e11df73a59ae58ba7c45"
     },
     {
       "title": "GTA 6 Car Crashes Are INSANE #gaming #gta",
@@ -238,20 +252,6 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "ec278a39500a85e11967043383c34b6dc7229a4c"
-    },
-    {
-      "title": "How to run GTA 6 at 60 FPS instead of 30! 😱🔥 #gta6 #gta",
-      "summary": "",
-      "url": "https://www.youtube.com/watch?v=ZJ4tgTA29MA",
-      "published": "2026-11-19T16:30:15Z",
-      "source": "WNK GTA VI",
-      "source_type": "youtube",
-      "youtube_video_id": "ZJ4tgTA29MA",
-      "views": 3370,
-      "trend_score": 55,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "8252657bb1743d2055dbd88ae9aa113e35c5502c"
     },
     {
       "title": "GAMEPLAY GTA 6, 24 HORAS DIRETO (PARTE 3) - #FGN #flowgames",
@@ -492,32 +492,32 @@
       "topic_id": "f0c8abce5a86139f38d1fd840ed908c4270ca2fd"
     },
     {
-      "title": "Jucam Noul GTA 6 pe Live! [Ep.1]",
-      "summary": "Donatii Card/Paysafe/ApplePay/GooglePay - metoda recomandata (minim 2€): https://www.tipeeestream.com/iraph/donation Prin ...",
-      "url": "https://www.youtube.com/watch?v=GQtWfGJkD04",
-      "published": "2026-11-18T22:11:38Z",
-      "source": "iRaffael",
+      "title": "GTA 6 Has a SECRET Monster #gta #gta6 #gtavi #gaming",
+      "summary": "I found a weird monster in GTA 6. I was driving through the swamp lake when it came out of nowhere and knocked me out before I ...",
+      "url": "https://www.youtube.com/watch?v=R6USqKOSrzM",
+      "published": "2026-11-19T21:38:05Z",
+      "source": "ViceCityRamen",
       "source_type": "youtube",
-      "youtube_video_id": "GQtWfGJkD04",
-      "views": 994513,
-      "trend_score": 55,
+      "youtube_video_id": "R6USqKOSrzM",
+      "views": 833,
+      "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "94bc8ac13352914fd0c6300f565876e35ad82349"
+      "topic_id": "ded73fcf1e835d0076506c58f1a4655649c4b56d"
     },
     {
-      "title": "🔴 GTA 6 JUŻ JEST! PIERWSZY GAMEPLAY NA ŻYWO! | PREMIERA",
-      "summary": "Jeżeli chcesz zostaw donate'a : https://tipply.pl/u/serfero ‼️TUTAJ DAILY ODCINKI Z GTA 6: ...",
-      "url": "https://www.youtube.com/watch?v=AhtvcKTfHWs",
-      "published": "2026-11-18T22:01:28Z",
-      "source": "Serfero",
+      "title": "Clix Played GTA 6 Before Anyone… Then This Happened 💀 #Clix #shorts",
+      "summary": "Clix counts down to GTA 6 launching on his 24/7 marathon stream… and his first reaction is NOT what you'd expect. Wait for ...",
+      "url": "https://www.youtube.com/watch?v=DrS-oRI9FPo",
+      "published": "2026-11-19T21:30:13Z",
+      "source": "ClipRush — Streamer Moments",
       "source_type": "youtube",
-      "youtube_video_id": "AhtvcKTfHWs",
-      "views": 448371,
-      "trend_score": 55,
+      "youtube_video_id": "DrS-oRI9FPo",
+      "views": 721,
+      "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "77078c1efcb0a76211adff229a0b40cf99767b4c"
+      "topic_id": "285ba739e1468c18f3cc02049541dc049b8e705c"
     },
     {
       "title": "Best GTA 6 Car Spawns",
@@ -569,7 +569,7 @@
       "source": "EyTuEscucha",
       "source_type": "youtube",
       "youtube_video_id": "7dfZO6bRjdw",
-      "views": 331,
+      "views": 686,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -597,7 +597,7 @@
       "source": "Dex88 Gameplay",
       "source_type": "youtube",
       "youtube_video_id": "_3ivWirrJng",
-      "views": 516,
+      "views": 785,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -611,7 +611,7 @@
       "source": "Ferreirax1st",
       "source_type": "youtube",
       "youtube_video_id": "sfUYxjdkWI4",
-      "views": 386,
+      "views": 528,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -667,7 +667,7 @@
       "source": "M1Plays",
       "source_type": "youtube",
       "youtube_video_id": "XVOEh1ao5QQ",
-      "views": 663,
+      "views": 849,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -870,60 +870,18 @@
       "topic_id": "70e2f7299b04eb92d5a30daef92aec131f3b9bda"
     },
     {
-      "title": "CaseOh says GTA 6 looks clearer than real life",
-      "summary": "He thought the sound was coming from his own room. GTA 6 really does look that real. Does GTA 6 look better than real life to you ...",
-      "url": "https://www.youtube.com/watch?v=maifRGzPIzs",
-      "published": "2026-11-19T16:30:01Z",
-      "source": "BEST GTA VI CLIPS",
+      "title": "GTA 6 jest PRZEPIĘKNE... i niektórym to WYSTARCZY | Pierwsze wrażenia",
+      "summary": "Pierwsze wrażenia z GTA 6 spisane na gorąco po kilku godzinach grania na bazowym PS5, czyli na takim sprzęcie, jaki ma ...",
+      "url": "https://www.youtube.com/watch?v=L-KpZw7MkUc",
+      "published": "2026-11-19T16:17:13Z",
+      "source": "Arkadikuss",
       "source_type": "youtube",
-      "youtube_video_id": "maifRGzPIzs",
-      "views": 492,
+      "youtube_video_id": "L-KpZw7MkUc",
+      "views": 73163,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "816f99ed59418050d60a650006a55272acfcf8df"
-    },
-    {
-      "title": "IlloJuan borró GTA 6 antes de jugar 😱 #Shorts",
-      "summary": "Lo esperó años… y lo borró en el peor momento. IlloJuan estaba por arrancar GTA 6 en directo, le apareció una pantalla rara, ...",
-      "url": "https://www.youtube.com/watch?v=sfJQuAFcX28",
-      "published": "2026-11-19T16:00:37Z",
-      "source": "Punto 0",
-      "source_type": "youtube",
-      "youtube_video_id": "sfJQuAFcX28",
-      "views": 855,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "0b6792cea8d0d67eb7fcaf2168896a503b509f69"
-    },
-    {
-      "title": "Is This The Best Mission In GTA 6?! 🚗💨 #Shorts",
-      "summary": "Wait until the end! This GTA 6 moment is crazy Drop a LIKE & SUBSCRIBE for daily GTA 6 clips, leaks, and gameplay! #Shorts ...",
-      "url": "https://www.youtube.com/watch?v=MjyHwCmMHsY",
-      "published": "2026-11-19T16:00:23Z",
-      "source": "GTA VI Gameplay Shorts",
-      "source_type": "youtube",
-      "youtube_video_id": "MjyHwCmMHsY",
-      "views": 928,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "8a63d02ad1f93718b380c8343455fb44d77832b5"
-    },
-    {
-      "title": "Stealing car in GTA 6 ! Easy ?? #gta #gta6",
-      "summary": "In this GTA 6 gameplay video, I show off the car lockpicking mechanics! Watch how stealing a car works in GTA 6, including the ...",
-      "url": "https://www.youtube.com/watch?v=U4FtreGr3_Y",
-      "published": "2026-11-19T16:00:02Z",
-      "source": "Meda",
-      "source_type": "youtube",
-      "youtube_video_id": "U4FtreGr3_Y",
-      "views": 765,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "7700cb9116700cc4cee551f104ad9e76188fde77"
+      "topic_id": "eed338867a9c7e17bea34cedfe9cb36892bc2358"
     },
     {
       "title": "GTA 6 Walkthrough Gameplay Part 2 - JASON DUVAL (GRAND THEFT AUTO 6)",
@@ -1024,6 +982,20 @@
       "topic_id": "c179835351dcccb66391dfa7e624fc8647367277"
     },
     {
+      "title": "Playing GTA 6 for the First Time | GTA 6 Marathon Launch Stream",
+      "summary": "For Text To Speach Donations: https://dropflares.com/DuckyReloaded Discord: https://discord.com/invite/duckyreloaded.",
+      "url": "https://www.youtube.com/watch?v=XuYm5c0Xfs4",
+      "published": "2026-11-18T22:08:56Z",
+      "source": "Ducky Reloaded",
+      "source_type": "youtube",
+      "youtube_video_id": "XuYm5c0Xfs4",
+      "views": 2604242,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "7d9e09a34501ae7777e0f45e6b3330c67762118b"
+    },
+    {
       "title": "JE DÉCOUVRE GTA 6 EN LIVE",
       "summary": "Je découvre GTA 6.",
       "url": "https://www.youtube.com/watch?v=vc1p5KRu32w",
@@ -1036,6 +1008,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "8ca7bcdc9785d5909aa7e894e778c17902bcf041"
+    },
+    {
+      "title": "How to run GTA 6 at 60 FPS instead of 30! 😱🔥 #gta6 #gta",
+      "summary": "",
+      "url": "https://www.youtube.com/watch?v=ZJ4tgTA29MA",
+      "published": "2026-11-19T16:30:15Z",
+      "source": "WNK GTA VI",
+      "source_type": "youtube",
+      "youtube_video_id": "ZJ4tgTA29MA",
+      "views": 3370,
+      "trend_score": 45,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "8252657bb1743d2055dbd88ae9aa113e35c5502c"
     },
     {
       "title": "Davy jones fala sobre sua 1 hora de GTA 6: o veredito 🎯I",
@@ -1332,6 +1318,34 @@
       "topic_id": "727d57d25465958c446db69d84efc71f1bd089ab"
     },
     {
+      "title": "Jucam Noul GTA 6 pe Live! [Ep.1]",
+      "summary": "Donatii Card/Paysafe/ApplePay/GooglePay - metoda recomandata (minim 2€): https://www.tipeeestream.com/iraph/donation Prin ...",
+      "url": "https://www.youtube.com/watch?v=GQtWfGJkD04",
+      "published": "2026-11-18T22:11:38Z",
+      "source": "iRaffael",
+      "source_type": "youtube",
+      "youtube_video_id": "GQtWfGJkD04",
+      "views": 994513,
+      "trend_score": 45,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "94bc8ac13352914fd0c6300f565876e35ad82349"
+    },
+    {
+      "title": "🔴 GTA 6 JUŻ JEST! PIERWSZY GAMEPLAY NA ŻYWO! | PREMIERA",
+      "summary": "Jeżeli chcesz zostaw donate'a : https://tipply.pl/u/serfero ‼️TUTAJ DAILY ODCINKI Z GTA 6: ...",
+      "url": "https://www.youtube.com/watch?v=AhtvcKTfHWs",
+      "published": "2026-11-18T22:01:28Z",
+      "source": "Serfero",
+      "source_type": "youtube",
+      "youtube_video_id": "AhtvcKTfHWs",
+      "views": 448371,
+      "trend_score": 45,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "77078c1efcb0a76211adff229a0b40cf99767b4c"
+    },
+    {
       "title": "🔴 PLAYING GTA 6 EXPLORING THE MAP (NO STORY MISSIONS)",
       "summary": "Join our GTA 6 community to talk to me and others: https://www.youtube.com/@putther/community Donate here to support, your ...",
       "url": "https://www.youtube.com/watch?v=IffDeif_RBI",
@@ -1374,32 +1388,18 @@
       "topic_id": "be91692b85700756b6bc21d9bbd2ef92cc44255c"
     },
     {
-      "title": "Ishowspeed fighting in GTA 6 🤣🤪 #vineditsz #gta #gta6 #ishowspeed #gameplay #gta6gaming #gaming",
-      "summary": "",
-      "url": "https://www.youtube.com/watch?v=Y90gKY7DRBE",
-      "published": "2026-11-19T15:52:40Z",
-      "source": "Vineditsz ",
+      "title": "CaseOh says GTA 6 looks clearer than real life",
+      "summary": "He thought the sound was coming from his own room. GTA 6 really does look that real. Does GTA 6 look better than real life to you ...",
+      "url": "https://www.youtube.com/watch?v=maifRGzPIzs",
+      "published": "2026-11-19T16:30:01Z",
+      "source": "BEST GTA VI CLIPS",
       "source_type": "youtube",
-      "youtube_video_id": "Y90gKY7DRBE",
-      "views": 917,
+      "youtube_video_id": "maifRGzPIzs",
+      "views": 492,
       "trend_score": 40,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "c54e9e67284d6d1c5175916ae0987be420f8785f"
-    },
-    {
-      "title": "GTA 6 existe gracias a un ERROR 😳 #gta6 #shorts #datosdecolor #gaming",
-      "summary": "Todo empezó en los años 90 con una idea bastante diferente: un videojuego de policías y ladrones desarrollado por un pequeño ...",
-      "url": "https://www.youtube.com/watch?v=o71lSyDf9Rw",
-      "published": "2026-11-19T15:37:03Z",
-      "source": "DatosDeColor",
-      "source_type": "youtube",
-      "youtube_video_id": "o71lSyDf9Rw",
-      "views": 770,
-      "trend_score": 40,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "9e194164b750d2a2c7335a8b283a793fae101f99"
+      "topic_id": "816f99ed59418050d60a650006a55272acfcf8df"
     }
   ]
 }
