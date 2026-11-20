@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-19T23:26:43.274217+00:00",
+  "checked_at": "2026-11-20T00:12:37.986093+00:00",
   "items": [
     {
       "title": "GTA 6 SEGUNDO DIA! 🔴 Paulinho o LOKO #3",
@@ -44,20 +44,6 @@
       "topic_id": "dc5eed4bfdead19e7b6abf8318aaebd333bc4ffd"
     },
     {
-      "title": "J&#39;AI DÉJÀ RÊVÉ DE LUCIA ! (GTA 6)",
-      "summary": "On donne tout sur GTA VI, je suis méga hyppeeee.",
-      "url": "https://www.youtube.com/watch?v=6dK1W6O0UtE",
-      "published": "2026-11-19T17:43:15Z",
-      "source": "MichouGaming",
-      "source_type": "youtube",
-      "youtube_video_id": "6dK1W6O0UtE",
-      "views": 129331,
-      "trend_score": 65,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "6df16b799c95184537e25087f5814e48c2b739e9"
-    },
-    {
       "title": "Playing GTA 6 for the First Time | GTA 6 Marathon Launch Stream",
       "summary": "For Text To Speach Donations: https://dropflares.com/DuckyReloaded Discord: https://discord.com/invite/duckyreloaded.",
       "url": "https://www.youtube.com/watch?v=9EU1CLnk_xk",
@@ -84,20 +70,6 @@
       "is_trending": true,
       "priority": "trend",
       "topic_id": "5a6ba7416d85d90da6a8c0a0ad92f118dedeac97"
-    },
-    {
-      "title": "🔴 GTA 6 EN VIVO 🔥 ¡ANTES QUE TODO EL MUNDO! 🌎",
-      "summary": "Llegó el momento que todos hemos estado esperando! Después de años de espera, por fin nos sumergimos en el esperado ...",
-      "url": "https://www.youtube.com/watch?v=dmd5f5knGrw",
-      "published": "2026-11-18T23:51:42Z",
-      "source": "RDjavi",
-      "source_type": "youtube",
-      "youtube_video_id": "dmd5f5knGrw",
-      "views": 2542368,
-      "trend_score": 60,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "32b5b83454d32e354f695ef87f21fe627a903e50"
     },
     {
       "title": "GTA 6 Oynuyoruz! DLSS 5 | 60 FPS | CANLI 🔴",
@@ -142,20 +114,6 @@
       "topic_id": "9253d22d0d1729f94b5394d89ef3fae5037a355c"
     },
     {
-      "title": "🔴 NA ŻYWO: GRAMY w GTA 6... ZDJĘLI BANA!",
-      "summary": "WSPARCIE KANAŁU ▻ https://tipply.pl/@goldzor SCUF - producent najlepszych padów do gier, które kupicie taniej z kodem: ...",
-      "url": "https://www.youtube.com/watch?v=vYi2mWz2gH8",
-      "published": "2026-11-19T18:10:00Z",
-      "source": "GOLDZOR",
-      "source_type": "youtube",
-      "youtube_video_id": "vYi2mWz2gH8",
-      "views": 73936,
-      "trend_score": 60,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "ff18cdcc8f3a3e393b7eb391182a6d10d43cb50c"
-    },
-    {
       "title": "A Rockstar não queria que alguém descobrisse essas coisas no GTA 6...🤯 #gta #gta6",
       "summary": "",
       "url": "https://www.youtube.com/watch?v=pxcBp1enAHI",
@@ -168,6 +126,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "cbe9efca7b2f3dbdfdc4c89e15a3627c2b669f95"
+    },
+    {
+      "title": "🔴 LIVE - Playing GTA 6 Until We Complete It... (40 Hours Straight - Full Playthrough Ep. 9)",
+      "summary": "Playing GTA VI ! ✓ Subscribe to our new YouTube channel: https://www.youtube.com/@john-and-george BECOME A ...",
+      "url": "https://www.youtube.com/watch?v=AJAFj4UfYSg",
+      "published": "2026-11-19T22:10:15Z",
+      "source": "Fresh Spawns",
+      "source_type": "youtube",
+      "youtube_video_id": "AJAFj4UfYSg",
+      "views": 7252,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "6281f229bc9b964b105a6854cf1a1267ef8675fd"
     },
     {
       "title": "ESTO PASA SI VAMOS A LA N EN GTA 6",
@@ -268,18 +240,18 @@
       "topic_id": "5fb03d9d11f8f3e8121bf3b51320b64b51627bea"
     },
     {
-      "title": "How GTA 6 Could Impact Liverpool vs Man United? 🤯",
-      "summary": "With GTA 6 being released last night, both Bryan Mbeumo and Alexander Isak have pledged allegiance to the game. Could their ...",
-      "url": "https://www.youtube.com/watch?v=Kzn1lGbaIAU",
-      "published": "2026-11-19T18:00:33Z",
-      "source": "LiveScore",
+      "title": "J&#39;AI DÉJÀ RÊVÉ DE LUCIA ! (GTA 6)",
+      "summary": "On donne tout sur GTA VI, je suis méga hyppeeee.",
+      "url": "https://www.youtube.com/watch?v=6dK1W6O0UtE",
+      "published": "2026-11-19T17:43:15Z",
+      "source": "MichouGaming",
       "source_type": "youtube",
-      "youtube_video_id": "Kzn1lGbaIAU",
-      "views": 2798,
+      "youtube_video_id": "6dK1W6O0UtE",
+      "views": 129331,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "8c006567a8e3e26d35bcaa59fcaca5811cb9927f"
+      "topic_id": "6df16b799c95184537e25087f5814e48c2b739e9"
     },
     {
       "title": "GAMEPLAY GTA 6, 24 HORAS DIRETO (PARTE 3) - #FGN #flowgames",
@@ -450,18 +422,32 @@
       "topic_id": "68e133a22ad77003e957129272d27b117f4c32f1"
     },
     {
-      "title": "🔴LIVE ➡️ GTA 6 CONTINUA E ESTÁ LINDO",
-      "summary": "ENVIA MENSAGEM DE AUDIO NA LIVE https://tipme.to/ricfazeres ENVIA MENSAGEM DE AUDIO NA LIVE ...",
-      "url": "https://www.youtube.com/watch?v=oc9xHHvD5oc",
-      "published": "2026-11-18T23:28:11Z",
-      "source": "RicFazeres",
+      "title": "WHAT ARE YOU DOING? GTA 6 #gta6 #gta #gtaonline",
+      "summary": "GRACIAS POR VER EL VIDEO! ⚔️ Si te gustó, revienta ese LIKE , deja tu comentario y comparte para más contenido ...",
+      "url": "https://www.youtube.com/watch?v=xgHF-ShkYkQ",
+      "published": "2026-11-19T23:59:55Z",
+      "source": "MikeMz",
       "source_type": "youtube",
-      "youtube_video_id": "oc9xHHvD5oc",
-      "views": 356976,
-      "trend_score": 55,
+      "youtube_video_id": "xgHF-ShkYkQ",
+      "views": 176,
+      "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "1ca5f6d7864c58f7db794af39b6c3f20c36900d3"
+      "topic_id": "2f7ab308a44a4f8f8c6c68bd348d51f88cbe0519"
+    },
+    {
+      "title": "THE ROBBER GOT ROBBED IN GTA 6? #shorts #gta6 #gta",
+      "summary": "GTA 6 IS OUT: Grand Theft Auto VI secret interaction with robber.",
+      "url": "https://www.youtube.com/watch?v=dFZrzkM5Hkw",
+      "published": "2026-11-19T23:56:29Z",
+      "source": "iElucian",
+      "source_type": "youtube",
+      "youtube_video_id": "dFZrzkM5Hkw",
+      "views": 196,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "bbfcd3ffa813d49cdb23fed3fd350d743c9a2a53"
     },
     {
       "title": "ASÍ PUEDES CONSEGUIR el CAZA en GTA 6 ✈️😱 #gta #gta6 #gtavi #grandtheftauto",
@@ -471,7 +457,7 @@
       "source": "Arley Reyes",
       "source_type": "youtube",
       "youtube_video_id": "zBUt-VyciSQ",
-      "views": 240,
+      "views": 691,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -492,6 +478,20 @@
       "topic_id": "8cdf4bf4ad5f8b769b282c71fc905ea8e30113e4"
     },
     {
+      "title": "PRIMER TIROTEO EN GTA 6🥵#gta6clips #gta #gtanews #gta6",
+      "summary": "",
+      "url": "https://www.youtube.com/watch?v=x3B-j_VsfhE",
+      "published": "2026-11-19T22:45:24Z",
+      "source": "xxFirefoxx",
+      "source_type": "youtube",
+      "youtube_video_id": "x3B-j_VsfhE",
+      "views": 273,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "51ea3244454eac83dabec3f878c37baefd0165dd"
+    },
+    {
       "title": "🚨 TOP 5 MOMENTOS DE DAVO EN GTA 6 👀",
       "summary": "Top 5 de los mejores momentos de davo jugando por primera vez a grand theft auto 6... Davo Xeneize en stream.",
       "url": "https://www.youtube.com/watch?v=FQ3TRLSZnbQ",
@@ -506,6 +506,20 @@
       "topic_id": "3b50c8063138c6ac851885435929f9356b16ed68"
     },
     {
+      "title": "Gta 6 ❤️ #gta",
+      "summary": "",
+      "url": "https://www.youtube.com/watch?v=7HdKmb_aeC4",
+      "published": "2026-11-19T22:40:12Z",
+      "source": "Ghulam Sabir Vlogs",
+      "source_type": "youtube",
+      "youtube_video_id": "7HdKmb_aeC4",
+      "views": 751,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "cdbf6ef43e21fcc91c216f77761f55ca693064df"
+    },
+    {
       "title": "GTA 6 Has A Real Easter Egg 🥚 #gta6 #gta",
       "summary": "GTA 6 has a real Easter egg. Climb the tallest radio tower in the game and at the very top there's a nest full of painted eggs.",
       "url": "https://www.youtube.com/watch?v=P4jvGBoh8aU",
@@ -513,7 +527,7 @@
       "source": "Felony Vice",
       "source_type": "youtube",
       "youtube_video_id": "P4jvGBoh8aU",
-      "views": 343,
+      "views": 821,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -527,11 +541,25 @@
       "source": "VICEFILES",
       "source_type": "youtube",
       "youtube_video_id": "_PPq3ta3_9M",
-      "views": 350,
+      "views": 951,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "f68a49806c38b1957209965701bc9b847f721a93"
+    },
+    {
+      "title": "Tudo o que vem na Ultimate Edition do GTA 6",
+      "summary": "gtavi #gta #gta6 #rockstargames Imagens: Rockstar Games / GTA VI.",
+      "url": "https://www.youtube.com/watch?v=wiVS-oi2sZw",
+      "published": "2026-11-19T21:54:06Z",
+      "source": "Planeta GTA VI",
+      "source_type": "youtube",
+      "youtube_video_id": "wiVS-oi2sZw",
+      "views": 510,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "23809ca7febe10e87d38c438b1c05ecafb3901a2"
     },
     {
       "title": "GTA 6 Has a SECRET Monster #gta #gta6 #gtavi #gaming",
@@ -716,102 +744,18 @@
       "topic_id": "87389b7866b07e5fea7ea1f50acf552f668274a2"
     },
     {
-      "title": "Empresa japonesa dá 5 dias de folga para funcionários jogarem GTA 6",
-      "summary": "A Pocketpair, desenvolvedora sediada em Tóquio e criadora do sucesso mundial Palworld, comemorou a chegada de GTA VI ...",
-      "url": "https://www.youtube.com/watch?v=duLuF04zWcg",
-      "published": "2026-11-19T18:12:19Z",
-      "source": "InfoMoney",
+      "title": "🔴 NA ŻYWO: GRAMY w GTA 6... ZDJĘLI BANA!",
+      "summary": "WSPARCIE KANAŁU ▻ https://tipply.pl/@goldzor SCUF - producent najlepszych padów do gier, które kupicie taniej z kodem: ...",
+      "url": "https://www.youtube.com/watch?v=vYi2mWz2gH8",
+      "published": "2026-11-19T18:10:00Z",
+      "source": "GOLDZOR",
       "source_type": "youtube",
-      "youtube_video_id": "duLuF04zWcg",
-      "views": 243,
+      "youtube_video_id": "vYi2mWz2gH8",
+      "views": 73936,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "e2aa0f88de121fb21b7a734de937754c3128a316"
-    },
-    {
-      "title": "Las 5 mejores excusas para no ir a trabajar por GTA 6 😷 #shorts",
-      "summary": "Las 5 mejores excusas para no ir a trabajar hoy Etiqueta a ese compañero que casualmente está malo #gta6 #gtavi #gta ...",
-      "url": "https://www.youtube.com/watch?v=-aSGUwuorVk",
-      "published": "2026-11-19T18:09:26Z",
-      "source": "Archivo Vicee",
-      "source_type": "youtube",
-      "youtube_video_id": "-aSGUwuorVk",
-      "views": 422,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "00f4873a5740b1776e26881e613382101957614f"
-    },
-    {
-      "title": "Un PERRO me secuestró en GTA 6 🐶🚤",
-      "summary": "En GTA VI te puede secuestrar un perro con gafas y chaleco salvavidas que conduce una moto de agua… y te lleva a una isla ...",
-      "url": "https://www.youtube.com/watch?v=gze5EHgzbg0",
-      "published": "2026-11-19T18:00:37Z",
-      "source": "All Rockstar Clips",
-      "source_type": "youtube",
-      "youtube_video_id": "gze5EHgzbg0",
-      "views": 961,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "106a4c280520c43c18216f85693775db8c057966"
-    },
-    {
-      "title": "Ele Vai Zerar o GTA 6 pelo YouTube",
-      "summary": "Dá para zerar o GTA 6 sem ter o jogo? O Dudu espera esse jogo desde o primeiro trailer, mas o GTA 6 só roda nos ...",
-      "url": "https://www.youtube.com/watch?v=UbOg9B6m9K8",
-      "published": "2026-11-19T18:00:04Z",
-      "source": "Circo dos Fatos",
-      "source_type": "youtube",
-      "youtube_video_id": "UbOg9B6m9K8",
-      "views": 805,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "d58892f8e04043fceb3e0da1a45216b6b8f70eed"
-    },
-    {
-      "title": "N3on really stopped his whole stream after seeing this in GTA 6 😭!? #n3on #gta6",
-      "summary": "N3on! stopped his Whole stream just to witness Gta 6!? This is a real clip from a live stream — just sharing the moment.",
-      "url": "https://www.youtube.com/watch?v=Ns0_jPOyozk",
-      "published": "2026-11-19T18:00:04Z",
-      "source": "GHOST_MEMER7",
-      "source_type": "youtube",
-      "youtube_video_id": "Ns0_jPOyozk",
-      "views": 987,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "1bbdba5bdb66dfb92b1283e2a22751898d15fc3e"
-    },
-    {
-      "title": "GTA 6 X HERMES?! 🤯👀 #gta6 #birkin #custombirkin #miami #gta",
-      "summary": "GTA 6 X HERMES?! #gta6 #birkin #custombirkin #miami #gta.",
-      "url": "https://www.youtube.com/watch?v=wC0t5qDtqiI",
-      "published": "2026-11-19T17:34:58Z",
-      "source": "Sellier Knightsbridge",
-      "source_type": "youtube",
-      "youtube_video_id": "wC0t5qDtqiI",
-      "views": 628,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "adbfb0dcc35e8035bd8e999db96ab672d7e26a9b"
-    },
-    {
-      "title": "GTA 6: los 17 trucos REALES 🎮 #gta6 #gtavi #trucosgta6 #trucosgta #gta #ps5games",
-      "summary": "GTA 6: los 17 trucos REALES Solo con la cruceta, nada de L2 ni R2 Ojo: se desbloquean al terminar la historia Guárdalo ...",
-      "url": "https://www.youtube.com/watch?v=j2M6F862EUk",
-      "published": "2026-11-19T17:30:59Z",
-      "source": "TEMCOSTAR",
-      "source_type": "youtube",
-      "youtube_video_id": "j2M6F862EUk",
-      "views": 393,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "6c849f7cd70e7fcdb87af417812307f49935b663"
+      "topic_id": "ff18cdcc8f3a3e393b7eb391182a6d10d43cb50c"
     },
     {
       "title": "GTA 6 jest PRZEPIĘKNE... i niektórym to WYSTARCZY | Pierwsze wrażenia",
@@ -926,6 +870,20 @@
       "topic_id": "c179835351dcccb66391dfa7e624fc8647367277"
     },
     {
+      "title": "🔴 GTA 6 EN VIVO 🔥 ¡ANTES QUE TODO EL MUNDO! 🌎",
+      "summary": "Llegó el momento que todos hemos estado esperando! Después de años de espera, por fin nos sumergimos en el esperado ...",
+      "url": "https://www.youtube.com/watch?v=dmd5f5knGrw",
+      "published": "2026-11-18T23:51:42Z",
+      "source": "RDjavi",
+      "source_type": "youtube",
+      "youtube_video_id": "dmd5f5knGrw",
+      "views": 2542368,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "32b5b83454d32e354f695ef87f21fe627a903e50"
+    },
+    {
       "title": "GTA 6 - O INICIO do jogo AO VIVO (mundo aberto)",
       "summary": "Nossa primeira vez jogando GTA 6 AO VIVO - Explorando o mundo aberto e conhecendo o jogo! Vídeos todos os dias as 11hrs e ...",
       "url": "https://www.youtube.com/watch?v=lfqmnrTEu_4",
@@ -966,6 +924,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "8ca7bcdc9785d5909aa7e894e778c17902bcf041"
+    },
+    {
+      "title": "How GTA 6 Could Impact Liverpool vs Man United? 🤯",
+      "summary": "With GTA 6 being released last night, both Bryan Mbeumo and Alexander Isak have pledged allegiance to the game. Could their ...",
+      "url": "https://www.youtube.com/watch?v=Kzn1lGbaIAU",
+      "published": "2026-11-19T18:00:33Z",
+      "source": "LiveScore",
+      "source_type": "youtube",
+      "youtube_video_id": "Kzn1lGbaIAU",
+      "views": 2798,
+      "trend_score": 45,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "8c006567a8e3e26d35bcaa59fcaca5811cb9927f"
     },
     {
       "title": "GTA 6 TÜRKÇE DUBLAJ | #shorts #gta",
@@ -1304,6 +1276,20 @@
       "topic_id": "727d57d25465958c446db69d84efc71f1bd089ab"
     },
     {
+      "title": "🔴LIVE ➡️ GTA 6 CONTINUA E ESTÁ LINDO",
+      "summary": "ENVIA MENSAGEM DE AUDIO NA LIVE https://tipme.to/ricfazeres ENVIA MENSAGEM DE AUDIO NA LIVE ...",
+      "url": "https://www.youtube.com/watch?v=oc9xHHvD5oc",
+      "published": "2026-11-18T23:28:11Z",
+      "source": "RicFazeres",
+      "source_type": "youtube",
+      "youtube_video_id": "oc9xHHvD5oc",
+      "views": 356976,
+      "trend_score": 45,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "1ca5f6d7864c58f7db794af39b6c3f20c36900d3"
+    },
+    {
       "title": "🔴 LIVE GTA 6 STORYMODE #1 (Nederlands)",
       "summary": "Royalistiq GTA 6 Storymode (Nederlands) - Livestream! ➜ Doneren kan via deze link: ...",
       "url": "https://www.youtube.com/watch?v=hZuMlagzauk",
@@ -1400,6 +1386,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "0170c6a4d0a6e0d5cf70ae9bee359a9c4c2e51f2"
+    },
+    {
+      "title": "Empresa japonesa dá 5 dias de folga para funcionários jogarem GTA 6",
+      "summary": "A Pocketpair, desenvolvedora sediada em Tóquio e criadora do sucesso mundial Palworld, comemorou a chegada de GTA VI ...",
+      "url": "https://www.youtube.com/watch?v=duLuF04zWcg",
+      "published": "2026-11-19T18:12:19Z",
+      "source": "InfoMoney",
+      "source_type": "youtube",
+      "youtube_video_id": "duLuF04zWcg",
+      "views": 243,
+      "trend_score": 40,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "e2aa0f88de121fb21b7a734de937754c3128a316"
     }
   ]
 }
