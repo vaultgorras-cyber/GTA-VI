@@ -1,20 +1,6 @@
 {
-  "checked_at": "2026-11-20T08:52:41.911294+00:00",
+  "checked_at": "2026-11-20T08:57:26.849834+00:00",
   "items": [
-    {
-      "title": "GTA 6 | DÍA 2 MODO HISTORIA | DjMaRiiO",
-      "summary": "MENSAJES DE VOZ EN PANTALLA: https://streamlabs.com/djmariio3 (3€ para evitar demasiado spam) ➜ENVIA TU AUDIO DE ...",
-      "url": "https://www.youtube.com/watch?v=Ve8tt9UzxQ8",
-      "published": "2026-11-20T02:43:42Z",
-      "source": "DjMaRiiO",
-      "source_type": "youtube",
-      "youtube_video_id": "Ve8tt9UzxQ8",
-      "views": 1886180,
-      "trend_score": 60,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "b9e6cd9c71b72b64ef0ebf12753ca4dc497caeff"
-    },
     {
       "title": "PLAYING GTA 6 FOR THE FIRST TIME (PART 4)",
       "summary": "FOLLOW ME ON TWITCH: https://www.twitch.tv/kaicenat JOIN THE REDDIT : https://www.reddit.com/r/TheKM/ Follow My ...",
@@ -1400,6 +1386,18 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "5e202577312c9649d7c998cdf698da84591bda39"
+    },
+    {
+      "title": "GTA 6 Has Police Departments Across America Begging People Not to Commit Crimes IRL",
+      "summary": "GTA 6's popularity has led to police departments around the United States pleading with citizens to not commit real crimes.",
+      "url": "https://www.ign.com/articles/gta-6-has-police-departments-across-america-begging-people-not-to-commit-crimes-irl",
+      "published": "Thu, 19 Nov 2026 23:55:01 +0000",
+      "source": "https://feeds.feedburner.com/ign/news",
+      "source_type": "rss",
+      "trend_score": 10,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "f64ef8fdc22c0fb420e76c6df7d3b1933b00e8ef"
     }
   ]
 }
