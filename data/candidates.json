@@ -1,20 +1,6 @@
 {
-  "checked_at": "2026-11-20T15:11:38.509295+00:00",
+  "checked_at": "2026-11-20T15:17:54.274049+00:00",
   "items": [
-    {
-      "title": "🔴 GTA 6 FINALE LAST MISSION 90% RIGHT NOW GET IN HERE!",
-      "summary": "tts donations here/ https://streamlabs.com/ishowspeed FOLLOW ME http://link.me/ishowspeed MERCH - https://speed.store/ ...",
-      "url": "https://www.youtube.com/watch?v=OIeLbmyraRQ",
-      "published": "2026-11-20T11:40:40Z",
-      "source": "IShowSpeed",
-      "source_type": "youtube",
-      "youtube_video_id": "OIeLbmyraRQ",
-      "views": 1344801,
-      "trend_score": 70,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "252f48debad43b45dbfcba9a01fd2ea12f4771cb"
-    },
     {
       "title": "PLAYING GTA 6 FOR THE FIRST TIME (PART 4)",
       "summary": "FOLLOW ME ON TWITCH: https://www.twitch.tv/kaicenat JOIN THE REDDIT : https://www.reddit.com/r/TheKM/ Follow My ...",
@@ -238,20 +224,6 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "951699eb8cb8c98fdbe4983e8bd04b2bfc53514a"
-    },
-    {
-      "title": "AVOIR ARGENT INFINI DÈS LE DÉBUT DE GTA 6 !",
-      "summary": "Nouvelle vidéo guide sur GTA6 : Comment obtenir de l'argent en illimité dès le début sur GTA 6 ! (GLITCH) Me Suivre sur Tiktok ...",
-      "url": "https://www.youtube.com/watch?v=TQE9LXsdvTU",
-      "published": "2026-11-20T09:14:06Z",
-      "source": "DagaM",
-      "source_type": "youtube",
-      "youtube_video_id": "TQE9LXsdvTU",
-      "views": 1599,
-      "trend_score": 55,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "86ba4db0f10660a3a4b831a6ff322fd267f759e9"
     },
     {
       "title": "🔴 GTA 6 MARATON – NE GASIM STREAM DOK NE PREĐEM CELU IGRU! dan 2 part 2",
@@ -926,6 +898,20 @@
       "topic_id": "8ca7bcdc9785d5909aa7e894e778c17902bcf041"
     },
     {
+      "title": "AVOIR ARGENT INFINI DÈS LE DÉBUT DE GTA 6 !",
+      "summary": "Nouvelle vidéo guide sur GTA6 : Comment obtenir de l'argent en illimité dès le début sur GTA 6 ! (GLITCH) Me Suivre sur Tiktok ...",
+      "url": "https://www.youtube.com/watch?v=TQE9LXsdvTU",
+      "published": "2026-11-20T09:14:06Z",
+      "source": "DagaM",
+      "source_type": "youtube",
+      "youtube_video_id": "TQE9LXsdvTU",
+      "views": 1599,
+      "trend_score": 45,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "86ba4db0f10660a3a4b831a6ff322fd267f759e9"
+    },
+    {
       "title": "Why GTA 6 Is Breaking The Entertainment Industry 😳",
       "summary": "Why GTA 6 Is Breaking The Entertainment Industry | ScoopDRS | GTA VI | Ramayan | Ram | Cinema | Avengers Doomsday ...",
       "url": "https://www.youtube.com/watch?v=hLMTDU9qpl8",
@@ -1400,6 +1386,18 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "50daa35e22923536e4a47ded9ed3b89929e36a28"
+    },
+    {
+      "title": "You Can Find the 'Bikini Girl' From the GTA 6 Trailer In-Game, With a Nod to All the Fan Theories",
+      "summary": "Grand Theft Auto 6's Bikini Girl has been found, and there's even a nod to the fan theory that she was Lucia all along.",
+      "url": "https://www.ign.com/articles/gta-6-bikini-girl-trailer-easter-egg",
+      "published": "Fri, 20 Nov 2026 14:44:52 +0000",
+      "source": "https://www.ign.com/rss/v2/articles/feed",
+      "source_type": "rss",
+      "trend_score": 10,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "f96d41aa463f52be23377f8f654418add2a88096"
     }
   ]
 }
