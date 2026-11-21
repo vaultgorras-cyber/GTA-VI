@@ -1,20 +1,6 @@
 {
-  "checked_at": "2026-11-21T08:40:51.787760+00:00",
+  "checked_at": "2026-11-21T08:45:29.683319+00:00",
   "items": [
-    {
-      "title": "CELLBIT JOGANDO AINDA MAIS GTA 6",
-      "summary": "Cellbit jogando GTA VI (versão amaldiçoada aparentemente) REDES DO CELLBIT • Ao vivo: https://twitch.tv/cellbit • Twitter: ...",
-      "url": "https://www.youtube.com/watch?v=JGKAEYlcDWA",
-      "published": "2026-11-21T08:06:33Z",
-      "source": "Cellbit Lives",
-      "source_type": "youtube",
-      "youtube_video_id": "JGKAEYlcDWA",
-      "views": 374011,
-      "trend_score": 65,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "d13e807a322ba2e8a29b2108bd224b0506ee764b"
-    },
     {
       "title": "🔴 LIVE! - PLAYING GTA 6 RIGHT NOW! (PS5 PRO)",
       "summary": "New Grand Theft Auto VI (GTA 6) live stream free roam gameplay with Typical Gamer! ❤️ SUBSCRIBE! ▻ http://bit.ly/SubToTG ...",
@@ -1400,6 +1386,18 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "a0665fe29dd30b4e5d31eb33feaebf440179ffe1"
+    },
+    {
+      "title": "How a $6 Beer in GTA 6 Sent Me Into a Spiral of Crime and Anxiety",
+      "summary": "",
+      "url": "https://www.ign.com/articles/how-a-6-beer-in-gta-6-sent-me-into-a-spiral-of-crime-and-anxiety",
+      "published": "Sat, 21 Nov 2026 06:00:00 +0000",
+      "source": "https://feeds.feedburner.com/ign/games-all",
+      "source_type": "rss",
+      "trend_score": 10,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "44f8149e65c83a73db70736c2bf7f0d546e76ad0"
     }
   ]
 }
