@@ -1,19 +1,47 @@
 {
-  "checked_at": "2026-11-21T07:54:33.019489+00:00",
+  "checked_at": "2026-11-21T08:40:51.787760+00:00",
   "items": [
     {
-      "title": "¡EL FINAL de GTA 6 EN DIRECTO! (maratón)",
-      "summary": "Completando el Grand Theft Auto 6 al 100%, no podemos cerrar Directo hasta que no complete el Juego, dormir entrenar y jugar ...",
-      "url": "https://www.youtube.com/watch?v=rRneENimokc",
-      "published": "2026-11-21T02:17:15Z",
-      "source": "CREATIVE",
+      "title": "CELLBIT JOGANDO AINDA MAIS GTA 6",
+      "summary": "Cellbit jogando GTA VI (versão amaldiçoada aparentemente) REDES DO CELLBIT • Ao vivo: https://twitch.tv/cellbit • Twitter: ...",
+      "url": "https://www.youtube.com/watch?v=JGKAEYlcDWA",
+      "published": "2026-11-21T08:06:33Z",
+      "source": "Cellbit Lives",
       "source_type": "youtube",
-      "youtube_video_id": "rRneENimokc",
-      "views": 216826,
+      "youtube_video_id": "JGKAEYlcDWA",
+      "views": 374011,
       "trend_score": 65,
       "is_trending": true,
       "priority": "trend",
-      "topic_id": "d3e91cfccc463322bc5d1a408460e60acddd6eee"
+      "topic_id": "d13e807a322ba2e8a29b2108bd224b0506ee764b"
+    },
+    {
+      "title": "🔴 LIVE! - PLAYING GTA 6 RIGHT NOW! (PS5 PRO)",
+      "summary": "New Grand Theft Auto VI (GTA 6) live stream free roam gameplay with Typical Gamer! ❤️ SUBSCRIBE! ▻ http://bit.ly/SubToTG ...",
+      "url": "https://www.youtube.com/watch?v=PDqRBXHcTxo",
+      "published": "2026-11-21T04:34:31Z",
+      "source": "Typical Gamer",
+      "source_type": "youtube",
+      "youtube_video_id": "PDqRBXHcTxo",
+      "views": 266194,
+      "trend_score": 65,
+      "is_trending": true,
+      "priority": "trend",
+      "topic_id": "0164e05988600eeaa4fdaf65d13d012b5da600b4"
+    },
+    {
+      "title": "GTA 6 | DÍA 3 MODO HISTORIA (57% COMPLETADO) DjMaRiiO",
+      "summary": "MENSAJES DE VOZ EN PANTALLA: https://streamlabs.com/djmariio3 (3€ para evitar demasiado spam) ➜ENVIA TU AUDIO DE ...",
+      "url": "https://www.youtube.com/watch?v=l_QNgiY0-O0",
+      "published": "2026-11-21T01:05:25Z",
+      "source": "DjMaRiiO",
+      "source_type": "youtube",
+      "youtube_video_id": "l_QNgiY0-O0",
+      "views": 1001328,
+      "trend_score": 60,
+      "is_trending": true,
+      "priority": "trend",
+      "topic_id": "5809c654439648d5ed97be40f3fab018687c4d3f"
     },
     {
       "title": "BEATING GTA 6 *FINALE*",
@@ -23,7 +51,7 @@
       "source": "Kai Cenat Live",
       "source_type": "youtube",
       "youtube_video_id": "dSDUAAr-w_g",
-      "views": 1692463,
+      "views": 1878450,
       "trend_score": 60,
       "is_trending": true,
       "priority": "trend",
@@ -37,7 +65,7 @@
       "source": "Shirrako",
       "source_type": "youtube",
       "youtube_video_id": "RtghspIPQeU",
-      "views": 1424197,
+      "views": 1513312,
       "trend_score": 60,
       "is_trending": true,
       "priority": "trend",
@@ -93,11 +121,25 @@
       "source": "King of Classics",
       "source_type": "youtube",
       "youtube_video_id": "5eXAmFzPXoo",
-      "views": 1220,
+      "views": 2002,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "81339f3e9436293b2ad9a2ae5fe836e650ef42d1"
+    },
+    {
+      "title": "GTA 6 All Returning Characters (Cameos) 4K Ultra HD",
+      "summary": "GTA 6 All Returning Characters Cameos DESCRIPTION 00:00 Niko Bellic (GTA 4) 04:59 Valentina (GTA Online) 08:04 ...",
+      "url": "https://www.youtube.com/watch?v=4DXfVpbNPus",
+      "published": "2026-11-21T05:33:41Z",
+      "source": "Gamer's Little Playground",
+      "source_type": "youtube",
+      "youtube_video_id": "4DXfVpbNPus",
+      "views": 8145,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "823442bcbf653fb47c085866314f5e8b2dfcf332"
     },
     {
       "title": "GTA 6 Ending #short #gta",
@@ -112,6 +154,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "3302c297ec3ef6d87368bf05848d09cdf706cb70"
+    },
+    {
+      "title": "¡EL FINAL de GTA 6 EN DIRECTO! (maratón)",
+      "summary": "Completando el Grand Theft Auto 6 al 100%, no podemos cerrar Directo hasta que no complete el Juego, dormir entrenar y jugar ...",
+      "url": "https://www.youtube.com/watch?v=rRneENimokc",
+      "published": "2026-11-21T02:17:15Z",
+      "source": "CREATIVE",
+      "source_type": "youtube",
+      "youtube_video_id": "rRneENimokc",
+      "views": 216826,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "d3e91cfccc463322bc5d1a408460e60acddd6eee"
     },
     {
       "title": "EL FIN DE LAS AVENTURAS DEL CHAMO en GTA 6 !! *SIN SPOILERS* 🔵 - TheDonato",
@@ -135,7 +191,7 @@
       "source": "Flow Games",
       "source_type": "youtube",
       "youtube_video_id": "0qCrSKaBvC0",
-      "views": 352563,
+      "views": 354350,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
@@ -149,25 +205,11 @@
       "source": "CNN",
       "source_type": "youtube",
       "youtube_video_id": "Hcokpvh2kss",
-      "views": 320652,
+      "views": 354627,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "a4380f6501a9f86f11193b5c844724bc7865a67e"
-    },
-    {
-      "title": "GTA 6 | DÍA 3 MODO HISTORIA (57% COMPLETADO) DjMaRiiO",
-      "summary": "MENSAJES DE VOZ EN PANTALLA: https://streamlabs.com/djmariio3 (3€ para evitar demasiado spam) ➜ENVIA TU AUDIO DE ...",
-      "url": "https://www.youtube.com/watch?v=l_QNgiY0-O0",
-      "published": "2026-11-21T01:05:25Z",
-      "source": "DjMaRiiO",
-      "source_type": "youtube",
-      "youtube_video_id": "l_QNgiY0-O0",
-      "views": 999513,
-      "trend_score": 55,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "5809c654439648d5ed97be40f3fab018687c4d3f"
     },
     {
       "title": "🔴DR DISRESPECT - GTA 6 - EVERY MISSION, YOU WIN",
@@ -219,7 +261,7 @@
       "source": "JuegaGerman",
       "source_type": "youtube",
       "youtube_video_id": "T1y9II9Qk7k",
-      "views": 326320,
+      "views": 344014,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
@@ -261,7 +303,7 @@
       "source": "TheGamingRevolution",
       "source_type": "youtube",
       "youtube_video_id": "T8VNrypH48o",
-      "views": 329765,
+      "views": 368460,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
@@ -548,6 +590,20 @@
       "topic_id": "97052f42bc8d3e998ef41913455148f6102b75ac"
     },
     {
+      "title": "RIESEN FEHLER in GTA 6 😲",
+      "summary": "GTA 6 News Ps5 Gameplay Trailer - GTA VI ist draußen und ich habe es 10 Stunden getestet, Vermeidet diesen Riesen Fehler, ...",
+      "url": "https://www.youtube.com/watch?v=NcUjsrje0uw",
+      "published": "2026-11-20T22:44:31Z",
+      "source": "Kartoffel König",
+      "source_type": "youtube",
+      "youtube_video_id": "NcUjsrje0uw",
+      "views": 14684,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "4e0b5f837d379790a85a95366b40ac8403adb2c5"
+    },
+    {
       "title": "POV: Going Home To Play GTA 6 💀 | #shorts #gta6",
       "summary": "gta #gta6 #grandtheftauto #shorts #gaming #youtubeshorts #pov #reels #funny #viral #memes #trending.",
       "url": "https://www.youtube.com/watch?v=vbnqMy_IEG8",
@@ -560,6 +616,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "47e5b15f9822b9c87f851ba3f0feb9b7e158ca13"
+    },
+    {
+      "title": "Reviewing The GTA 6 Reviews...",
+      "summary": "GTA 6 is it a masterpiece, and the greatest game of all time? Or is Grand Theft Auto 6 woke, slop and just strait up boring. With a ...",
+      "url": "https://www.youtube.com/watch?v=fTxqr8pbacc",
+      "published": "2026-11-20T22:00:19Z",
+      "source": "InkTV",
+      "source_type": "youtube",
+      "youtube_video_id": "fTxqr8pbacc",
+      "views": 51560,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "ce2468ba5ba1efc0a3e9804aab8084973a9aa5d3"
     },
     {
       "title": "A Dónde Van Los Npcs en GTA 6 #gta6",
@@ -602,20 +672,6 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "23780cf757db27e0ac7823617f1b658a248b66dd"
-    },
-    {
-      "title": "CELLBIT JOGANDO AINDA MAIS GTA 6",
-      "summary": "Cellbit jogando GTA VI (versão amaldiçoada aparentemente) REDES DO CELLBIT • Ao vivo: https://twitch.tv/cellbit • Twitter: ...",
-      "url": "https://www.youtube.com/watch?v=JGKAEYlcDWA",
-      "published": "2026-11-20T19:17:20Z",
-      "source": "Cellbit Lives",
-      "source_type": "youtube",
-      "youtube_video_id": "JGKAEYlcDWA",
-      "views": 90609,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "d13e807a322ba2e8a29b2108bd224b0506ee764b"
     },
     {
       "title": "🔴 NA ŻYWO: GRAMY w GTA 6... JEST GRUBO!",
@@ -772,20 +828,6 @@
       "topic_id": "cd3dae4726f88080527756d2a24db518916d3803"
     },
     {
-      "title": "Jäätiin loukkuun konttiin, kunnes GTA 6 on läpäisty (osa 5)",
-      "summary": "IMUS GTA VI MARATONI. Olli ja Konsta ovat jumissa kuuden metrin korkeudessa kontissa, Ideapark Seinäjoen pääovien ...",
-      "url": "https://www.youtube.com/watch?v=89YKXOjJqEQ",
-      "published": "2026-11-20T08:30:59Z",
-      "source": "imus",
-      "source_type": "youtube",
-      "youtube_video_id": "89YKXOjJqEQ",
-      "views": 18827,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "cc37cd4d1a71d798887f2e1a8077ab54f81f5722"
-    },
-    {
       "title": "PLAYING GTA 6 FOR THE FIRST TIME (PART 4)",
       "summary": "FOLLOW ME ON TWITCH: https://www.twitch.tv/kaicenat JOIN THE REDDIT : https://www.reddit.com/r/TheKM/ Follow My ...",
       "url": "https://www.youtube.com/watch?v=yX4DH_msPkI",
@@ -826,6 +868,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "2e5d8fb0c15025851f49594581d70ffd0de361d7"
+    },
+    {
+      "title": "A GREAT START TO GTA 6 #shorts #gta6",
+      "summary": "GTA 6 IS HERE #gta6 #gta.",
+      "url": "https://www.youtube.com/watch?v=xHwuIY2uvnk",
+      "published": "2026-11-21T01:59:32Z",
+      "source": "DawkoLIVE",
+      "source_type": "youtube",
+      "youtube_video_id": "xHwuIY2uvnk",
+      "views": 2552,
+      "trend_score": 45,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "1e351f43055298eb456177768559efa6805b0ae6"
     },
     {
       "title": "GTA 6 is CURSED 😭 #shorts #gaming #gta",
@@ -912,20 +968,6 @@
       "topic_id": "51549139bc24e020d5b128e75dc75fb5edd66b01"
     },
     {
-      "title": "RIESEN FEHLER in GTA 6 😲",
-      "summary": "GTA 6 News Ps5 Gameplay Trailer - GTA VI ist draußen und ich habe es 10 Stunden getestet, Vermeidet diesen Riesen Fehler, ...",
-      "url": "https://www.youtube.com/watch?v=NcUjsrje0uw",
-      "published": "2026-11-20T22:44:31Z",
-      "source": "Kartoffel König",
-      "source_type": "youtube",
-      "youtube_video_id": "NcUjsrje0uw",
-      "views": 3512,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "4e0b5f837d379790a85a95366b40ac8403adb2c5"
-    },
-    {
       "title": "PEUT-ON ENTRER DANS TOUS LES BÂTIMENTS DE GTA 6 ?",
       "summary": "PEUT-ON ENTRER DANS TOUS LES BÂTIMENTS DE GTA 6 ? #GTA #GTA6 #GTAVI #Shorts #DarkitoGTA.",
       "url": "https://www.youtube.com/watch?v=ZrmmP_dRvgQ",
@@ -947,7 +989,7 @@
       "source": "BIG BOSS",
       "source_type": "youtube",
       "youtube_video_id": "LIWtMAJJQfY",
-      "views": 6921,
+      "views": 6974,
       "trend_score": 45,
       "is_trending": false,
       "priority": "regular",
@@ -1358,48 +1400,6 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "a0665fe29dd30b4e5d31eb33feaebf440179ffe1"
-    },
-    {
-      "title": "GTA 6 LIVE PS5 PRO (DIA 2)",
-      "summary": "Live ON.",
-      "url": "https://www.youtube.com/watch?v=tsYohjWdLdw",
-      "published": "2026-11-19T23:35:07Z",
-      "source": "Lives do Olka",
-      "source_type": "youtube",
-      "youtube_video_id": "tsYohjWdLdw",
-      "views": 226909,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "ff72c643d89a6a4372be43501f83fa3bc2a22b75"
-    },
-    {
-      "title": "Playing GTA 6 for the First Time | GTA 6 Marathon Launch Stream",
-      "summary": "For Text To Speach Donations: https://dropflares.com/DuckyReloaded Discord: https://discord.com/invite/duckyreloaded.",
-      "url": "https://www.youtube.com/watch?v=MDZEwNNJl_4",
-      "published": "2026-11-19T21:29:32Z",
-      "source": "Ducky Reloaded",
-      "source_type": "youtube",
-      "youtube_video_id": "MDZEwNNJl_4",
-      "views": 247709,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "7d9e09a34501ae7777e0f45e6b3330c67762118b"
-    },
-    {
-      "title": "GTA 6 DECEPCIONÓ A TODOS? #gtavi #gta6",
-      "summary": "Noticias, curiosidades, detalles, teorías, secretos y mas de GTA 6. Todo sobre GTA VI, Rockstar Games, Jason, Lucía, Vice City y ...",
-      "url": "https://www.youtube.com/watch?v=BR2mV0VGgxM",
-      "published": "2026-11-19T21:00:33Z",
-      "source": "Lonutico",
-      "source_type": "youtube",
-      "youtube_video_id": "BR2mV0VGgxM",
-      "views": 399245,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "3f23798f2f28ff156b84fb2508980b7eb906cf24"
     }
   ]
 }
