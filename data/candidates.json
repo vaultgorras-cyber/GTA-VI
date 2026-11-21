@@ -1,6 +1,20 @@
 {
-  "checked_at": "2026-11-21T01:44:01.813150+00:00",
+  "checked_at": "2026-11-21T02:36:07.314575+00:00",
   "items": [
+    {
+      "title": "🔴 ¡EL FINAL de GTA 6 EN DIRECTO! (AHORA 99%)",
+      "summary": "Completando el Grand Theft Auto 6 al 100%, no podemos cerrar Directo hasta que no complete el Juego, dormir entrenar y jugar ...",
+      "url": "https://www.youtube.com/watch?v=rRneENimokc",
+      "published": "2026-11-21T02:17:15Z",
+      "source": "CREATIVE",
+      "source_type": "youtube",
+      "youtube_video_id": "rRneENimokc",
+      "views": 141016,
+      "trend_score": 65,
+      "is_trending": true,
+      "priority": "trend",
+      "topic_id": "43cdd8fd7a498bd5a388cb0e48e4cea19113c60d"
+    },
     {
       "title": "GTA 6 | DÍA 3 MODO HISTORIA (57% COMPLETADO) DjMaRiiO",
       "summary": "MENSAJES DE VOZ EN PANTALLA: https://streamlabs.com/djmariio3 (3€ para evitar demasiado spam) ➜ENVIA TU AUDIO DE ...",
@@ -9,7 +23,7 @@
       "source": "DjMaRiiO",
       "source_type": "youtube",
       "youtube_video_id": "l_QNgiY0-O0",
-      "views": 891727,
+      "views": 959971,
       "trend_score": 65,
       "is_trending": true,
       "priority": "trend",
@@ -23,7 +37,7 @@
       "source": "DrDisRespect",
       "source_type": "youtube",
       "youtube_video_id": "Mc4Qq42XjAE",
-      "views": 621191,
+      "views": 653450,
       "trend_score": 65,
       "is_trending": true,
       "priority": "trend",
@@ -37,11 +51,25 @@
       "source": "MrJayPlays",
       "source_type": "youtube",
       "youtube_video_id": "p3721S7oc2A",
-      "views": 251814,
+      "views": 253368,
       "trend_score": 65,
       "is_trending": true,
       "priority": "trend",
       "topic_id": "cd4aca4f6ddad675fe3ea07c20e4c225f412a215"
+    },
+    {
+      "title": "GTA 6 - Best Ending (True Ending)",
+      "summary": "GTA 6 Grand Theft Auto 6 Gameplay Walkthrough PS5 Pro PC Xbox Series X No Commentary 2160p 60fps HD let's play ...",
+      "url": "https://www.youtube.com/watch?v=RtghspIPQeU",
+      "published": "2026-11-20T23:23:49Z",
+      "source": "Shirrako",
+      "source_type": "youtube",
+      "youtube_video_id": "RtghspIPQeU",
+      "views": 336278,
+      "trend_score": 65,
+      "is_trending": true,
+      "priority": "trend",
+      "topic_id": "8bc24fde72c0e3dd1b193ec7476e59e85d55e6ce"
     },
     {
       "title": "HOJE EU ZERO O GTA 6! DIA 03 | BISTECONE AO VIVO 🔴",
@@ -70,20 +98,6 @@
       "is_trending": true,
       "priority": "trend",
       "topic_id": "29105be1a19f3692172ce0967a010b9bcf2a938b"
-    },
-    {
-      "title": "🔴 ¡EL FINAL de GTA 6 EN DIRECTO! (AHORA 99%)",
-      "summary": "Completando el Grand Theft Auto 6 al 100%, no podemos cerrar Directo hasta que no complete el Juego, dormir entrenar y jugar ...",
-      "url": "https://www.youtube.com/watch?v=rRneENimokc",
-      "published": "2026-11-20T20:53:47Z",
-      "source": "CREATIVE",
-      "source_type": "youtube",
-      "youtube_video_id": "rRneENimokc",
-      "views": 113846,
-      "trend_score": 65,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "43cdd8fd7a498bd5a388cb0e48e4cea19113c60d"
     },
     {
       "title": "GTA 6 has turned RIDICULOUS..",
@@ -121,7 +135,7 @@
       "source": "Typical Gamer",
       "source_type": "youtube",
       "youtube_video_id": "JVXbhH7NRGw",
-      "views": 40250,
+      "views": 72532,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
@@ -135,25 +149,11 @@
       "source": "JuegaGerman",
       "source_type": "youtube",
       "youtube_video_id": "T1y9II9Qk7k",
-      "views": 43869,
+      "views": 83633,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "5ba42bfdff11313dcbf11ed9580f803e00b3fe94"
-    },
-    {
-      "title": "GTA 6 - Best Ending (True Ending)",
-      "summary": "GTA 6 Grand Theft Auto 6 Gameplay Walkthrough PS5 Pro PC Xbox Series X No Commentary 2160p 60fps HD let's play ...",
-      "url": "https://www.youtube.com/watch?v=RtghspIPQeU",
-      "published": "2026-11-20T23:23:49Z",
-      "source": "Shirrako",
-      "source_type": "youtube",
-      "youtube_video_id": "RtghspIPQeU",
-      "views": 73256,
-      "trend_score": 60,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "8bc24fde72c0e3dd1b193ec7476e59e85d55e6ce"
     },
     {
       "title": "GTA 6 - How to Unlock All 5 Endings Explained + Story Breakdown",
@@ -163,11 +163,25 @@
       "source": "TheGamingRevolution",
       "source_type": "youtube",
       "youtube_video_id": "T8VNrypH48o",
-      "views": 36325,
+      "views": 81982,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "7cdbe6818153b10a41408028b6976448e763c164"
+    },
+    {
+      "title": "LIVE - GTA 6 TERCEIRO DIA! APELAPATO ON 🔴 VEM PRA LIVE!!! #3",
+      "summary": "minha primeira vez jogando GTA 6 AO VIVO - Explorando o mundo aberto e conhecendo o jogo! #roblox #relax Admin Abuse!",
+      "url": "https://www.youtube.com/watch?v=tQeVk181Gks",
+      "published": "2026-11-20T21:52:13Z",
+      "source": "Apelapato999",
+      "source_type": "youtube",
+      "youtube_video_id": "tQeVk181Gks",
+      "views": 58091,
+      "trend_score": 60,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "6a1aa52a9e6d28fb2e25b1db7d51480789712fd6"
     },
     {
       "title": "He Got GTA 6 Ten Years Early… But It Was Locked 🔒 #shorts #facts #animation #2danimation",
@@ -177,7 +191,7 @@
       "source": "Luke Clips",
       "source_type": "youtube",
       "youtube_video_id": "-D9mbxXQ2DA",
-      "views": 4764,
+      "views": 5482,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
@@ -198,6 +212,20 @@
       "topic_id": "4e0b5f837d379790a85a95366b40ac8403adb2c5"
     },
     {
+      "title": "😱 EM GTA 6 UM GRUPO BARRA UM CAMINHÃO para salvar um urso e olha o que acontece!",
+      "summary": "EM GTA 6 UM GRUPO BARRA UM CAMINHÃO PARA SALVAR UM URSO E OLHA O QUE ACONTECE! Nome do jogo: ...",
+      "url": "https://www.youtube.com/watch?v=LIWtMAJJQfY",
+      "published": "2026-11-20T22:00:34Z",
+      "source": "BIG BOSS",
+      "source_type": "youtube",
+      "youtube_video_id": "LIWtMAJJQfY",
+      "views": 5085,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "4ad8d9a043b4468e516d0cde6e87fefbba1adfbe"
+    },
+    {
       "title": "This GTA 6 Driver Picked the Wrong Guy… 😭 Clix #Clix #shorts",
       "summary": "A pickup rams Clix on the highway in GTA 6… and it only gets worse from there. Clix vs the angriest driver in Leonida. Clip from ...",
       "url": "https://www.youtube.com/watch?v=Bp4N5TH6bSU",
@@ -212,20 +240,6 @@
       "topic_id": "58d8e33290aea8e1f6b813bd0d14c59a10264efd"
     },
     {
-      "title": "STÄRKER WERDEN in GTA 6 😲 Mehr Gesundheit, Ausdauer &amp; Fokus",
-      "summary": "GTA 6 News Ps5 Gameplay Trailer - GTA VI ist draußen und ich habe es 10 Stunden getestet, Bestes Training für mehr ...",
-      "url": "https://www.youtube.com/watch?v=uiK4faLs0G4",
-      "published": "2026-11-20T20:27:42Z",
-      "source": "Kartoffel König",
-      "source_type": "youtube",
-      "youtube_video_id": "uiK4faLs0G4",
-      "views": 2354,
-      "trend_score": 55,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "3d75b1d635240714e5ce0ff600d96ebe8cbae46e"
-    },
-    {
       "title": "GTA 6 Gameplay Walkthrough FULL GAME [4K PS5 PRO] No Commentary",
       "summary": "GTA 6 Grand Theft Auto 6 Gameplay Walkthrough PS5 Pro PC Xbox Series X No Commentary 2160p 60fps HD let's play ...",
       "url": "https://www.youtube.com/watch?v=Ve2M5i_DSKI",
@@ -233,11 +247,25 @@
       "source": "Shirrako",
       "source_type": "youtube",
       "youtube_video_id": "Ve2M5i_DSKI",
-      "views": 393069,
+      "views": 466002,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "a68e1875df23db3b45f39523a0032f3676a1ba4d"
+    },
+    {
+      "title": "DÍA DE ATRACOS y ROBOS en GTA 6 🌴 #3",
+      "summary": "DÍA DE ATRACOS y ROBOS en GTA 6 GAMEPLAY EXCLUSIVO ESPAÑOL LATINO ! Juegos BARATOS: ...",
+      "url": "https://www.youtube.com/watch?v=xe-d_lUSV84",
+      "published": "2026-11-20T19:34:44Z",
+      "source": "polman",
+      "source_type": "youtube",
+      "youtube_video_id": "xe-d_lUSV84",
+      "views": 108166,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "af9f4a984a7af87a190c2f5e6dfcff260f62745c"
     },
     {
       "title": "♪ PALION - GTA 6 feat. LEON, OLEK, LIONEK [OFFICIAL MUSIC VIDEO] ♪",
@@ -359,7 +387,7 @@
       "source": "PainGaming Ark",
       "source_type": "youtube",
       "youtube_video_id": "lF8OQdqnCgQ",
-      "views": 166,
+      "views": 818,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -518,48 +546,6 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "2be1e7c9eaa963f9cf30bfaf0aa98ee2e1e35cce"
-    },
-    {
-      "title": "GTA 6 Thug Life and Me💀 #shorts #gta #gtastunts",
-      "summary": "fyp.",
-      "url": "https://www.youtube.com/watch?v=9synCuAEJFg",
-      "published": "2026-11-20T20:23:12Z",
-      "source": "Unknown 29",
-      "source_type": "youtube",
-      "youtube_video_id": "9synCuAEJFg",
-      "views": 862,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "8dd9d51aa858b65fa0b6624910180ff1ffae7f2a"
-    },
-    {
-      "title": "Si ayer compraste GTA 6, no sobrevives al apocalipsis 🎮🧟 #shorts",
-      "summary": "audífonos puestos y 14 horas jugando. $0: no le alcanzó para el juego... y eso lo salvó. ¿Tú lo compraste? Comenta $0 o $80 ...",
-      "url": "https://www.youtube.com/watch?v=4Y1GDjV_knI",
-      "published": "2026-11-20T20:21:53Z",
-      "source": "Crónicas del Fin",
-      "source_type": "youtube",
-      "youtube_video_id": "4Y1GDjV_knI",
-      "views": 423,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "80bd400aeec964b987157601ef272b3b729aca3a"
-    },
-    {
-      "title": "ACIDENTE de STREAMER em GTA 6 #gta6 #gta",
-      "summary": "Se inscreve aí :)",
-      "url": "https://www.youtube.com/watch?v=A43SdHUy3lM",
-      "published": "2026-11-20T20:01:13Z",
-      "source": "Shadow Vice",
-      "source_type": "youtube",
-      "youtube_video_id": "A43SdHUy3lM",
-      "views": 740,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "3b7839a426afe30aef22b5d1add41e1131bbe93c"
     },
     {
       "title": "CELLBIT JOGANDO AINDA MAIS GTA 6",
@@ -840,6 +826,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "5a6ba7416d85d90da6a8c0a0ad92f118dedeac97"
+    },
+    {
+      "title": "STÄRKER WERDEN in GTA 6 😲 Mehr Gesundheit, Ausdauer &amp; Fokus",
+      "summary": "GTA 6 News Ps5 Gameplay Trailer - GTA VI ist draußen und ich habe es 10 Stunden getestet, Bestes Training für mehr ...",
+      "url": "https://www.youtube.com/watch?v=uiK4faLs0G4",
+      "published": "2026-11-20T20:27:42Z",
+      "source": "Kartoffel König",
+      "source_type": "youtube",
+      "youtube_video_id": "uiK4faLs0G4",
+      "views": 2354,
+      "trend_score": 45,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "3d75b1d635240714e5ce0ff600d96ebe8cbae46e"
     },
     {
       "title": "Rubius da de comer a los COCODRILOS en GTA 6 🐊😂 #gta6 #rubius",
@@ -1178,34 +1178,6 @@
       "topic_id": "2a16673f678c4eb9f2f910461e9d5b5cbe00829a"
     },
     {
-      "title": "GTA 6 MACHEL MONTANO POOLSIDE CONVERSATION #GTAVI #GTA6 #GTA",
-      "summary": "GTA 6 launch day is finally here! Join Paul for my first Grand Theft Auto VI playthrough as we jump into Vice City, experience ...",
-      "url": "https://www.youtube.com/watch?v=-YK39MMBhww",
-      "published": "2026-11-20T02:18:21Z",
-      "source": "PaulSeerajLive",
-      "source_type": "youtube",
-      "youtube_video_id": "-YK39MMBhww",
-      "views": 1152,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "4f95bc8e4fa9100722733076cbf20dd651581101"
-    },
-    {
-      "title": "radio cocoteo FM de GTA 6 / rauw Alejandro que pasaria #videogames #gta",
-      "summary": "",
-      "url": "https://www.youtube.com/watch?v=KOcU9IyNF_M",
-      "published": "2026-11-20T02:00:23Z",
-      "source": "Antonio XD",
-      "source_type": "youtube",
-      "youtube_video_id": "KOcU9IyNF_M",
-      "views": 1061,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "95399bb1e74a216826496380d7a44ef813280c6b"
-    },
-    {
       "title": "🔴 GTA 6 MARATON – NE GASIM STREAM DOK NE PREĐEM CELU IGRU! dan 2 part 2",
       "summary": "Donacije paypal: https://streamlabs.com/choda19a/tip Instagram: (@choda19a) https://www.instagram.com/choda19a/ TikTok: ...",
       "url": "https://www.youtube.com/watch?v=z7IjuT0VLog",
@@ -1400,6 +1372,34 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "bddce548e0eeb41761f97bfa8ad6dc3cbf0bc3e5"
+    },
+    {
+      "title": "GTA 6 Thug Life and Me💀 #shorts #gta #gtastunts",
+      "summary": "fyp.",
+      "url": "https://www.youtube.com/watch?v=9synCuAEJFg",
+      "published": "2026-11-20T20:23:12Z",
+      "source": "Unknown 29",
+      "source_type": "youtube",
+      "youtube_video_id": "9synCuAEJFg",
+      "views": 862,
+      "trend_score": 40,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "8dd9d51aa858b65fa0b6624910180ff1ffae7f2a"
+    },
+    {
+      "title": "Si ayer compraste GTA 6, no sobrevives al apocalipsis 🎮🧟 #shorts",
+      "summary": "audífonos puestos y 14 horas jugando. $0: no le alcanzó para el juego... y eso lo salvó. ¿Tú lo compraste? Comenta $0 o $80 ...",
+      "url": "https://www.youtube.com/watch?v=4Y1GDjV_knI",
+      "published": "2026-11-20T20:21:53Z",
+      "source": "Crónicas del Fin",
+      "source_type": "youtube",
+      "youtube_video_id": "4Y1GDjV_knI",
+      "views": 423,
+      "trend_score": 40,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "80bd400aeec964b987157601ef272b3b729aca3a"
     }
   ]
 }
