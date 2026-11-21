@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-21T20:16:00.595110+00:00",
+  "checked_at": "2026-11-21T20:30:30.341955+00:00",
   "items": [
     {
       "title": "MI PRIMERA VEZ JUGANDO CON EL COCHE MAS RÁPIDO DE GTA 6",
@@ -1360,20 +1360,6 @@
       "topic_id": "e2ec16ecafe4fcbc4306f19f98554e7d9b6249b6"
     },
     {
-      "title": "STÄRKER WERDEN in GTA 6 😲 Mehr Gesundheit, Ausdauer &amp; Fokus",
-      "summary": "GTA 6 News Ps5 Gameplay Trailer - GTA VI ist draußen und ich habe es 10 Stunden getestet, Bestes Training für mehr ...",
-      "url": "https://www.youtube.com/watch?v=uiK4faLs0G4",
-      "published": "2026-11-20T20:27:42Z",
-      "source": "Kartoffel König",
-      "source_type": "youtube",
-      "youtube_video_id": "uiK4faLs0G4",
-      "views": 2354,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "3d75b1d635240714e5ce0ff600d96ebe8cbae46e"
-    },
-    {
       "title": "GTA 6 Gameplay Walkthrough FULL GAME [4K PS5 PRO] No Commentary",
       "summary": "GTA 6 Grand Theft Auto 6 Gameplay Walkthrough PS5 Pro PC Xbox Series X No Commentary 2160p 60fps HD let's play ...",
       "url": "https://www.youtube.com/watch?v=Ve2M5i_DSKI",
@@ -1400,6 +1386,20 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "af9f4a984a7af87a190c2f5e6dfcff260f62745c"
+    },
+    {
+      "title": "STÄRKER WERDEN in GTA 6 😲 Mehr Gesundheit, Ausdauer &amp; Fokus",
+      "summary": "GTA 6 News Ps5 Gameplay Trailer - GTA VI ist draußen und ich habe es 10 Stunden getestet, Bestes Training für mehr ...",
+      "url": "https://www.youtube.com/watch?v=uiK4faLs0G4",
+      "published": "2026-11-20T20:27:42Z",
+      "source": "Kartoffel König",
+      "source_type": "youtube",
+      "youtube_video_id": "uiK4faLs0G4",
+      "views": 2354,
+      "trend_score": 35,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "3d75b1d635240714e5ce0ff600d96ebe8cbae46e"
     }
   ]
 }
