@@ -1,20 +1,6 @@
 {
-  "checked_at": "2026-11-23T20:41:58.844742+00:00",
+  "checked_at": "2026-11-23T20:48:43.232889+00:00",
   "items": [
-    {
-      "title": "Cuando GTA 6 es MUY REAL🔥🥵#comedia",
-      "summary": "humor #gta6 #gta.",
-      "url": "https://www.youtube.com/watch?v=eAWz61ICkxc",
-      "published": "2026-11-23T16:27:43Z",
-      "source": "YERRIKILLERXD",
-      "source_type": "youtube",
-      "youtube_video_id": "eAWz61ICkxc",
-      "views": 104987,
-      "trend_score": 65,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "649d349a2414e764ad175a238957fe0db14af959"
-    },
     {
       "title": "🔴DR DISRESPECT - GTA 6 - THE WILD ONE",
       "summary": "\"Vice City had rules. Then a six-foot-eight man with a 37-inch vertical walked in. Gators in the canals, sirens on every block, and ...",
@@ -1052,20 +1038,6 @@
       "topic_id": "9fa6f3d4e77f8ede2c551dfe3207a3cf2c51be43"
     },
     {
-      "title": "GTA 6 MODO HISTORIA (hoy llego al Capitulo 3 espero) - Kesto",
-      "summary": "En este GAMEPLAY en ESPAÑOL LATINO KESTO juega en DIRECTO el NUEVO GTA 6 por PRIMERA VEZ EXPLORANDO el ...",
-      "url": "https://www.youtube.com/watch?v=cYDLMus3vcw",
-      "published": "2026-11-22T20:46:18Z",
-      "source": "Kesto",
-      "source_type": "youtube",
-      "youtube_video_id": "cYDLMus3vcw",
-      "views": 28076,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "41f0fc0624a420582ad8b6f9801cdcbcc07ee10d"
-    },
-    {
       "title": "Conseguí 6 Estrellas en GTA 6 ⭐",
       "summary": "Like si han hecho el aeropuerto más real de la historia de los videojuegos Streams: https://www.twitch.tv/Rubius Mi Tienda: ...",
       "url": "https://www.youtube.com/watch?v=NrNdw_Y6_bI",
@@ -1106,20 +1078,6 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "2d92995633463685ea56a18cbe23f547749b2640"
-    },
-    {
-      "title": "If You Steal a Car in GTA 6, I’ll Pay For It!",
-      "summary": "Whatever Car my friend Nolan steals in GTA 6, he wins his dad in real life! The MrBeast Store Holiday Collection is here! Get up to ...",
-      "url": "https://www.youtube.com/watch?v=Ra6sNe8s2Hc",
-      "published": "2026-11-21T20:45:16Z",
-      "source": "MrBeast Gaming",
-      "source_type": "youtube",
-      "youtube_video_id": "Ra6sNe8s2Hc",
-      "views": 7605324,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "cfed9f70f7a0782f9815a1e46992521ff33fe5c1"
     },
     {
       "title": "WTF is up with GTA 6 Reviews?",
@@ -1400,6 +1358,46 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "305674725a79da75b2a958493abba856b95ece27"
+    },
+    {
+      "title": "GTA 6 MODO HISTORIA (hoy llego al Capitulo 3 espero) - Kesto",
+      "summary": "En este GAMEPLAY en ESPAÑOL LATINO KESTO juega en DIRECTO el NUEVO GTA 6 por PRIMERA VEZ EXPLORANDO el ...",
+      "url": "https://www.youtube.com/watch?v=cYDLMus3vcw",
+      "published": "2026-11-22T20:46:18Z",
+      "source": "Kesto",
+      "source_type": "youtube",
+      "youtube_video_id": "cYDLMus3vcw",
+      "views": 28076,
+      "trend_score": 40,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "41f0fc0624a420582ad8b6f9801cdcbcc07ee10d"
+    },
+    {
+      "title": "If You Steal a Car in GTA 6, I’ll Pay For It!",
+      "summary": "Whatever Car my friend Nolan steals in GTA 6, he wins his dad in real life! The MrBeast Store Holiday Collection is here! Get up to ...",
+      "url": "https://www.youtube.com/watch?v=Ra6sNe8s2Hc",
+      "published": "2026-11-21T20:45:16Z",
+      "source": "MrBeast Gaming",
+      "source_type": "youtube",
+      "youtube_video_id": "Ra6sNe8s2Hc",
+      "views": 7605324,
+      "trend_score": 40,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "cfed9f70f7a0782f9815a1e46992521ff33fe5c1"
+    },
+    {
+      "title": "D'Angelo's Estate Speaks Out After Late Artist's Unreleased Song, Kamikaze, Discovered in GTA 6",
+      "summary": "The estate of late American R&amp;B artist D’Angelo has spoken out after the launch of GTA 6, which featured a song that he created for the game back in 2024.",
+      "url": "https://www.ign.com/articles/dangelos-estate-speaks-out-after-late-artists-unreleased-song-kamikaze-discovered-in-gta-6",
+      "published": "Mon, 23 Nov 2026 19:56:31 +0000",
+      "source": "https://feeds.feedburner.com/ign/news",
+      "source_type": "rss",
+      "trend_score": 10,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "cd3d868801f72c8361a2454e7cff4a7dc8b88384"
     }
   ]
 }
