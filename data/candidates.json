@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-26T19:46:59.180361+00:00",
+  "checked_at": "2026-11-26T20:47:28.078438+00:00",
   "items": [
     {
       "title": "NickEh30 plays GTA 6! (Day 9)",
@@ -9,7 +9,7 @@
       "source": "Nick Eh 30 Shorts",
       "source_type": "youtube",
       "youtube_video_id": "qtFLh4z7AnE",
-      "views": 1890718,
+      "views": 2137968,
       "trend_score": 70,
       "is_trending": true,
       "priority": "trend",
@@ -23,25 +23,39 @@
       "source": "Nick Eh 30",
       "source_type": "youtube",
       "youtube_video_id": "rxY7SRMyUgc",
-      "views": 200290,
+      "views": 267931,
       "trend_score": 70,
       "is_trending": true,
       "priority": "trend",
       "topic_id": "309eb113ab4128b76930ad7b978ac7587210f54b"
     },
     {
-      "title": "🔴GTA 6 | DIA 9 MODO HISTORIA (SE ACERCA EL FINAL) DIRECTO - DjMaRiiO",
+      "title": "GTA 6 - PRZEZ CAŁĄ MAPĘ z REZIM i OSPANNO! 🌎",
+      "summary": "KUP ZAPAS FLORIDE by Kaluch - https://floride.pl WBIJAJ do @reZiBornToBeaGamer i @Ospanno na serie z GTA 6!",
+      "url": "https://www.youtube.com/watch?v=OtEYsJbRAC4",
+      "published": "2026-11-26T16:00:35Z",
+      "source": "Kaluch",
+      "source_type": "youtube",
+      "youtube_video_id": "OtEYsJbRAC4",
+      "views": 126727,
+      "trend_score": 65,
+      "is_trending": true,
+      "priority": "trend",
+      "topic_id": "bec7bd39eddb9655a4b6fa51a2ff777fcd2185b6"
+    },
+    {
+      "title": "🔴GTA 6 ¿FINAL? 95% DIA 9 MODO HISTORIA DIRECTO - DjMaRiiO",
       "summary": "ENVIA TU AUDIO DE VOZ AQUI: https://weezyx.com/t/djmariio ➜TWITCH: https://www.twitch.tv/djmariio ➜CAMISETA OFICIAL ...",
       "url": "https://www.youtube.com/watch?v=ILUB3-uYx4M",
       "published": "2026-11-26T15:07:42Z",
       "source": "DjMaRiiO",
       "source_type": "youtube",
       "youtube_video_id": "ILUB3-uYx4M",
-      "views": 144509,
+      "views": 189077,
       "trend_score": 65,
       "is_trending": true,
       "priority": "trend",
-      "topic_id": "8a82e9755c7b63e99daab40ee2088ed0a1c43987"
+      "topic_id": "77d98119301b1857c1ce3ba740b1852e3fcc3e9d"
     },
     {
       "title": "🔴 LIVE! - GTA 6 FREE ROAM and EASTER EGGS! (PS5 PRO)",
@@ -65,25 +79,25 @@
       "source": "Easter GamersTv",
       "source_type": "youtube",
       "youtube_video_id": "SBXLa5biy78",
-      "views": 27854,
+      "views": 52850,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "cfb7c9780c37e3cb81dba5647eded4698dee1947"
     },
     {
-      "title": "GTA 6 - PRZEZ CAŁĄ MAPĘ z REZIM i OSPANNO! 🌎",
-      "summary": "KUP ZAPAS FLORIDE by Kaluch - https://floride.pl WBIJAJ do @reZiBornToBeaGamer i @Ospanno na serie z GTA 6!",
-      "url": "https://www.youtube.com/watch?v=OtEYsJbRAC4",
-      "published": "2026-11-26T16:00:35Z",
-      "source": "Kaluch",
+      "title": "GTA 6 PC Port Just Hit 30 FPS.. This is Getting INSANE",
+      "summary": "Follow me on Kick for Live streams: https://kick.com/alphaboltt I really need to be making updated every hour or so because the ...",
+      "url": "https://www.youtube.com/watch?v=_ETRzCrWrb4",
+      "published": "2026-11-26T15:54:34Z",
+      "source": "AlphaBolt",
       "source_type": "youtube",
-      "youtube_video_id": "OtEYsJbRAC4",
-      "views": 86260,
+      "youtube_video_id": "_ETRzCrWrb4",
+      "views": 63693,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "bec7bd39eddb9655a4b6fa51a2ff777fcd2185b6"
+      "topic_id": "0254e34544289d0bb24a8a866c3771a2e6d6d8d2"
     },
     {
       "title": "🔴LIVE - EPISODE 7 : GTA 6 !",
@@ -107,7 +121,7 @@
       "source": "JoeyRahmz",
       "source_type": "youtube",
       "youtube_video_id": "Pb4RC8K4nfc",
-      "views": 23945,
+      "views": 40487,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
@@ -140,6 +154,34 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "f41300f25a7692084a4a58f971ac351612f8186b"
+    },
+    {
+      "title": "GTA 6 sur PC : 30 FPS CONSTANTS ?! (Les avancées deviennent folles)",
+      "summary": "GTA 6 SUR PC : BIENTÔT 30 FPS CONSTANTS ?! Les avancées autour de GTA 6 sur PC deviennent de plus en plus ...",
+      "url": "https://www.youtube.com/watch?v=jemgNqhgGL8",
+      "published": "2026-11-26T18:01:19Z",
+      "source": "Gersio",
+      "source_type": "youtube",
+      "youtube_video_id": "jemgNqhgGL8",
+      "views": 6773,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "c1c42ce7e215cb13fe2f0374f3088cf7ab9acb94"
+    },
+    {
+      "title": "DIRIGE MUITO NOS CARROS DE GTA 6 #gta6 #gta #games #voxel #tecmundo",
+      "summary": "Estamos ao vivo no YouTube pra continuar a nossa ZERATINA de GTA VI! Vem com a gente! ⁣⁣⁣⁣ ⁣⁣ #gta6 #gta #games ...",
+      "url": "https://www.youtube.com/watch?v=W3lYZeYGka4",
+      "published": "2026-11-26T16:58:16Z",
+      "source": "TecMundo",
+      "source_type": "youtube",
+      "youtube_video_id": "W3lYZeYGka4",
+      "views": 1036,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "44f45609963a7a00ae5fd2fb5b4ff1e43f6b5f8c"
     },
     {
       "title": "GTA 6 ¡VICE CITY ES NUESTRA! #9",
@@ -359,7 +401,7 @@
       "source": "Detrás del Tráiler",
       "source_type": "youtube",
       "youtube_video_id": "8t3eL0TPuXg",
-      "views": 11516,
+      "views": 13530,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -401,7 +443,7 @@
       "source": "Redvenge",
       "source_type": "youtube",
       "youtube_video_id": "V-X8ynctTQs",
-      "views": 11892,
+      "views": 13696,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -786,34 +828,6 @@
       "topic_id": "814eb2915247e0063d548be8cfcf62434aff8051"
     },
     {
-      "title": "Going Back To Work After GTA 6",
-      "summary": "Don't let your job stop you from your priorities, play GTA VI anywhere with the ROG Xbox Ally X20 and Xbox remote play.",
-      "url": "https://www.youtube.com/watch?v=8Or9px6R5oo",
-      "published": "2026-11-25T20:14:14Z",
-      "source": "Senpapi Gabe",
-      "source_type": "youtube",
-      "youtube_video_id": "8Or9px6R5oo",
-      "views": 40144,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "1ec12bcc346560742ad3ce6d7c42e1699cdfa808"
-    },
-    {
-      "title": "EL MEJOR DELINCUENTE Y LADRÓN en GTA 6 🌴 #8",
-      "summary": "EL MEJOR DELINCUENTE Y LADRÓN en GTA 6 GAMEPLAY EXCLUSIVO ESPAÑOL LATINO ! Juegos BARATOS: ...",
-      "url": "https://www.youtube.com/watch?v=MdJxKOold3A",
-      "published": "2026-11-25T20:05:57Z",
-      "source": "polman",
-      "source_type": "youtube",
-      "youtube_video_id": "MdJxKOold3A",
-      "views": 28044,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "350cf23158f9943753f82d70daeb44cf46712c5c"
-    },
-    {
       "title": "🔴LIVE | GTA 6 | DAY 6 | GHOSTS &amp; DEMONS &amp; ALIENS | BEST ENDING 100% GARUNTEED | #BUNGULATE",
       "summary": "",
       "url": "https://www.youtube.com/watch?v=Bm8PmWwBxu4",
@@ -1052,34 +1066,6 @@
       "topic_id": "1e49b62572c8433ab9dd643531efe28f467d04fa"
     },
     {
-      "title": "GTA 6 Lucia Outfits... #gta",
-      "summary": "What outfit are you picking for Lucia from GTA 6? I had soo much fun with this challenge If you love what you see and want to ...",
-      "url": "https://www.youtube.com/watch?v=Qu1vH8QtGK4",
-      "published": "2026-11-25T20:30:10Z",
-      "source": "Candy Valentina",
-      "source_type": "youtube",
-      "youtube_video_id": "Qu1vH8QtGK4",
-      "views": 4919,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "0b29d0c1dcb51bcf644f2e5182efa8c4c3bdcf6d"
-    },
-    {
-      "title": "GTA 6 - Jason vs Lucia reaction to Rosebud getting eaten by an Orca Whale",
-      "summary": "gta6 #grandtheftauto #grandtheftauto6 #rockstargames GTA 6 - Jason vs Lucia reaction to Rosebud getting eaten by an Orca ...",
-      "url": "https://www.youtube.com/watch?v=M7kxScCap40",
-      "published": "2026-11-25T20:07:19Z",
-      "source": "ScereBro PSNU",
-      "source_type": "youtube",
-      "youtube_video_id": "M7kxScCap40",
-      "views": 6441,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "b95c66c70437e2fd4406abfe6c14156e90d00095"
-    },
-    {
       "title": "🔴 NEW LEADER! GTA 6 PC Port Race LIVE: DexNom vs Belobug vs ZETTROX vs hyphennn vs Uilian",
       "summary": "LIVE: the race to get GTA VI running on PC, tracked around the clock. The stream restarts every ~12 hours (YouTube limit). Always ...",
       "url": "https://www.youtube.com/watch?v=P-f5yUHniRs",
@@ -1304,6 +1290,34 @@
       "topic_id": "c8eb471c719a8879cf3499c88bd685c9ebea5e46"
     },
     {
+      "title": "Going Back To Work After GTA 6",
+      "summary": "Don't let your job stop you from your priorities, play GTA VI anywhere with the ROG Xbox Ally X20 and Xbox remote play.",
+      "url": "https://www.youtube.com/watch?v=8Or9px6R5oo",
+      "published": "2026-11-25T20:14:14Z",
+      "source": "Senpapi Gabe",
+      "source_type": "youtube",
+      "youtube_video_id": "8Or9px6R5oo",
+      "views": 40144,
+      "trend_score": 40,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "1ec12bcc346560742ad3ce6d7c42e1699cdfa808"
+    },
+    {
+      "title": "EL MEJOR DELINCUENTE Y LADRÓN en GTA 6 🌴 #8",
+      "summary": "EL MEJOR DELINCUENTE Y LADRÓN en GTA 6 GAMEPLAY EXCLUSIVO ESPAÑOL LATINO ! Juegos BARATOS: ...",
+      "url": "https://www.youtube.com/watch?v=MdJxKOold3A",
+      "published": "2026-11-25T20:05:57Z",
+      "source": "polman",
+      "source_type": "youtube",
+      "youtube_video_id": "MdJxKOold3A",
+      "views": 28044,
+      "trend_score": 40,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "350cf23158f9943753f82d70daeb44cf46712c5c"
+    },
+    {
       "title": "GTA 6 - O GRANDE FINAL! MARATONA ATÉ ZERAR!",
       "summary": "GAMEPLAY de GTA 6 do PATIFE - SERÁ QUE DA PRA ZERAR HOJE? VAMOS TENTAR!",
       "url": "https://www.youtube.com/watch?v=HxjA7IVwimg",
@@ -1386,20 +1400,6 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "b8053b11ef6f27b2bb608c83e23d1aecfc14d77c"
-    },
-    {
-      "title": "TORNADOS EM LEONIDA E MUITA EXPLORAÇÃO/MISSÕES GTA 6 - MARATONA DIA 8 👀💪🤠🌴- !Monster !Eneba !Grupo",
-      "summary": "Curtindo a gameplay MONXTRA? Então POR FAVOR, não esquece de deixar o LIKE e compartilhar com os amigos, isso ajuda a ...",
-      "url": "https://www.youtube.com/watch?v=asPROAxO3iI",
-      "published": "2026-11-25T18:50:57Z",
-      "source": "Stolen",
-      "source_type": "youtube",
-      "youtube_video_id": "asPROAxO3iI",
-      "views": 12993,
-      "trend_score": 40,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "4aa114085656cf780c646b8c0aedcaa56c33f439"
     }
   ]
 }
