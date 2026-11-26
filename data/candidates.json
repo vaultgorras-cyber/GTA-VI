@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-26T16:44:50.333396+00:00",
+  "checked_at": "2026-11-26T17:39:53.155312+00:00",
   "items": [
     {
       "title": "NickEh30 plays GTA 6! (Day 9)",
@@ -23,25 +23,11 @@
       "source": "Nick Eh 30",
       "source_type": "youtube",
       "youtube_video_id": "rxY7SRMyUgc",
-      "views": 17665,
+      "views": 32288,
       "trend_score": 70,
       "is_trending": true,
       "priority": "trend",
       "topic_id": "309eb113ab4128b76930ad7b978ac7587210f54b"
-    },
-    {
-      "title": "GTA 6 Gameplay Walkthrough FULL GAME [4K PS5 PRO] - No Commentary",
-      "summary": "Grand Theft Auto 6 Walkthrough Part 1 and until the last part will include the full GTA 6 Gameplay on PS5 Pro. This GTA 6 ...",
-      "url": "https://www.youtube.com/watch?v=EbrQWwu0ang",
-      "published": "2026-11-26T11:00:53Z",
-      "source": "MKIceAndFire",
-      "source_type": "youtube",
-      "youtube_video_id": "EbrQWwu0ang",
-      "views": 155529,
-      "trend_score": 65,
-      "is_trending": true,
-      "priority": "trend",
-      "topic_id": "a68e1875df23db3b45f39523a0032f3676a1ba4d"
     },
     {
       "title": "🔴 LIVE! - GTA 6 FREE ROAM and EASTER EGGS! (PS5 PRO)",
@@ -58,6 +44,20 @@
       "topic_id": "0c6ceee9b4fa4bcd16329f3aeaae7b49bbc0f7bc"
     },
     {
+      "title": "GTA 6 - PRZEZ CAŁĄ MAPĘ z REZIM i OSPANNO! 🌎",
+      "summary": "KUP ZAPAS FLORIDE by Kaluch - https://floride.pl WBIJAJ do @reZiBornToBeaGamer i @Ospanno na serie z GTA 6!",
+      "url": "https://www.youtube.com/watch?v=OtEYsJbRAC4",
+      "published": "2026-11-26T16:00:35Z",
+      "source": "Kaluch",
+      "source_type": "youtube",
+      "youtube_video_id": "OtEYsJbRAC4",
+      "views": 22609,
+      "trend_score": 60,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "bec7bd39eddb9655a4b6fa51a2ff777fcd2185b6"
+    },
+    {
       "title": "🔴LIVE - EPISODE 7 : GTA 6 !",
       "summary": "feekzofficial. . Instagram : / a.shafiqamir Facebook Page : / feekzofficial / @feekz_official For Business : feekzisfreak@gmail.com ...",
       "url": "https://www.youtube.com/watch?v=c5TjrY1UzUU",
@@ -65,11 +65,39 @@
       "source": "Feekz ",
       "source_type": "youtube",
       "youtube_video_id": "c5TjrY1UzUU",
-      "views": 13679,
+      "views": 24690,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "b0dd12899ead3d380f369c4942b948fb0eac50b3"
+    },
+    {
+      "title": "🔴GTA 6 | DIA 9 MODO HISTORIA (SE ACERCA EL FINAL) DIRECTO - DjMaRiiO",
+      "summary": "ENVIA TU AUDIO DE VOZ AQUI: https://weezyx.com/t/djmariio ➜TWITCH: https://www.twitch.tv/djmariio ➜CAMISETA OFICIAL ...",
+      "url": "https://www.youtube.com/watch?v=ILUB3-uYx4M",
+      "published": "2026-11-26T15:07:42Z",
+      "source": "DjMaRiiO",
+      "source_type": "youtube",
+      "youtube_video_id": "ILUB3-uYx4M",
+      "views": 48540,
+      "trend_score": 60,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "8a82e9755c7b63e99daab40ee2088ed0a1c43987"
+    },
+    {
+      "title": "JE DÉCOUVRE GTA 6 EN LIVE 9",
+      "summary": "Je découvre GTA 6 EP 9.",
+      "url": "https://www.youtube.com/watch?v=qxIagtaB4kU",
+      "published": "2026-11-26T13:43:58Z",
+      "source": "LaSalle",
+      "source_type": "youtube",
+      "youtube_video_id": "qxIagtaB4kU",
+      "views": 63027,
+      "trend_score": 60,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "edf94c33fe7bd96392de225c4841f529e60cd7fe"
     },
     {
       "title": "LIVE STREAMER PALING PRO DI DUNIA GTA 6",
@@ -93,39 +121,25 @@
       "source": "VEGETTA777",
       "source_type": "youtube",
       "youtube_video_id": "bdtCpWcitZM",
-      "views": 29490,
+      "views": 66960,
       "trend_score": 60,
       "is_trending": false,
       "priority": "regular",
       "topic_id": "e7f49226e86a3a184ff808f1b5c7aae7f45279b4"
     },
     {
-      "title": "GTA 6 - Official Main Theme Music (Full Version)",
-      "summary": "Listen to the full version of the GTA 6 main theme music, composed by Justice for Rockstar Games. Featured in the Crosstown ...",
-      "url": "https://www.youtube.com/watch?v=1CC4ucdhM5c",
-      "published": "2026-11-26T11:35:35Z",
-      "source": "Dan Allen Gaming",
+      "title": "GTA 6 ÖZEL YAYINI BÖLÜM 9! - GTA 6 TÜRKÇE ALTYAZILI (PS5PRO)",
+      "summary": "Sonunda beklenen an geldi Grand Theft Auto 6 yani GTA 6 çıktı. Ben de bu yeni seride baştan sona tüm macerayı bölüm bölüm ...",
+      "url": "https://www.youtube.com/watch?v=SBXLa5biy78",
+      "published": "2026-11-26T16:17:25Z",
+      "source": "Easter GamersTv",
       "source_type": "youtube",
-      "youtube_video_id": "1CC4ucdhM5c",
-      "views": 14379,
-      "trend_score": 60,
+      "youtube_video_id": "SBXLa5biy78",
+      "views": 6851,
+      "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
-      "topic_id": "e6b637bfa4c4d24224183a54269a30be6ade960d"
-    },
-    {
-      "title": "GTA 6 Part 9 Free Roam + Story Live Tamil Gaming",
-      "summary": "Sponsor TamilGaming https://www.youtube.com/channel/UCCPWi_OwWMR5JTiujn7v-7g/join Google Pay UPI ID: ...",
-      "url": "https://www.youtube.com/watch?v=e00y4KqmZZ8",
-      "published": "2026-11-26T10:48:23Z",
-      "source": "Tamil Gaming தமிழ் கேமிங்",
-      "source_type": "youtube",
-      "youtube_video_id": "e00y4KqmZZ8",
-      "views": 50728,
-      "trend_score": 60,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "bbb033a0cb6b9143d7aa92552a6e20fd2b6383dd"
+      "topic_id": "cfb7c9780c37e3cb81dba5647eded4698dee1947"
     },
     {
       "title": "Ajarin Abel dan Rido main GTA 6",
@@ -184,6 +198,20 @@
       "topic_id": "0045daac295ac3ee0370a19d1a165c60eccda83a"
     },
     {
+      "title": "GTA 6 Gameplay Walkthrough FULL GAME [4K PS5 PRO] - No Commentary",
+      "summary": "Grand Theft Auto 6 Walkthrough Part 1 and until the last part will include the full GTA 6 Gameplay on PS5 Pro. This GTA 6 ...",
+      "url": "https://www.youtube.com/watch?v=EbrQWwu0ang",
+      "published": "2026-11-26T11:00:53Z",
+      "source": "MKIceAndFire",
+      "source_type": "youtube",
+      "youtube_video_id": "EbrQWwu0ang",
+      "views": 201347,
+      "trend_score": 55,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "a68e1875df23db3b45f39523a0032f3676a1ba4d"
+    },
+    {
       "title": "GTA 6 Is &quot;Mostly&quot; Playable on PC",
       "summary": "On Monday, a PC drew its first frame of GTA 6, and it was black. By Wednesday night, one fan's code ran the game at up to 20 ...",
       "url": "https://www.youtube.com/watch?v=HznjvLYw1pA",
@@ -191,7 +219,7 @@
       "source": "Undocumented Behavior",
       "source_type": "youtube",
       "youtube_video_id": "HznjvLYw1pA",
-      "views": 227061,
+      "views": 325151,
       "trend_score": 55,
       "is_trending": false,
       "priority": "regular",
@@ -380,6 +408,34 @@
       "topic_id": "c8eb471c719a8879cf3499c88bd685c9ebea5e46"
     },
     {
+      "title": "GTA 6 - Official Main Theme Music (Full Version)",
+      "summary": "Listen to the full version of the GTA 6 main theme music, composed by Justice for Rockstar Games. Featured in the Crosstown ...",
+      "url": "https://www.youtube.com/watch?v=1CC4ucdhM5c",
+      "published": "2026-11-26T11:35:35Z",
+      "source": "Dan Allen Gaming",
+      "source_type": "youtube",
+      "youtube_video_id": "1CC4ucdhM5c",
+      "views": 23543,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "e6b637bfa4c4d24224183a54269a30be6ade960d"
+    },
+    {
+      "title": "GTA 6 Part 9 Free Roam + Story Live Tamil Gaming",
+      "summary": "Sponsor TamilGaming https://www.youtube.com/channel/UCCPWi_OwWMR5JTiujn7v-7g/join Google Pay UPI ID: ...",
+      "url": "https://www.youtube.com/watch?v=e00y4KqmZZ8",
+      "published": "2026-11-26T10:48:23Z",
+      "source": "Tamil Gaming தமிழ் கேமிங்",
+      "source_type": "youtube",
+      "youtube_video_id": "e00y4KqmZZ8",
+      "views": 83661,
+      "trend_score": 50,
+      "is_trending": false,
+      "priority": "regular",
+      "topic_id": "bbb033a0cb6b9143d7aa92552a6e20fd2b6383dd"
+    },
+    {
       "title": "Beating GTA 6 LIVE #2",
       "summary": "GTA 6 is here, and im beating it LIVE, getting close to 90% #Gaming #gta6 #GTAVI.",
       "url": "https://www.youtube.com/watch?v=fskOSK2Ofds",
@@ -401,7 +457,7 @@
       "source": "ApTreX",
       "source_type": "youtube",
       "youtube_video_id": "-gHm1JGc2oA",
-      "views": 33737,
+      "views": 43085,
       "trend_score": 50,
       "is_trending": false,
       "priority": "regular",
@@ -898,34 +954,6 @@
       "topic_id": "bcbabaf40fffcd6f69e4dfb3c2dae055161f5396"
     },
     {
-      "title": "🔴 GTA 6 &#39;DA 6. GÜN CANLI YAYIN! (4K 60 FPS)",
-      "summary": "selamlar dostlar bugün GTA 6 oynuyoruz keyifli seyirler! DİSCORD SUNUCUMUZ : https://discord.gg/8qN9bm9 DİSCORD ...",
-      "url": "https://www.youtube.com/watch?v=b9vzlJB-FiQ",
-      "published": "2026-11-25T17:09:51Z",
-      "source": "VURAL",
-      "source_type": "youtube",
-      "youtube_video_id": "b9vzlJB-FiQ",
-      "views": 41911,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "ceda044bf5dd5984fc7bec3e1a31e4dbbb6154eb"
-    },
-    {
-      "title": "GTA 6 Is Now Playable on PC… at 5 FPS",
-      "summary": "One project says it played two full GTA VI story missions on a Windows PC in a single 77-minute session. It ran at about five ...",
-      "url": "https://www.youtube.com/watch?v=9a0zv9WgQJA",
-      "published": "2026-11-25T16:51:30Z",
-      "source": "Code Bear",
-      "source_type": "youtube",
-      "youtube_video_id": "9a0zv9WgQJA",
-      "views": 65954,
-      "trend_score": 50,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "3e12df54b13409a7bb2a5edeed7af0a7afdc95b4"
-    },
-    {
       "title": "🔴LIVE | GTA 6 | DAY 6 | GHOSTS &amp; DEMONS &amp; ALIENS | BEST ENDING 100% GARUNTEED | #BUNGULATE",
       "summary": "",
       "url": "https://www.youtube.com/watch?v=Bm8PmWwBxu4",
@@ -1192,20 +1220,6 @@
       "topic_id": "aaad87fe89ff4277840f0d7aa85ddcf955796796"
     },
     {
-      "title": "AUTO PAULA WALKERA V GTA 6?",
-      "summary": "Gta 6 Eclipse Paula Walkera #gta #gta6 #gta6leaks #gtavicecity #gtavi #gta6trailer #gtatrailer #gta6cz #gta5 #gta6gameplay ...",
-      "url": "https://www.youtube.com/watch?v=yHEgAv6qRqw",
-      "published": "2026-11-25T17:34:58Z",
-      "source": "Angels Gaming House",
-      "source_type": "youtube",
-      "youtube_video_id": "yHEgAv6qRqw",
-      "views": 3088,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "419267203b07474f445a3dc923b63e08d41bb3b8"
-    },
-    {
       "title": "GTA 6 Walkthrough Gameplay Part 8 - VICKI (GRAND THEFT AUTO 6)",
       "summary": "GTA 6 (Grand Theft Auto 6) Walkthrough Gameplay Part 8 includes a Full Game Review and Full Gameplay on PlayStation 5 Pro ...",
       "url": "https://www.youtube.com/watch?v=vLBOsP_WLU8",
@@ -1386,20 +1400,6 @@
       "is_trending": false,
       "priority": "regular",
       "topic_id": "20c95114645eca4e404f0c8df28dff0bbdb4e16f"
-    },
-    {
-      "title": "🔴 NEW LEADER! GTA 6 PC Port Race LIVE: hyphennn vs VIctory vs XCL",
-      "summary": "LIVE: the race to get GTA VI running on PC, tracked around the clock. Three projects with public code are racing to be first: ...",
-      "url": "https://www.youtube.com/watch?v=zONLCUwqfyo",
-      "published": "2026-11-25T00:03:11Z",
-      "source": "The Wopo Recap",
-      "source_type": "youtube",
-      "youtube_video_id": "zONLCUwqfyo",
-      "views": 241987,
-      "trend_score": 45,
-      "is_trending": false,
-      "priority": "regular",
-      "topic_id": "f0c4aaa6700e5bf5cccc405d56716859c46da5bd"
     }
   ]
 }
